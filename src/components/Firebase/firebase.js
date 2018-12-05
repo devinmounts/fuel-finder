@@ -1,5 +1,6 @@
 import app from 'firebase/app';
 import 'firebase/auth';
+import * as ROUTES from '../../constants/routes'
 
 const prodConfig = {
   apiKey: process.env.REACT_APP_PROD_API_KEY,
@@ -38,7 +39,10 @@ class Firebase {
   doSignInWithEmailAndPassword = (email, password) =>
     this.auth.signInWithEmailAndPassword(email, password);
 
-  doSignOut = () => this.auth.signOut();
+  doSignOut = () => {
+    this.auth.signOut();
+    // this.props.history.push(ROUTES.LANDING);
+  };
 
   doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
 
