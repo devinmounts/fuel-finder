@@ -7,9 +7,6 @@ const SignUpPage = () => (
   <div>
     <h1>SignUp</h1>
     <SignUpForm />
-    {/* <FirebaseContext.Consumer>
-    {firebase => <SignUpForm firebase={firebase} />}
-    </FirebaseContext.Consumer> */}
   </div>
 );
 
