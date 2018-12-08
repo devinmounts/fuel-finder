@@ -34,6 +34,7 @@ class AdminPage extends Component {
     this.props.firebase.users().off();
   }
   render() {
+    const { users, loading } =this.state;
     return(
       <div>
         <h1>Admin</h1>
