@@ -52,14 +52,18 @@ const UsersList = ( { users }) => (
     {users.map(user => (
       <li key={user.uid}>
         <span>
-          <strong>ID:</strong> {user.id}
+          <strong>ID:</strong> {user.uid}
         </span>
+        <br/>
         <span>
           <strong>Email:</strong> {user.email}
         </span>
+        <br/>
         <span>
           <strong>Username:</strong> {user.username}
         </span>
+        <hr/>
+        <br/>
       </li>
     ))}
   </ul>
