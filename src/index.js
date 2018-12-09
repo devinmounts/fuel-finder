@@ -3,13 +3,22 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App';
 import Firebase, { FirebaseContext } from './components/Firebase';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import rootReducer from './reducers';
 
 import * as serviceWorker from './serviceWorker';
+import middlewareLogger from './middleware/middleware-logger';
+
+const store = createStore(rootReducer, applyMiddleware(thunkMiddleware, middlewareLogger));
 
 ReactDOM.render(
-  <FirebaseContext.Provider value={new Firebase()}>
-    <App />
-  </FirebaseContext.Provider>,
+  <Provider store={store}>
+    <FirebaseContext.Provider value={new Firebase()}>
+      <App />
+    </FirebaseContext.Provider>
+  </Provider>,
   document.getElementById('root'));
 
 
