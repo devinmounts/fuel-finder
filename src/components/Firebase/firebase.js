@@ -39,8 +39,7 @@ class Firebase {
     
     /* Social Sign In Method Provider */
     this.googleProvider = new app.auth.GoogleAuthProvider();
-    // this.facebookProvider = new app.auth.FacebookAuthProvider();
-    // this.twitterProvider = new app.auth.TwitterAuthProvider();
+   
   }
   
   //** Auth API */
@@ -52,23 +51,55 @@ class Firebase {
 
   doSignInWithGoogle = () =>
     this.auth.signInWithPopup(this.googleProvider);
-
-  // doSignInWithFacebook = () =>
-  //   this.auth.signInWithPopup(this.facebookProvider);
-
-  // doSignInWithTwitter = () =>
-  //   this.auth.signInWithPopup(this.twitterProvider);
   
-    doSignOut = () => {
-    this.auth.signOut();
-    // this.props.history.push(ROUTES.LANDING);
+  doSignOut = () => {
+  this.auth.signOut();
   };
 
   doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
 
+  doSendEmailVerification = () => 
+    this.auth.currentUser.sendEmailVerification({
+      url: process.env.REACT_APP_DEV_CONFIRMATION_EMAIL_REDIRECT
+  });
+
   doPasswordUpdate = password =>
     this.auth.currentUser.updatePassword(password);
 
+  //*** Merge Auth and DB User API */
+
+  onAuthUserListener = (next, fallback) =>
+    this.auth.onAuthStateChanged(authUser => {
+      if(authUser) {
+        this.user(authUer.uid)
+        .once('value')
+        .then(snapshot => {
+          console.log(snapshot, 'AuthUserListener')
+          const dbUser = snapshot.val();
+          console.log(db.user, 'db user')
+
+          //default empty roles
+          if(!dbUser.roles) {
+            dbUser.roles = [];
+          }
+
+          //merge auth and db user
+          authUser = {
+            uid: authUser.uid,
+            email: authUser.email,
+            emailVerified: authUser.emailVerified,
+            providerData: authUser.providerData,
+            ...dbUser,
+          };
+
+          next(authUser);
+        });
+      } else {
+        fallback();
+      }
+    });
+
+  
   //** User API */
 
   user = uid => this.db.ref(`users/${uid}`);
