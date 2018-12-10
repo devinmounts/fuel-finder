@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
 import { withFirebase } from '../Firebase';
+import { compose } from 'recompose';
+import { withAuthentication, withAuthorization } from '../Session';
 
 class AdminPage extends Component {
   constructor(props) {
@@ -69,4 +71,6 @@ const UsersList = ( { users }) => (
   </ul>
 );
 
-export default withFirebase(AdminPage);
+export default compose(
+  withFirebase,
+)(AdminPage);

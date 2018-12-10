@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { withFirebase } from '../Firebase';
-import { withAuthentication } from '../Session'; 
+import { withAuthentication, withAuthorization } from '../Session'; 
 import { compose } from 'recompose';
 
 const SignOutButton = ({ firebase }) => (
@@ -12,5 +12,4 @@ const SignOutButton = ({ firebase }) => (
 
 export default compose(
   withFirebase,
-  withAuthentication
 )(SignOutButton);
