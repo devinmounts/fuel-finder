@@ -23,7 +23,7 @@ const AccountPage = ({ authUser }) => (
     <h1>Account: {authUser.email}</h1>
     <PasswordForgetForm />
     <PasswordChangeForm />
-    <LoginManagement />
+    <LoginManagement authUser={authUser} />
   </div>
 );
 
@@ -34,19 +34,18 @@ class LoginManagementBase extends Component {
     this.state = {
       activeSignInMethods: [],
       error: null,
-    }
+    };
   }
 
   componentDidMount() {
-    console.log(this.props, 'account');
     this.fetchSignInMethods();
   }
 
   fetchSignInMethods = () => {
     this.props.firebase.auth
       .fetchSignInMethodsForEmail(this.props.authUser.email)
-      .then(activeSignInMethods => 
-        this.setState({ activeSignInMethods, error: null}),
+      .then(activeSignInMethods =>
+        this.setState({ activeSignInMethods, error: null }),
       )
       .catch(error => this.setState({ error }));
   };
@@ -80,7 +79,7 @@ class LoginManagementBase extends Component {
   render() {
     const { activeSignInMethods, error } = this.state;
 
-    return(
+    return (
       <div>
         Sign In Methods:
         <ul>
@@ -214,7 +213,6 @@ const mapStateToProps = state => ({
 });
 
 const condition = authUser => !!authUser;
-// const condition = authUser => authUser.role === 'ADMIN';
 
 export default compose(
   connect(mapStateToProps),
