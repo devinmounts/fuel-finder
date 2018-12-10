@@ -27,8 +27,20 @@ class Firebase {
   constructor() {
     app.initializeApp(config);
 
+    /* Helper */
+
+    this.serverValue = app.database.ServerValue;
+    this.emailAuthProvider = app.auth.EmailAuthProvider;
+
+    /* Firebase APIs */
+
     this.auth = app.auth();
-    this.db = app.database();    
+    this.db = app.database();   
+    
+    /* Social Sign In Method Provider */
+    this.googleProvider = new app.auth.GoogleAuthProvider();
+    // this.facebookProvider = new app.auth.FacebookAuthProvider();
+    // this.twitterProvider = new app.auth.TwitterAuthProvider();
   }
   
   //** Auth API */
@@ -38,7 +50,16 @@ class Firebase {
   doSignInWithEmailAndPassword = (email, password) =>
     this.auth.signInWithEmailAndPassword(email, password);
 
-  doSignOut = () => {
+  doSignInWithGoogle = () =>
+    this.auth.signInWithPopup(this.googleProvider);
+
+  // doSignInWithFacebook = () =>
+  //   this.auth.signInWithPopup(this.facebookProvider);
+
+  // doSignInWithTwitter = () =>
+  //   this.auth.signInWithPopup(this.twitterProvider);
+  
+    doSignOut = () => {
     this.auth.signOut();
     // this.props.history.push(ROUTES.LANDING);
   };
