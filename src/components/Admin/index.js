@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { withFirebase } from '../Firebase';
 import { compose } from 'recompose';
-import { withAuthentication } from '../Session';
+import { withAuthentication, withAuthorization } from '../Session';
 
 class AdminPage extends Component {
   constructor(props) {
@@ -72,6 +72,6 @@ const UsersList = ( { users }) => (
 );
 
 export default compose(
-  withFirebase,
   withAuthentication,
+  // withAuthorization
 )(AdminPage);
