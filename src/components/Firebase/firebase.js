@@ -56,5 +56,3 @@ class Firebase {
 }
 
 export default Firebase;
-
-e
