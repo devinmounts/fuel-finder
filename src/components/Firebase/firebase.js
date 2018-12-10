@@ -71,12 +71,12 @@ class Firebase {
   onAuthUserListener = (next, fallback) =>
     this.auth.onAuthStateChanged(authUser => {
       if(authUser) {
-        this.user(authUer.uid)
+        this.user(authUser.uid)
         .once('value')
         .then(snapshot => {
           console.log(snapshot, 'AuthUserListener')
           const dbUser = snapshot.val();
-          console.log(db.user, 'db user')
+          console.log(dbUser, 'db user')
 
           //default empty roles
           if(!dbUser.roles) {
@@ -105,6 +105,7 @@ class Firebase {
   user = uid => this.db.ref(`users/${uid}`);
 
   users = () => this.db.ref('users');
+
 }
 
 export default Firebase;

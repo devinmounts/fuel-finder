@@ -2,7 +2,7 @@ import sessionReducer from './session'
 import { combineReducers } from 'redux';
 
 const rootReducer = combineReducers({
-    sessionSate: sessionReducer 
+    sessionState: sessionReducer 
 });
 
 export default rootReducer;
