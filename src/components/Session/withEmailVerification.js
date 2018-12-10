@@ -2,7 +2,7 @@ import React from 'react';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 
-import { withFirebase } from '..Firebase';
+import { withFirebase } from '../Firebase';
 
 const needsEmailVerification = authUser =>
   authUser && 
