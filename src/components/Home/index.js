@@ -10,5 +10,4 @@ const HomePage = () => (
 );
 
 const condition = authUser => !!authUser;
-// const condition = authUser => authUser.role === 'ADMIN';
 export default withAuthorization(condition)(HomePage);
