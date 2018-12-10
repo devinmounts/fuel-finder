@@ -20,10 +20,6 @@ const withAuthentication = Component => {
           : this.setState( { authUser: null })
       });
     }
-
-    componentDidUpdate() {
-      console.log(this.state.authUser);
-    }
   
     componentWillUnmount() {
       this.listener();
