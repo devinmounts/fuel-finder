@@ -74,9 +74,7 @@ class Firebase {
         this.user(authUser.uid)
         .once('value')
         .then(snapshot => {
-          console.log(snapshot, 'AuthUserListener')
           const dbUser = snapshot.val();
-          console.log(dbUser, 'db user')
 
           //default empty roles
           if(!dbUser.roles) {
