@@ -38,6 +38,7 @@ class LoginManagementBase extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props, 'account');
     this.fetchSignInMethods();
   }
 

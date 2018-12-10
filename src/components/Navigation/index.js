@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import SignOutButton from '../SignOut';
 
 import * as ROUTES from '../../constants/routes';
-// import { AuthUserContext } from '../Session';
 import * as ROLES from '../../constants/roles';
 
 const Navigation = ( {authUser} ) =>
@@ -48,7 +47,7 @@ const NavigationNonAuth = () => (
 );
 
 const mapStateToProps = state => ({
-  // authUser: state.sessionState.authUser,
+  authUser: state.sessionState.authUser,
 })
 
 export default connect(mapStateToProps)(Navigation);
