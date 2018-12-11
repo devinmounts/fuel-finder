@@ -14,7 +14,7 @@ describe('GET /api/v1', () => {
   });
 });
 
-describe('GET /api/v1/emojis', () => {
+describe(' /api/v1/emojis', () => {
   it('responds with a json message', function(done) {
     request(app)
       .get('/api/v1/emojis')
