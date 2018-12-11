@@ -24,10 +24,10 @@ router.get('/', (req, res) => {
 router.post('/', (req, res, next) => {
   const result = Joi.validate(req.body, schema);
   if (result.error === null) {
-    const {name, message, latitiude, longitude } = req.body;
+    const {name, message, latitude, longitude } = req.body;
     const userMessage = {
       name,
-      messsage,
+      message,
       latitude,
       longitude,
       date: new Date()
