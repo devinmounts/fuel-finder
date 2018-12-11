@@ -1,4 +1,13 @@
 .map {
     height: 56vh;
     width: 100vw;
+    position: relative;
+}
+
+.message-form {
+    z-index: 999;
+    position: absolute;
+    top: .5%;
+    right: .5%;
+    opacity: .85;
 }

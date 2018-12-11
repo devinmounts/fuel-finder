@@ -5,7 +5,7 @@ import L from 'leaflet';
 import userLocationURL from '../../assets/images/user_location.svg';
 // import messageLocationURL from '../../assets/images/message_location.svg';
 import { getUserLocation } from './API';
-
+import { Button } from 'reactstrap';
 const myIcon = L.icon({
   iconUrl: userLocationURL,
   iconSize: [50, 82]
@@ -51,19 +51,26 @@ class HomeMap extends Component {
 	render() {
 		const position = [this.state.location.lat, this.state.location.lng]
 		return(
-			<Map className='map' center={position} zoom={this.state.zoom} >
-				 <TileLayer
-          attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-				{ this.state.haveUserLocation ?
-					<Marker 
-						position={position}
-						icon={myIcon}>
-					</Marker>
+			<div className='map'>
+				<Map className='map' center={position} zoom={this.state.zoom} >
+					<TileLayer
+						attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+						url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+					/>
+					{ this.state.haveUserLocation ?
+						<Marker 
+							position={position}
+							icon={myIcon}>
+						</Marker>
+						: ''
+					}
+				</Map>
+				{!this.state.showmessageForm ? 
+					<Button className='message-form' onClick={this.showMessageForm} color='info'>Post a Message</Button> 
 					: ''
 				}
-			</Map>
+			</div>
+				
 		);
 	}
 }
