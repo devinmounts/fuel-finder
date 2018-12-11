@@ -3,18 +3,18 @@ import { Map, TileLayer, Marker, Popup } from 'react-leaflet'
 import './styles.css';
 import L from 'leaflet';
 import userLocationURL from '../../assets/images/user_location.svg';
-import messageLocationURL from '../../assets/images/message_location.svg';
-import { getLocation } from './API';
+// import messageLocationURL from '../../assets/images/message_location.svg';
+import { getUserLocation } from './API';
 
 const myIcon = L.icon({
   iconUrl: userLocationURL,
   iconSize: [50, 82]
 });
 
-const messageIcon = L.icon({
-  iconUrl: messageLocationURL,
-  iconSize: [50, 82]
-});
+// const messageIcon = L.icon({
+//   iconUrl: messageLocationURL,
+//   iconSize: [50, 82]
+// });
 
 class HomeMap extends Component {
 	constructor(props) {
@@ -39,7 +39,7 @@ class HomeMap extends Component {
 	}
 
 	componentDidMount() {
-		getLocation()
+		getUserLocation()
 		.then(location => {
 			this.setState({
 				location,
