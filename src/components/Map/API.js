@@ -28,7 +28,7 @@ export const getAltFuelLocations = (lat, lng) => {
 		resolve(fetch(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json?api_key=yMXElhx7X03lNsTLOYB4MrhzyQiM9r9JOMHAVMPx&latitude=${lat}&longitude=${lng}&limit=200`)
 		.then(resp => resp.json())
 		.then(resp => {
-			console.log(resp)
+			console.log(resp.fuel_stations)
 		})
 		
 		)
