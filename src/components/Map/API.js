@@ -1,3 +1,5 @@
+const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api/v1/messages' : ''
+
 export const getUserLocation = () => {
 	return new Promise((resolve) => {
 		navigator.geolocation.getCurrentPosition((position) => {
@@ -34,4 +36,14 @@ export const getAltFuelLocations = (lat, lng) => {
 		
 		)
 	})
+}
+
+export function postMessage(message) {
+	return fetch(API_URL, {
+		method: 'POST',
+		headers: {
+			'content-type': 'application/json',
+		},
+		body: JSON.stringify(message)
+	}).then(res => res.json());
 }

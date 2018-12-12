@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-const SelectedStation = ({...props}) => {
+const SelectedStation = (props) => {
   const { station } = props;
-  console.log(props);
   return(
     <div>
       { station ? 

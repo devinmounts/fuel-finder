@@ -143,23 +143,26 @@ class HomeMap extends Component {
 			<div className='map'>
 			<div className='form-box'>
 				<div className='form-container'>
-					{!this.state.showMessageForm ? 
-						<Button className='message-form' onClick={this.showMessageForm} color='info'>Post a Message</Button> :
-						!this.state.sentMessage ? 
-						<MessageCardForm
-							cancelMessage={this.cancelMessage}
-							showMessageForm={this.state.showMessageForm}
-							sendingMessage={this.state.sendingMessage}
-							sentMessage={this.state.sentMessage}
-							haveUserLocation={this.state.haveUserLocation}
-							formSubmitted={this.formSubmitted}
-							valueChanged={this.valueChanged}
-							formIsValid={this.formIsValid} 
-						/>
-						: <Card className='thanks-form'>
-								<CardText>Thank you for submitting a message</CardText>
-							</Card>
-
+					{this.state.localSelectedStation ? 
+						!this.state.showMessageForm ? 
+							<Button className='message-form' onClick={this.showMessageForm} color='info'>Post a Message</Button> :
+							!this.state.sentMessage ? 
+							<MessageCardForm
+								cancelMessage={this.cancelMessage}
+								showMessageForm={this.state.showMessageForm}
+								sendingMessage={this.state.sendingMessage}
+								sentMessage={this.state.sentMessage}
+								haveUserLocation={this.state.haveUserLocation}
+								formSubmitted={this.formSubmitted}
+								valueChanged={this.valueChanged}
+								formIsValid={this.formIsValid} 
+							/>
+							: <Card className='thanks-form'>
+									<CardText>Thank you for submitting a message</CardText>
+								</Card>
+						: ''
+						
+					
 					}
 				</div>
 			</div>
