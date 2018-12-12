@@ -1,7 +1,7 @@
 .map {
     height: 56vh;
     width: 100vw;
-    position: relative;
+    position: relative
 }
 
 .message-form {
@@ -9,5 +9,17 @@
     position: absolute;
     top: .5%;
     right: .5%;
+    opacity: .9;
+}
+
+.form-box {
+    z-index: 999;
+    position: absolute;
+    top: .5%;
+    right: .5%;
     opacity: .85;
+}
+
+.form-container {
+    position: relative;
 }

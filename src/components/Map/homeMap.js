@@ -5,7 +5,9 @@ import L from 'leaflet';
 import userLocationURL from '../../assets/images/user_location.svg';
 // import messageLocationURL from '../../assets/images/message_location.svg';
 import { getUserLocation } from './API';
-import { Button } from 'reactstrap';
+import { Button, Card, CardText } from 'reactstrap';
+import MessageCardForm from '../MessageCardForm';
+
 const myIcon = L.icon({
   iconUrl: userLocationURL,
   iconSize: [50, 82]
@@ -31,7 +33,7 @@ class HomeMap extends Component {
 				name: '',
 				message: '',
 			},
-			showmessageForm: false,
+			showMessageForm: false,
 			sendingMessage: false,
 			sentMessage: false,
 			messages: []
@@ -48,10 +50,38 @@ class HomeMap extends Component {
 			});
 		});
 	}
+
+	showMessageForm = () => {
+		this.setState({
+			showMessageForm: true
+		});
+	}
 	render() {
 		const position = [this.state.location.lat, this.state.location.lng]
 		return(
 			<div className='map'>
+			<div className='form-box'>
+				<div className='form-container'>
+					{!this.state.showMessageForm ? 
+						<Button className='message-form' onClick={this.showMessageForm} color='info'>Post a Message</Button> :
+						!this.state.sentMessage ? 
+						<MessageCardForm
+							cancelMessage={this.cancelMessage}
+							showMessageForm={this.state.showMessageForm}
+							sendingMessage={this.state.sendingMessage}
+							sentMessage={this.state.sentMessage}
+							haveUserLocation={this.state.haveUserLocation}
+							formSubmitted={this.formSubmitted}
+							valueChanged={this.valueChanged}
+							formIsValid={this.formIsValid} 
+						/>
+						: <Card className='thanks-form'>
+								<CardText>Thank you for submitting a message</CardText>
+							</Card>
+
+					}
+				</div>
+			</div>
 				<Map className='map' center={position} zoom={this.state.zoom} >
 					<TileLayer
 						attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -65,10 +95,6 @@ class HomeMap extends Component {
 						: ''
 					}
 				</Map>
-				{!this.state.showmessageForm ? 
-					<Button className='message-form' onClick={this.showMessageForm} color='info'>Post a Message</Button> 
-					: ''
-				}
 			</div>
 				
 		);
