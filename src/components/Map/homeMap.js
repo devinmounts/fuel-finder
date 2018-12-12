@@ -4,7 +4,7 @@ import './styles.css';
 import L from 'leaflet';
 import userLocationURL from '../../assets/images/user_location.svg';
 // import messageLocationURL from '../../assets/images/message_location.svg';
-import { getUserLocation } from './API';
+import { getUserLocation, getAltFuelLocations } from './API';
 import { Button, Card, CardText } from 'reactstrap';
 import MessageCardForm from '../MessageCardForm';
 
@@ -48,13 +48,50 @@ class HomeMap extends Component {
 				haveUserLocation: true,
 				zoom: 13
 			});
+			getAltFuelLocations(this.state.location.lat, this.state.location.lng)
 		});
+
+	}
+
+	cancelMessage = () => {
+		this.setState({
+			showMessageForm: false,
+		})
 	}
 
 	showMessageForm = () => {
 		this.setState({
 			showMessageForm: true
 		});
+	}
+
+	formIsValid = () => {
+		let {name, message } = this.state.userMessage;
+		name = name.trim();
+		message = message.trim()
+
+		const validMessage = 
+			name.length > 0 && name.length <= 500 &&
+			message.length > 0 && message.length <= 500;
+
+		return validMessage && this.state.haveUsersLocation ? true : false;
+	}
+
+	formSubmitted = (event) => {
+		event.preventDefault();
+
+		if (this.formIsValid()) {
+			this.setState({
+				sendingMessage: true
+			});
+
+			const message = {
+				name: this.state.userMessage.name,
+				message: this.state.userMessage.message,
+				latitude: this.state.location.lat,
+				longitude: this.state.location.lng,
+			};
+		}
 	}
 	render() {
 		const position = [this.state.location.lat, this.state.location.lng]
