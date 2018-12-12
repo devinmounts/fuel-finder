@@ -7,6 +7,7 @@ import gasCanURL from '../../assets/images/gas-can.svg';
 import { getUserLocation, getAltFuelLocations } from './API';
 import { Button, Card, CardText } from 'reactstrap';
 import MessageCardForm from '../MessageCardForm';
+import MarkerClusterGroup from 'react-leaflet-markercluster';
 
 const carTopView = L.icon({
   iconUrl: carTopViewURL,
@@ -109,6 +110,22 @@ class HomeMap extends Component {
 			};
 		}
 	}
+
+	getMarkers= () => {
+		const markers = this.state.stationsArray.map((station) => (
+			<Marker
+				key={station.id}
+				position={[station.latitude, station.longitude]}
+				icon={gasCan}
+			>
+				<Popup>
+				<p><em>{station.station_name}</em></p>
+				</Popup>
+			</Marker>
+		))
+		return markers
+	}
+
 	render() {
 		{this.state.haveStationsArray ? console.log(this.state.stationsArray) : console.log('no Stations')}
 		const userPosition = [this.state.location.lat, this.state.location.lng]
@@ -136,7 +153,7 @@ class HomeMap extends Component {
 					}
 				</div>
 			</div>
-				<Map className='map' center={userPosition} zoom={this.state.zoom} >
+				<Map className='map' center={userPosition} zoom={this.state.zoom} maxZoom={18} >
 					<TileLayer
 						attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 						url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -148,20 +165,21 @@ class HomeMap extends Component {
 						</Marker>
 						: ''
 					}
+					<MarkerClusterGroup>
 					{ this.state.stationsArray.map((station) => (
-							<Marker
-								key={station.id}
-								position={[station.latitude, station.longitude]}
-								icon={gasCan}
-							>
-								<Popup>
-								<p><em>{station.station_name}</em></p>
-								</Popup>
-							</Marker>
+						<Marker
+							key={station.id}
+							position={[station.latitude, station.longitude]}
+							icon={gasCan}
+						>
+							<Popup>
+							<p><em>{station.station_name}</em></p>
+							</Popup>
+						</Marker>
 					))}
+					</MarkerClusterGroup>
 				</Map>
 			</div>
-				
 		);
 	}
 }
