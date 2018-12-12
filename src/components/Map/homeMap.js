@@ -8,6 +8,7 @@ import { getUserLocation, getAltFuelLocations } from './API';
 import { Button, Card, CardText } from 'reactstrap';
 import MessageCardForm from '../MessageCardForm';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
+import { connect } from 'react-redux';
 
 const carTopView = L.icon({
   iconUrl: carTopViewURL,
@@ -40,6 +41,7 @@ class HomeMap extends Component {
 			messages: [],
 			haveStationsArray: false,
 			stationsArray: [],
+			localSelectedStation: null
 		}
 	}
 
@@ -117,6 +119,7 @@ class HomeMap extends Component {
 				key={station.id}
 				position={[station.latitude, station.longitude]}
 				icon={gasCan}
+				onClick={() => this.handleMarkerClick(station)}
 			>
 				<Popup>
 				<p><em>{station.station_name}</em></p>
@@ -126,8 +129,15 @@ class HomeMap extends Component {
 		return markers
 	}
 
+	handleMarkerClick = (station) => {
+		console.log('click', station)
+		this.setState({
+			localSelectedStation: station
+		});
+		this.props.onSetFuelStation(station)
+	}
+
 	render() {
-		{this.state.haveStationsArray ? console.log(this.state.stationsArray) : console.log('no Stations')}
 		const userPosition = [this.state.location.lat, this.state.location.lng]
 		return(
 			<div className='map'>
@@ -166,22 +176,21 @@ class HomeMap extends Component {
 						: ''
 					}
 					<MarkerClusterGroup>
-					{ this.state.stationsArray.map((station) => (
-						<Marker
-							key={station.id}
-							position={[station.latitude, station.longitude]}
-							icon={gasCan}
-						>
-							<Popup>
-							<p><em>{station.station_name}</em></p>
-							</Popup>
-						</Marker>
-					))}
+						{this.getMarkers()}
 					</MarkerClusterGroup>
 				</Map>
 			</div>
 		);
 	}
 }
+const mapStateToProps = state => ({
+	fuelStation: state.fuelStationState,
+});
 
-export default HomeMap;
+const mapDispatchToProps = dispatch => ({
+	onSetFuelStation: fuelStation => {
+		dispatch({ type: 'STATION_SET', fuelStation})
+	}
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeMap);
