@@ -3,7 +3,7 @@ import { Map, TileLayer, Marker, Popup } from 'react-leaflet'
 import './styles.css';
 import L from 'leaflet';
 import userLocationURL from '../../assets/images/user_location.svg';
-// import messageLocationURL from '../../assets/images/message_location.svg';
+import messageLocationURL from '../../assets/images/message_location.svg';
 import { getUserLocation, getAltFuelLocations } from './API';
 import { Button, Card, CardText } from 'reactstrap';
 import MessageCardForm from '../MessageCardForm';
@@ -13,10 +13,10 @@ const myIcon = L.icon({
   iconSize: [50, 82]
 });
 
-// const messageIcon = L.icon({
-//   iconUrl: messageLocationURL,
-//   iconSize: [50, 82]
-// });
+const messageIcon = L.icon({
+  iconUrl: messageLocationURL,
+  iconSize: [50, 82]
+});
 
 class HomeMap extends Component {
 	constructor(props) {
@@ -36,7 +36,9 @@ class HomeMap extends Component {
 			showMessageForm: false,
 			sendingMessage: false,
 			sentMessage: false,
-			messages: []
+			messages: [],
+			haveStationsArray: false,
+			stationsArray: [],
 		}
 	}
 
@@ -46,9 +48,23 @@ class HomeMap extends Component {
 			this.setState({
 				location,
 				haveUserLocation: true,
-				zoom: 13
+				zoom: 13,
 			});
+		})
+		.then(() => {
 			getAltFuelLocations(this.state.location.lat, this.state.location.lng)
+			.then((returnedArray) => {
+				this.setState({
+					stationsArray: returnedArray,
+				});
+			})
+			.then(() => {
+				if (this.state.stationsArray.length > 0) {
+					this.setState({
+						haveStationsArray: true,
+					});
+				}
+			})
 		});
 
 	}
@@ -94,7 +110,8 @@ class HomeMap extends Component {
 		}
 	}
 	render() {
-		const position = [this.state.location.lat, this.state.location.lng]
+		{this.state.haveStationsArray ? console.log(this.state.stationsArray) : console.log('no Stations')}
+		const userPosition = [this.state.location.lat, this.state.location.lng]
 		return(
 			<div className='map'>
 			<div className='form-box'>
@@ -119,18 +136,25 @@ class HomeMap extends Component {
 					}
 				</div>
 			</div>
-				<Map className='map' center={position} zoom={this.state.zoom} >
+				<Map className='map' center={userPosition} zoom={this.state.zoom} >
 					<TileLayer
 						attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 						url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 					/>
 					{ this.state.haveUserLocation ?
 						<Marker 
-							position={position}
+							position={userPosition}
 							icon={myIcon}>
 						</Marker>
 						: ''
 					}
+					{ this.state.stationsArray.map((station) => (
+							<Marker
+								position={[station.latitude, station.longitude]}
+								icon={messageIcon}
+							>
+							</Marker>
+					))}
 				</Map>
 			</div>
 				
