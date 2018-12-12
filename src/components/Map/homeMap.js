@@ -2,20 +2,20 @@ import React, { Component } from 'react';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet'
 import './styles.css';
 import L from 'leaflet';
-import userLocationURL from '../../assets/images/user_location.svg';
-import messageLocationURL from '../../assets/images/message_location.svg';
+import carTopViewURL from '../../assets/images/car_topview.svg';
+import gasCanURL from '../../assets/images/gas-can.svg';
 import { getUserLocation, getAltFuelLocations } from './API';
 import { Button, Card, CardText } from 'reactstrap';
 import MessageCardForm from '../MessageCardForm';
 
-const myIcon = L.icon({
-  iconUrl: userLocationURL,
-  iconSize: [50, 82]
+const carTopView = L.icon({
+  iconUrl: carTopViewURL,
+  iconSize: [20, 52]
 });
 
-const messageIcon = L.icon({
-  iconUrl: messageLocationURL,
-  iconSize: [50, 82]
+const gasCan = L.icon({
+  iconUrl: gasCanURL,
+  iconSize: [20, 52]
 });
 
 class HomeMap extends Component {
@@ -144,15 +144,19 @@ class HomeMap extends Component {
 					{ this.state.haveUserLocation ?
 						<Marker 
 							position={userPosition}
-							icon={myIcon}>
+							icon={carTopView}>
 						</Marker>
 						: ''
 					}
 					{ this.state.stationsArray.map((station) => (
 							<Marker
+								key={station.id}
 								position={[station.latitude, station.longitude]}
-								icon={messageIcon}
+								icon={gasCan}
 							>
+								<Popup>
+								<p><em>{station.station_name}</em></p>
+								</Popup>
 							</Marker>
 					))}
 				</Map>
