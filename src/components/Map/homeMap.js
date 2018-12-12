@@ -84,17 +84,29 @@ class HomeMap extends Component {
 		});
 	}
 
-	formIsValid = () => {
-		let {name, message } = this.state.userMessage;
-		name = name.trim();
-		message = message.trim()
-
-		const validMessage = 
-			name.length > 0 && name.length <= 500 &&
-			message.length > 0 && message.length <= 500;
-
-		return validMessage && this.state.haveUsersLocation ? true : false;
+	valueChanged = (event) => {
+		const {name, value} = event.target;
+		this.setState((prevState) => ({
+			userMessage: {
+				...prevState.userMessage,
+				[name]:value
+			}
+		}));
+		console.log(this.state.userMessage);
 	}
+
+	formIsValid = () => {
+		console.log('fire')
+    let { name, message } = this.state.userMessage;
+    name = name.trim();
+    message = message.trim();
+
+    const validMessage =
+      name.length > 0 && name.length <= 500 &&
+      message.length > 0 && message.length <= 500;
+
+    return validMessage && this.state.haveUserLocation ? true : false;
+  }
 
 	formSubmitted = (event) => {
 		event.preventDefault();

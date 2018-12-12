@@ -11,6 +11,7 @@ const MessageCardForm = (props) => {
          cancelMessage, 
          formIsValid,
         } = props;
+
   return (
     <Card body className='message-form'>
         <CardTitle>Fuel Finder</CardTitle>
@@ -38,6 +39,7 @@ const MessageCardForm = (props) => {
             <Button type='cancel' color='danger' onClick={cancelMessage}>
               Cancel
             </Button>
+            {' '}
             <Button type='submit' color='info' disabled={!formIsValid()}>
               Send
             </Button>
@@ -50,11 +52,12 @@ const MessageCardForm = (props) => {
 };
 
 MessageCardForm.propTypes = {
-  haveUserLocation: PropTypes.boolean,
-  sendingMessage: PropTypes.boolean,
-  sentMessage: PropTypes.boolean,
+  haveUserLocation: PropTypes.bool,
+  sendingMessage: PropTypes.bool,
+  sentMessage: PropTypes.bool,
   valueChanged: PropTypes.func,
   cancelMessage: PropTypes.func,
+  formIsValid: PropTypes.func,
 };
 
 export default MessageCardForm;

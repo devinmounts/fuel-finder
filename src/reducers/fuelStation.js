@@ -10,7 +10,6 @@ const applySetStation = (state, action) => ({
 function fuelStationReducer(state = INITIAL_STATE, action) {
   switch(action.type) {
     case 'STATION_SET': {
-      console.log('in case')
       return applySetStation(state, action)
     }
     default:
