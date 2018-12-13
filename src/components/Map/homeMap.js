@@ -113,13 +113,14 @@ class HomeMap extends Component {
 			});
 
 			const message = {
-				user_id: this.state.authUser.uid,
-				station_id: this.state.fuelStation.id,
-				name: this.state.userMessage.name,
+				user_id: this.props.authUser.uid,
+				station_id: this.props.fuelStation.id,
+				station_city: this.props.fuelStation.city,
+				name: this.props.authUser.username,
 				message: this.state.userMessage.message,
 
 			};
-
+			console.log(message);
 			postMessage(message)
 				.then((result) => {
 					setTimeout(() => {
@@ -208,7 +209,7 @@ class HomeMap extends Component {
 }
 
 const mapStateToProps = state => ({
-	fuelStation: state.fuelStationState,
+	fuelStation: state.fuelStationState.selectedStation,
 	authUser: state.sessionState.authUser
 });
 

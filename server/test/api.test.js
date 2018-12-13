@@ -17,9 +17,10 @@ describe('GET /api/v1', () => {
 describe('POST /api/v1/messages', () => {
   it('responds with inserted message', (done) => {
     const requestObj = {
-      user_id: 'KA9s',
-      station_id: 3422,
-      name: 'Devin',
+      user_id: 'KmXfmlW827TjVd9fHIXelWmaSON2',
+      station_id: 58399,
+      station_city: 'Portland',
+      name: 'Devin Mounts',
       message: 'Here we go!',
     };
 
