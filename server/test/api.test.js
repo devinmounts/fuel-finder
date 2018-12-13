@@ -17,10 +17,10 @@ describe('GET /api/v1', () => {
 describe('POST /api/v1/messages', () => {
   it('responds with inserted message', (done) => {
     const requestObj = {
-      name: 'CJ',
-      message: 'This app is so cool!',
-      latitude: -90,
-      longitude: 180
+      user_id: 'KA9s',
+      station_id: 3422,
+      name: 'Devin',
+      message: 'Here we go!',
     };
 
     const responseObj = {

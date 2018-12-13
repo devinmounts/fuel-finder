@@ -100,9 +100,7 @@ class HomeMap extends Component {
     message = message.trim();
 
     const validMessage =
-      name.length > 0 && name.length <= 500 &&
       message.length > 0 && message.length <= 500;
-
     return validMessage && this.state.haveUserLocation ? true : false;
   }
 
@@ -115,10 +113,11 @@ class HomeMap extends Component {
 			});
 
 			const message = {
+				user_id: this.state.authUser.uid,
+				station_id: this.state.fuelStation.id,
 				name: this.state.userMessage.name,
 				message: this.state.userMessage.message,
-				latitude: this.state.location.lat,
-				longitude: this.state.location.lng,
+
 			};
 
 			postMessage(message)
@@ -159,6 +158,7 @@ class HomeMap extends Component {
 
 	render() {
 		const userPosition = [this.state.location.lat, this.state.location.lng]
+		const { authUser } = this.props;
 		return(
 			<div className='map'>
 			<div className='form-box'>
@@ -174,7 +174,8 @@ class HomeMap extends Component {
 								haveUserLocation={this.state.haveUserLocation}
 								formSubmitted={this.formSubmitted}
 								valueChanged={this.valueChanged}
-								formIsValid={this.formIsValid} 
+								formIsValid={this.formIsValid}
+								authUser={authUser}
 							/>
 							: <Card className='thanks-form'>
 									<CardText>Thank you for submitting a message</CardText>
@@ -208,6 +209,7 @@ class HomeMap extends Component {
 
 const mapStateToProps = state => ({
 	fuelStation: state.fuelStationState,
+	authUser: state.sessionState.authUser
 });
 
 const mapDispatchToProps = dispatch => ({

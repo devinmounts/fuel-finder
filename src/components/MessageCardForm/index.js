@@ -12,7 +12,6 @@ const MessageCardForm = (props) => {
          cancelMessage, 
          formIsValid,
         } = props;
-
   return (
     <Card body className='message-form'>
         <CardTitle>Fuel Finder</CardTitle>
@@ -26,7 +25,8 @@ const MessageCardForm = (props) => {
                 type="text"
                 name="name"
                 id="name"
-                placeholder="Enter your name" />
+                placeholder="Enter your name"
+                value={props.authUser.username} />
             </FormGroup>
             <FormGroup>
               <Label for="message">Message</Label>
@@ -41,7 +41,7 @@ const MessageCardForm = (props) => {
               Cancel
             </Button>
             {' '}
-            <Button type='submit' color='info' disabled={!formIsValid()}>
+            <Button type='submit' color='info' disabled={!formIsValid()} >
               Send
             </Button>
           </Form>
@@ -52,13 +52,9 @@ const MessageCardForm = (props) => {
   );
 };
 
-const mapStateToProps = state => ({
-  authUser: state.sessionState.authUser
-})
-
 MessageCardForm.propTypes = {
   haveUserLocation: PropTypes.bool,
-  formSubmitted: PropTypes.bool,
+  formSubmitted: PropTypes.func,
   sendingMessage: PropTypes.bool,
   sentMessage: PropTypes.bool,
   valueChanged: PropTypes.func,
@@ -66,4 +62,4 @@ MessageCardForm.propTypes = {
   formIsValid: PropTypes.func,
 };
 
-export default connect(mapStateToProps)(MessageCardForm);
+export default MessageCardForm;
