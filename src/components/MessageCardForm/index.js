@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Button, CardTitle, CardText, Form, FormGroup, Label, Input } from 'reactstrap';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 const MessageCardForm = (props) => {
   const {haveUserLocation,
@@ -51,8 +52,13 @@ const MessageCardForm = (props) => {
   );
 };
 
+const mapStateToProps = state => ({
+  authUser: state.sessionState.authUser
+})
+
 MessageCardForm.propTypes = {
   haveUserLocation: PropTypes.bool,
+  formSubmitted: PropTypes.bool,
   sendingMessage: PropTypes.bool,
   sentMessage: PropTypes.bool,
   valueChanged: PropTypes.func,
@@ -60,4 +66,4 @@ MessageCardForm.propTypes = {
   formIsValid: PropTypes.func,
 };
 
-export default MessageCardForm;
+export default connect(mapStateToProps)(MessageCardForm);

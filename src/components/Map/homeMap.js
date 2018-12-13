@@ -4,12 +4,12 @@ import './styles.css';
 import L from 'leaflet';
 import carTopViewURL from '../../assets/images/car_topview.svg';
 import gasCanURL from '../../assets/images/gas-can.svg';
-import { getUserLocation, getAltFuelLocations, postMessage, getMessages } from './API';
+import { getUserLocation, getAltFuelLocations, postMessage } from './API';
 import { Button, Card, CardText } from 'reactstrap';
 import MessageCardForm from '../MessageCardForm';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 import { connect } from 'react-redux';
-
+import PropTypes from 'prop-types';
 const carTopView = L.icon({
   iconUrl: carTopViewURL,
   iconSize: [20, 52]
@@ -169,7 +169,6 @@ class HomeMap extends Component {
 							!this.state.sentMessage ? 
 							<MessageCardForm
 								cancelMessage={this.cancelMessage}
-								showMessageForm={this.state.showMessageForm}
 								sendingMessage={this.state.sendingMessage}
 								sentMessage={this.state.sentMessage}
 								haveUserLocation={this.state.haveUserLocation}
@@ -202,17 +201,11 @@ class HomeMap extends Component {
 						{this.getMarkers()}
 					</MarkerClusterGroup>
 				</Map>
-				<div>
-					<Button
-					onClick={() => getMessages()}
-					 color='danger'>
-						Get
-					</Button>
-				</div>
 			</div>
 		);
 	}
 }
+
 const mapStateToProps = state => ({
 	fuelStation: state.fuelStationState,
 });
@@ -221,6 +214,11 @@ const mapDispatchToProps = dispatch => ({
 	onSetFuelStation: fuelStation => {
 		dispatch({ type: 'STATION_SET', fuelStation})
 	}
-})
+});
+
+HomeMap.Proptypes = {
+	fuelStation: PropTypes.object,
+	onSetFuelStation: PropTypes.func
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeMap);
