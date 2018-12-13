@@ -37,6 +37,8 @@ router.post('/', (req, res, next) => {
       .then(insertedMessage => {
         res.json(insertedMessage);
       });
+
+    console.log('successful post')
   } else {
     next(result.error);
   }

@@ -4,7 +4,7 @@ import './styles.css';
 import L from 'leaflet';
 import carTopViewURL from '../../assets/images/car_topview.svg';
 import gasCanURL from '../../assets/images/gas-can.svg';
-import { getUserLocation, getAltFuelLocations } from './API';
+import { getUserLocation, getAltFuelLocations, postMessage, getMessages } from './API';
 import { Button, Card, CardText } from 'reactstrap';
 import MessageCardForm from '../MessageCardForm';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
@@ -92,11 +92,9 @@ class HomeMap extends Component {
 				[name]:value
 			}
 		}));
-		console.log(this.state.userMessage);
 	}
 
 	formIsValid = () => {
-		console.log('fire')
     let { name, message } = this.state.userMessage;
     name = name.trim();
     message = message.trim();
@@ -122,6 +120,16 @@ class HomeMap extends Component {
 				latitude: this.state.location.lat,
 				longitude: this.state.location.lng,
 			};
+
+			postMessage(message)
+				.then((result) => {
+					setTimeout(() => {
+						this.setState({
+							sendingMessage: false,
+							sentMessage: true,
+						});
+					}, 4000);
+				});
 		}
 	}
 
@@ -194,6 +202,13 @@ class HomeMap extends Component {
 						{this.getMarkers()}
 					</MarkerClusterGroup>
 				</Map>
+				<div>
+					<Button
+					onClick={() => getMessages()}
+					 color='danger'>
+						Get
+					</Button>
+				</div>
 			</div>
 		);
 	}

@@ -39,11 +39,19 @@ export const getAltFuelLocations = (lat, lng) => {
 }
 
 export function postMessage(message) {
-	return fetch(API_URL, {
-		method: 'POST',
-		headers: {
-			'content-type': 'application/json',
-		},
-		body: JSON.stringify(message)
-	}).then(res => res.json());
+  return fetch(API_URL, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify(message)
+  }).then(res => res.json());
+}
+
+export function getMessages() {
+	return fetch(API_URL)
+		.then(res => res.json())
+		.then(messages => {
+			console.log(messages);
+		});
 }
