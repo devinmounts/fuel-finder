@@ -26,15 +26,14 @@ router.get('/', (req, res) => {
 
 //** Return messages given station_id */
 
-const findMessagesByStation_Id = (station_id, callback) => {
-  if (!messages[station_id])
-    return callback
-}
-
-
-router.get('/messages/:station_id', (req, res) => {
-  console.log('here');
-})
+  router.get(`/stations/:station_id`, (req, res) => {
+    console.log(req.params.station_id);
+    messages
+    .find({station_id: req.params.station_id})
+    .then(stationMessages => {
+      res.json(stationMessages)
+    });
+  });
 
 
 //** Post Message */

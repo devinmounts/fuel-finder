@@ -48,8 +48,8 @@ export function postMessage(message) {
   }).then(res => res.json());
 }
 
-export function getMessages() {
-	return fetch(API_URL)
+export function getMessagesAtStationID(station_id) {
+	return fetch(`${API_URL}/:${station_id}`)
 		.then(res => res.json())
 		.then(messages => {
 			console.log(messages);
