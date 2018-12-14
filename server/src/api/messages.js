@@ -14,6 +14,7 @@ const schema = Joi.object().keys({
         
 const router = express.Router();
 
+// ***  Return all messages ** 
 
 router.get('/', (req, res) => {
   messages
@@ -23,7 +24,20 @@ router.get('/', (req, res) => {
     });
 });
 
+//** Return messages given station_id */
 
+const findMessagesByStation_Id = (station_id, callback) => {
+  if (!messages[station_id])
+    return callback
+}
+
+
+router.get('/messages/:station_id', (req, res) => {
+  console.log('here');
+})
+
+
+//** Post Message */
 
 router.post('/', (req, res, next) => {
   console.log('enter post');

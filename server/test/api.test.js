@@ -14,6 +14,18 @@ describe('GET /api/v1', () => {
   });
 });
 
+describe('GET /api/v1/messages/:station_id', () => {
+  it('responds with a json message for specific station', (done) => {
+    request(app)
+      .get(`/api/v1/messages/${station_id}`)
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200, {
+        message: 'API - 👋🌎🌍🌏' 
+      }, done);
+  });
+});
+
 describe('POST /api/v1/messages', () => {
   it('responds with inserted message', (done) => {
     const requestObj = {
