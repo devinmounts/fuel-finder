@@ -38,10 +38,11 @@ class HomeMap extends Component {
 			showMessageForm: false,
 			sendingMessage: false,
 			sentMessage: false,
-			messages: [],
+			// messages: [],
 			haveStationsArray: false,
 			stationsArray: [],
-			localSelectedStation: null
+			localSelectedStation: null,
+			localSelectedStationMessagesArray: []
 		}
 	}
 
@@ -120,7 +121,6 @@ class HomeMap extends Component {
 				message: this.state.userMessage.message,
 
 			};
-			console.log(message);
 			postMessage(message)
 				.then((result) => {
 					setTimeout(() => {
@@ -150,12 +150,14 @@ class HomeMap extends Component {
 	}
 
 	handleMarkerClick = (station) => {
-		console.log('click', station)
 		this.setState({
 			localSelectedStation: station
 		});
 		this.props.onSetFuelStation(station);
 		getMessagesAtStationID(station.id)
+			.then(messagesArray => {
+				this.props.onSetFuelStationMessages(messagesArray)
+			});
 	}
 
 	render() {
@@ -217,12 +219,16 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 	onSetFuelStation: fuelStation => {
 		dispatch({ type: 'STATION_SET', fuelStation})
+	},
+	onSetFuelStationMessages: messages => {
+		dispatch({ type: 'MESSAGES_SET', messages })
 	}
 });
 
 HomeMap.Proptypes = {
 	fuelStation: PropTypes.object,
-	onSetFuelStation: PropTypes.func
+	onSetFuelStation: PropTypes.func,
+	onSetFuelStationMessages: PropTypes.func
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeMap);
