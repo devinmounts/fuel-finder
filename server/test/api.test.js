@@ -56,10 +56,20 @@ describe('GET /api/v1/messages/stations/:station_id', () => {
         message: 'Here we go!',
       };
 
+      const responseObj = {
+        ...requestObj,
+        _id: '5b57d127923211248855977c',
+        date: '2018-07-25T01:23:51.029Z'
+      };
+
       request(app)
         .get(`/api/v1/messages/stations/${station_id}`)
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(200, requestObj ,done);
+        .expect(res => {
+          res.body._id = '5b57d127923211248855977c';
+          res.body.date = '2018-07-25T01:23:51.029Z';
+        })
+        .expect(200, [responseObj] ,done);
     });
   });

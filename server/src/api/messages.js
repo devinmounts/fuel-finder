@@ -27,9 +27,9 @@ router.get('/', (req, res) => {
 //** Return messages given station_id */
 
   router.get(`/stations/:station_id`, (req, res) => {
-    console.log(req.params.station_id);
+    console.log(req.params.station_id)
     messages
-    .find({station_id: req.params.station_id})
+    .find({station_id: parseInt(req.params.station_id)})
     .then(stationMessages => {
       res.json(stationMessages)
     });
