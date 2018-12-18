@@ -63,8 +63,6 @@ router.post('/', (req, res, next) => {
 //** Update Message */
 
 router.put('/', (req, res, next) => {
-  console.log('put reached')
-    console.log(req.body.newMessage);
     const { newMessage, _id } = req.body;
     messages.findOneAndUpdate( 
       { _id: _id }, 
@@ -76,6 +74,10 @@ router.put('/', (req, res, next) => {
         res.json(result);
       });
     next(result.error)
-})
+});
+
+router.delete('/', (req, res, next) => {
+  console.log(req.body);
+});
 
 module.exports = router;

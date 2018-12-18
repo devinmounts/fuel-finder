@@ -14,7 +14,7 @@ import { Collapse,
   Input} from 'reactstrap';
 
 import MessageCardModal from '../Modal/messageCardModal'
-import { updateMessage } from '../API';
+import { updateMessage, deleteMessage } from '../API';
 
 const MessageCardContainer = (props) => {
   const {authUser, station} = props;
@@ -48,6 +48,7 @@ class AuthMessageCard extends Component {
       collapse: false,
       updatedMessage: null,
       modal: false,
+      messageDeleted: false,
     };
   }
 
@@ -96,6 +97,16 @@ class AuthMessageCard extends Component {
       }
     }
 
+    deleteMessage = () => {
+      const messageId = {
+        _id: this.props.message._id,
+      };
+      console.log(messageId);
+      deleteMessage(messageId);
+      this.setState({
+        modal: false,
+      });
+    }
   
   render(){
     
@@ -107,6 +118,7 @@ class AuthMessageCard extends Component {
         modalBool={modal}  
         onToggleModal={this.toggleModal}
         messageBody={message}
+        onDeleteMessage={this.deleteMessage}
       ></MessageCardModal>
       <Card className='message-card' key={message._id} color='info'>
       <CardTitle className='message-user-name'>{message.name}</CardTitle>
@@ -129,7 +141,6 @@ class AuthMessageCard extends Component {
             <Button onClick={this.toggleModal} color='danger'>Delete</Button>
 
           </Form>
-
         </Collapse>
       </Card>
      </div>
