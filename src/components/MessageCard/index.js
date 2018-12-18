@@ -13,7 +13,7 @@ import { Collapse,
   Label, 
   Input} from 'reactstrap';
 
-import updateMessage from '../API';
+import { updateMessage } from '../API';
 
 const MessageCardContainer = (props) => {
   const {authUser, station} = props;

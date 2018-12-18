@@ -36,7 +36,7 @@ describe('POST /api/v1/messages', () => {
     .send(requestObj)
     .set('Accept', 'application/json')
     .expect('Content-Type', /json/)
-    .expect(res => {
+    .expect((res) => {
       res.body._id = '5b57d127923211248855977c';
       res.body.date = '2018-07-25T01:23:51.029Z';
     })
@@ -58,7 +58,7 @@ describe('GET /api/v1/messages/stations/:station_id', () => {
 
       const responseObj = {
         ...requestObj,
-        _id: '5b57d127923211248855977c',
+        _id: 'test',
         date: '2018-07-25T01:23:51.029Z'
       };
 
@@ -66,10 +66,48 @@ describe('GET /api/v1/messages/stations/:station_id', () => {
         .get(`/api/v1/messages/stations/${station_id}`)
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(res => {
-          res.body._id = '5b57d127923211248855977c';
+        .expect((res) => {
+          res.body._id = 'test';
           res.body.date = '2018-07-25T01:23:51.029Z';
         })
         .expect(200, [responseObj] ,done);
+    });
+  });
+
+  describe('PUT /api/v1/messages/message_id', () => {
+    it('responds with updated message', (done) => {
+      const requestObj = {
+        user_id: 'KmXfmlW827TjVd9fHIXelWmaSON2',
+        station_id: 58399,
+        station_city: 'Portland',
+        name: 'Devin Mounts',
+        message: 'Here we go!',
+      };
+      
+      const responseObj = {
+        user_id: 'KmXfmlW827TjVd9fHIXelWmaSON2',
+        station_id: 58399,
+        station_city: 'Portland',
+        name: 'Devin Mounts',
+        message: 'Lets try this...',
+        _id: '5b57d127923211248855977c',
+        date: '2018-07-25T01:23:51.029Z'
+      };
+
+      const updatedMessage = 'Lets try this...'
+      
+      request(app)
+      .put(`/api/v1/messages/${responseObj._id}`)
+      .send({
+        _id: responseObj._id,
+        message: updatedMessage
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(res => {
+        res.body._id = '5b57d127923211248855977c';
+        res.body.date = '2018-07-25T01:23:51.029Z';
+      })
+      .expect(200, responseObj, done);
     });
   });

@@ -45,7 +45,9 @@ export function postMessage(message) {
       'content-type': 'application/json',
     },
     body: JSON.stringify(message)
-  }).then(res => res.json());
+	}).then(res => res.json())
+	.then(response => console.log('Success:', JSON.stringify(response)))
+	.catch(error => console.error('Error:', error));
 }
 
 export function getMessagesAtStationID(station_id) {
@@ -54,4 +56,16 @@ export function getMessagesAtStationID(station_id) {
 		.then(messagesArray => {
 			return messagesArray
 		});
+}
+
+export function updateMessage(updatedMessage, message_id) {
+	return fetch(`${API_URL}/${message_id}`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify(updatedMessage)
+	}).then(res => res.json())
+	.then(response => console.log('Success:', JSON.stringify(response)))
+	.catch(error => console.error('Error:', error));
 }

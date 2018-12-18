@@ -39,7 +39,6 @@ router.get('/', (req, res) => {
 //** Post Message */
 
 router.post('/', (req, res, next) => {
-  console.log('enter post');
   const result = Joi.validate(req.body, schema);
   if (result.error === null) {
     const {name, message, user_id, station_id, station_city } = req.body;
@@ -60,5 +59,21 @@ router.post('/', (req, res, next) => {
     next(result.error);
   }
 });
+
+//** Update Message */
+
+router.put('/:message_id', (req, res, next) => {
+  if (result.error === null) {
+    const { updatedMessage } = req.body;
+    messages.findOneAndUpdate( 
+      { _id: req.params.message_id }, 
+      {$set: { message: updatedMessage }})
+      .then( newMessage => {
+        res.json(newMessage);
+      });
+  } else {
+    next(result.error)
+  }
+})
 
 module.exports = router;
