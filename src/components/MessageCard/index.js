@@ -13,6 +13,7 @@ import { Collapse,
   Label, 
   Input} from 'reactstrap';
 
+import MessageCardModal from '../Modal/messageCardModal'
 import { updateMessage } from '../API';
 
 const MessageCardContainer = (props) => {
@@ -40,17 +41,26 @@ class AuthMessageCard extends Component {
   constructor(props) {
     super(props);
 
-    this.toggle = this.toggle.bind(this);
+    this.toggleCollapse = this.toggleCollapse.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
+
     this.state = {
       collapse: false,
       updatedMessage: null,
+      modal: false,
     };
   }
 
-  toggle() {
+  toggleCollapse() {
     this.setState({
       collapse: !this.state.collapse,
     })
+  }
+
+  toggleModal() {
+    this.setState({
+      modal: !this.state.modal
+    });
   }
 
   valueChanged = (event) => {
@@ -84,36 +94,45 @@ class AuthMessageCard extends Component {
         }
         updateMessage(updatedMessage)
       }
-  }
+    }
+
+  
   render(){
     
     const { message } = this.props;
-
+    const { modal } = this.state
    return (
-     <Card className='message-card' key={message._id} color='info'>
-     <CardTitle className='message-user-name'>{message.name}</CardTitle>
-       <CardBody>          
-         <Moment fromNow>{message.date}</Moment>
-         <CardText>{message.message}</CardText>
-       </CardBody>
-       <Button color='primary' onClick={this.toggle}>Edit Message</Button>
-       <Collapse isOpen={this.state.collapse}>
-         <Form onSubmit={this.submitUpdatedMessage}>
-           <FormGroup>
-             <Label for='message'>Message:</Label>
-             <Input
-             name='message'
-             onChange={this.valueChanged}
-             placeholder='New Message'/>
-           </FormGroup>
-           <Button type='submit' color='warning' disabled={!this.formIsValid()}>Update</Button>
-           {' '}
-           <Button color='danger'>Delete</Button>
+     <div>
+      <MessageCardModal 
+        modalBool={modal}  
+        onToggleModal={this.toggleModal}
+        messageBody={message}
+      ></MessageCardModal>
+      <Card className='message-card' key={message._id} color='info'>
+      <CardTitle className='message-user-name'>{message.name}</CardTitle>
+        <CardBody>          
+          <Moment fromNow>{message.date}</Moment>
+          <CardText>{message.message}</CardText>
+        </CardBody>
+        <Button color='primary' onClick={this.toggleCollapse}>Edit Message</Button>
+        <Collapse isOpen={this.state.collapse}>
+          <Form onSubmit={this.submitUpdatedMessage}>
+            <FormGroup>
+              <Label for='message'>Message:</Label>
+              <Input
+              name='message'
+              onChange={this.valueChanged}
+              placeholder='New Message'/>
+            </FormGroup>
+            <Button type='submit' color='warning' disabled={!this.formIsValid()}>Update</Button>
+            {' '}
+            <Button onClick={this.toggleModal} color='danger'>Delete</Button>
 
-         </Form>
+          </Form>
 
-       </Collapse>
-     </Card>
+        </Collapse>
+      </Card>
+     </div>
    );
   }
 }
