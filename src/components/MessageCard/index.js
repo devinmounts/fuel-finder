@@ -12,7 +12,8 @@ import { Collapse,
   FormGroup, 
   Label, 
   Input} from 'reactstrap';
-import { renderComponent } from 'recompose';
+
+import updateMessage from '../API';
 
 const MessageCardContainer = (props) => {
   const {authUser, station} = props;
@@ -43,6 +44,7 @@ class AuthMessageCard extends Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       collapse: false,
+      updatedMessage: null,
     };
   }
 
@@ -52,8 +54,37 @@ class AuthMessageCard extends Component {
     })
   }
 
-  render(){
+  valueChanged = (event) => {
+    event.preventDefault();
+    const { value } = event.target;
+    this.setState({
+      updatedMessage: value
+    });
+  }
 
+  formIsValid = () => {
+    let { updatedMessage } = this.state.updatedMessage;
+    updatedMessage = updatedMessage.trim();
+
+    const validMessage =
+      updatedMessage.length > 0 && updatedMessage.length <= 500;
+    return validMessage ? true : false;
+  }
+  
+  
+   submitUpdateMessage = (event) => {
+    event.preventDefault();
+    if (this.formIsValid()) {
+      
+      const newMessage = {
+        _id: this.props.message._id,
+        message: this.state.updatedMessage
+      }
+      updateMessage(newMessage)
+    }
+  }
+  render(){
+    
     const { message } = this.props;
 
    return (
@@ -65,14 +96,20 @@ class AuthMessageCard extends Component {
        </CardBody>
        <Button color='primary' onClick={this.toggle}>Edit Message</Button>
        <Collapse isOpen={this.state.collapse}>
-         <Form onSubmit={updateMessage}>
+         <Form onSubmit={this.updateMessage}>
            <FormGroup>
              <Label for='message'>Message:</Label>
              <Input
              name='message'
+             onChange={this.valueChanged}
              placeholder='New Message'/>
            </FormGroup>
+           <Button type='submit' color='warning'>Update</Button>
+           {' '}
+           <Button color='danger'>Delete</Button>
+
          </Form>
+
        </Collapse>
      </Card>
    );
@@ -80,13 +117,6 @@ class AuthMessageCard extends Component {
 }
 
 
-const updateMessage = (event) => {
-  console.log(event.target.value)
-  event.preventDefault();
-  const newMessage = {
-    message: event.target.value
-  }
-}
 
 const NonAuthMessageCard = (props) => {
   const { message } = props;

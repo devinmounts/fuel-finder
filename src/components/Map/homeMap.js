@@ -4,7 +4,7 @@ import './styles.css';
 import L from 'leaflet';
 import carTopViewURL from '../../assets/images/car_topview.svg';
 import gasCanURL from '../../assets/images/gas-can.svg';
-import { getUserLocation, getAltFuelLocations, postMessage, getMessagesAtStationID } from './API';
+import { getUserLocation, getAltFuelLocations, postMessage, getMessagesAtStationID } from '../API';
 import { Button, Card, CardText } from 'reactstrap';
 import MessageCardForm from '../MessageCardForm';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
