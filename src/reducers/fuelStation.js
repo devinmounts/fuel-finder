@@ -18,8 +18,6 @@ function fuelStationReducer(state = INITIAL_STATE, action) {
       return applySetStation(state, action)
     }
     case 'MESSAGES_SET': {
-      console.log('in case');
-      console.log(action);
       return applySetStationMessages(state, action);
     }
     default:

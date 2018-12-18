@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card, Button, CardTitle, CardText, Form, FormGroup, Label, Input } from 'reactstrap';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 const MessageCardForm = (props) => {
   const {haveUserLocation,
