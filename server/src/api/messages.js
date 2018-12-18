@@ -27,7 +27,6 @@ router.get('/', (req, res) => {
 //** Return messages given station_id */
 
   router.get(`/stations/:station_id`, (req, res) => {
-    console.log(req.params.station_id)
     messages
     .find({station_id: parseInt(req.params.station_id)})
     .then(stationMessages => {
@@ -41,6 +40,7 @@ router.get('/', (req, res) => {
 router.post('/', (req, res, next) => {
   const result = Joi.validate(req.body, schema);
   if (result.error === null) {
+    console.log('post',req.body)
     const {name, message, user_id, station_id, station_city } = req.body;
     const userMessage = {
       user_id,
@@ -62,18 +62,20 @@ router.post('/', (req, res, next) => {
 
 //** Update Message */
 
-router.put('/:message_id', (req, res, next) => {
-  if (result.error === null) {
-    const { updatedMessage } = req.body;
+router.put('/', (req, res, next) => {
+  console.log('put reached')
+    console.log(req.body.newMessage);
+    const { newMessage, _id } = req.body;
     messages.findOneAndUpdate( 
-      { _id: req.params.message_id }, 
-      {$set: { message: updatedMessage }})
-      .then( newMessage => {
-        res.json(newMessage);
+      { _id: _id }, 
+      {$set: 
+        { message: newMessage }
+      }
+    )
+      .then( result => {
+        res.json(result);
       });
-  } else {
     next(result.error)
-  }
 })
 
 module.exports = router;

@@ -20,7 +20,6 @@ const MessageCardContainer = (props) => {
   return(
     <div>
       {station.messages && station.messages.length > 0 ? station.messages.map((message) => {
-        console.log(message)
         if (message.user_id === authUser.uid) {
           return <AuthMessageCard message={message} key={message._id}/>
         } else {
@@ -63,25 +62,28 @@ class AuthMessageCard extends Component {
   }
 
   formIsValid = () => {
-    let { updatedMessage } = this.state.updatedMessage;
-    updatedMessage = updatedMessage.trim();
-
-    const validMessage =
-      updatedMessage.length > 0 && updatedMessage.length <= 500;
-    return validMessage ? true : false;
-  }
+    if (this.state.updatedMessage) {
+      let { updatedMessage } = this.state;
+      updatedMessage = updatedMessage.trim();
   
-  
-   submitUpdateMessage = (event) => {
-    event.preventDefault();
-    if (this.formIsValid()) {
-      
-      const newMessage = {
-        _id: this.props.message._id,
-        message: this.state.updatedMessage
-      }
-      updateMessage(newMessage)
+      const validMessage =
+        updatedMessage.length > 0 && updatedMessage.length <= 500;
+      return validMessage ? true : false;
     }
+
+    }
+  
+  
+   submitUpdatedMessage = (event) => {
+     event.preventDefault();
+     if (this.formIsValid()) {
+       
+       const updatedMessage = {
+         _id: this.props.message._id,
+         newMessage: this.state.updatedMessage
+        }
+        updateMessage(updatedMessage)
+      }
   }
   render(){
     
@@ -96,7 +98,7 @@ class AuthMessageCard extends Component {
        </CardBody>
        <Button color='primary' onClick={this.toggle}>Edit Message</Button>
        <Collapse isOpen={this.state.collapse}>
-         <Form onSubmit={this.updateMessage}>
+         <Form onSubmit={this.submitUpdatedMessage}>
            <FormGroup>
              <Label for='message'>Message:</Label>
              <Input
@@ -104,7 +106,7 @@ class AuthMessageCard extends Component {
              onChange={this.valueChanged}
              placeholder='New Message'/>
            </FormGroup>
-           <Button type='submit' color='warning'>Update</Button>
+           <Button type='submit' color='warning' disabled={!this.formIsValid()}>Update</Button>
            {' '}
            <Button color='danger'>Delete</Button>
 
