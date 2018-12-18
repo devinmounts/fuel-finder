@@ -1,8 +1,7 @@
 import React from 'react';
 import './styles.css';
 import { connect } from 'react-redux';
-import Moment from 'react-moment';
-import { Card, CardText, CardTitle, CardBody} from 'reactstrap';
+import { Card, CardBody} from 'reactstrap';
 import MessageCardContainer from '../MessageCard'
 
 const SelectedStation = (props) => {

@@ -61,22 +61,23 @@ export function getMessagesAtStationID(station_id) {
 export function updateMessage(updatedMessage) {
 	return fetch(API_URL, {
 		method: 'PUT',
-		mode: 'cors',
-    headers: {
+		headers: {
       'content-type': 'application/json',
     },
+		mode: 'cors',
     body: JSON.stringify(updatedMessage)
 	}).then(res => res.json())
+	.then(response => console.log('Success:', JSON.stringify(response)))
 	.catch(error => console.error('Error:', error));
 }
 
 export function deleteMessage(messageId) {
 	return fetch(API_URL, {
 		method: 'DELETE',
-		mode: 'cors',
-    headers: {
+		headers: {
       'content-type': 'application/json',
     },
+		mode: 'cors',
 		body: JSON.stringify(messageId)
 	})
 	.then(res => res.json())

@@ -27,5 +27,3 @@ MessageCardModal.propTypes = {
   onDeleteMessage: PropTypes.func,
 }
 export default MessageCardModal;
-
-{/* <Button color="danger" onClick={this.toggle}>{this.props.buttonLabel}</Button> */}

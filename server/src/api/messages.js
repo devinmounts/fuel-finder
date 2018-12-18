@@ -72,8 +72,8 @@ router.put('/', (req, res, next) => {
     )
       .then( result => {
         res.json(result);
-      });
-    next(result.error)
+      })
+    next(error)
 });
 
 router.delete('/', (req, res, next) => {
@@ -82,8 +82,8 @@ router.delete('/', (req, res, next) => {
     .remove( { _id: _id })
     .then( result => {
       res.json(result);
-    });
-  next(result.error)
+    })
+  next(error)
 });
 
 module.exports = router;
