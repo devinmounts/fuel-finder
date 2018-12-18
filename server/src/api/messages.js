@@ -77,7 +77,13 @@ router.put('/', (req, res, next) => {
 });
 
 router.delete('/', (req, res, next) => {
-  console.log(req.body);
+  const { _id } = req.body;
+  messages
+    .remove( { _id: _id })
+    .then( result => {
+      res.json(result);
+    });
+  next(result.error)
 });
 
 module.exports = router;
