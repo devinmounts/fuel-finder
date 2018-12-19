@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React, { Component } from 'react';
 
 import { withFirebase } from '../Firebase';
@@ -76,6 +77,8 @@ export default compose(
   withFirebase,
 )(AdminPage);
 =======
+=======
+>>>>>>> 619d9d05242c22444a0a36198fbdc3a57a24f4cb
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { compose } from 'recompose';
@@ -104,4 +107,8 @@ export default compose(
   withEmailVerification,
   withAuthorization(condition),
 )(AdminPage)
+<<<<<<< HEAD
 >>>>>>> redux
+=======
+
+>>>>>>> 619d9d05242c22444a0a36198fbdc3a57a24f4cb
