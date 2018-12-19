@@ -4,6 +4,7 @@
   transition: .3s background-color;
   background-color: black;
   border: none;
+  margin: 0 auto
 }
 
 .sign-out-button:hover {
@@ -11,8 +12,15 @@
   color: black;
 }
  
-.nav-container.active {
+.sign-out-button:active {
   background-color: #fff;
   color: #444;
   cursor: default;
+}
+
+@media screen and (min-width: 600px) {
+  /* .sign-out-button {
+    color: forestgreen;
+  } */
+
 }
