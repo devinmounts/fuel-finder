@@ -1,0 +1,18 @@
+.sign-out-button {
+  color: #fff;
+  display: block;
+  transition: .3s background-color;
+  background-color: black;
+  border: none;
+}
+
+.sign-out-button:hover {
+  background-color: #ac8e42;
+  color: black;
+}
+ 
+.nav-container.active {
+  background-color: #fff;
+  color: #444;
+  cursor: default;
+}
