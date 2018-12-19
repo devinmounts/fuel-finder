@@ -37,7 +37,7 @@ const MessageCardContainer = (props) => {
   );
 }
 
-class AuthMessageCard extends Component {
+export class AuthMessageCard extends Component {
   constructor(props) {
     super(props);
 
@@ -49,6 +49,7 @@ class AuthMessageCard extends Component {
       updatedMessage: null,
       modal: false,
       messageDeleted: false,
+
     };
   }
 
@@ -150,7 +151,7 @@ class AuthMessageCard extends Component {
 
 
 
-const NonAuthMessageCard = (props) => {
+export const NonAuthMessageCard = (props) => {
   const { message } = props;
   return (
     <Card className='message-card' key={message._id} color='info'>
