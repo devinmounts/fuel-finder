@@ -1,6 +1,8 @@
 import React from 'react';
 import './styles.css';
 import { withFirebase } from '../Firebase';
+import { withAuthentication, withAuthorization } from '../Session'; 
+import { compose } from 'recompose';
 
 const SignOutButton = ({ firebase }) => (
  <button className='sign-out-button' type='button' onClick={firebase.doSignOut}>
@@ -8,4 +10,6 @@ const SignOutButton = ({ firebase }) => (
  </button>
 );
 
-export default withFirebase(SignOutButton);
+export default compose(
+  withFirebase,
+)(SignOutButton);

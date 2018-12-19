@@ -25,6 +25,10 @@ const withAuthentication = Component => {
       },
       );
     }
+
+    componentDidUpdate() {
+      console.log(this.state.authUser);
+    }
   
     componentWillUnmount() {
       this.listener();
