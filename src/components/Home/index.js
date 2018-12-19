@@ -1,14 +1,16 @@
 import React from 'react';
 
+import { HomeMap } from '../Map';
+import SelectedStation from '../SelectedStation';
 import { withAuthorization } from '../Session';
 
 const HomePage = () => (
   <div>
     <h1>Home Page</h1>
-    <p>The Home page is accessible by every signed in user.</p>
+    <HomeMap />
+    <SelectedStation />
   </div>
 );
 
 const condition = authUser => !!authUser;
-// const condition = authUser => authUser.role === 'ADMIN';
 export default withAuthorization(condition)(HomePage);
