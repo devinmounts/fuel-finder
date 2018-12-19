@@ -28,6 +28,7 @@ class MessageCardContainer extends Component {
     this.setState({
       updatedMessage: value
     });
+  
   }
 
   render() {
