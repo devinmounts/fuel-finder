@@ -2,16 +2,23 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import SignOutButton from '../SignOut';
-
+import LightBrain from '../../assets/images/smart-energy.png';
+import './styles.css';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
 
-const Navigation = ( {authUser} ) =>
-  authUser ? (
-    <NavigationAuth authUser={authUser} />
-  ) : (
-    <NavigationNonAuth />
+const Navigation = ( {authUser} ) => {
+  return(
+    <div className='nav-container'>
+      <img className='nav-icon' src={LightBrain}/>
+      { authUser ? 
+        <NavigationAuth authUser={authUser} />
+       :
+        <NavigationNonAuth />}
+    </div>
+
   );
+}
 
 const NavigationAuth = ({ authUser }) => (
     <ul>
