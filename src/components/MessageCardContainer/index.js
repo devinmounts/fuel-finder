@@ -76,8 +76,8 @@ const mapDispatchToProps = dispatch => ({
   addMessage: message => {
     dispatch({ type: 'MESSAGE_ADD', message })
   },
-  removeMessage: id => {
-    dispatch({ type: 'MESSAGE_REMOVE', id })
+  removeMessage: _id => {
+    dispatch({ type: 'MESSAGE_REMOVE', _id })
   },
 })
 

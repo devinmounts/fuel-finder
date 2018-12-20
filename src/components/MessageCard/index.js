@@ -106,8 +106,7 @@ export class AuthMessageCard extends Component {
       const messageId = {
         _id: this.props.message._id,
       };
-      console.log(messageId);
-      deleteMessage(messageId);
+      deleteMessage(messageId._id);
       this.setState({
         modal: false,
       });

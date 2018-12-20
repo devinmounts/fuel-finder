@@ -19,6 +19,13 @@ const applyAddMessage = (state, action) => ({
     )
 });
 
+const applyRemoveMessage = (state, action) => ({
+  selectedStation: Object.assign({}, 
+    {...state.selectedStation},
+    {messages: state.selectedStation.messages.filter(message => message._id !== action._id)} 
+    )
+});
+
 function fuelStationReducer(state = INITIAL_STATE, action) {
   switch(action.type) {
     case 'STATION_SET': {
@@ -29,6 +36,9 @@ function fuelStationReducer(state = INITIAL_STATE, action) {
     }
     case 'MESSAGE_ADD': {
       return applyAddMessage(state, action);
+    }
+    case 'MESSAGE_REMOVE': {
+      return applyRemoveMessage(state, action);
     }
     default:
     return state;
