@@ -1,4 +1,6 @@
 const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api/v1/messages' : ''
+const REALTIME_API_URL = window.location.hostname === 'localhost' ? 'http://localhost:900/api' : ''
+
 export const getUserLocation = () => {
 	return new Promise((resolve) => {
 		navigator.geolocation.getCurrentPosition((position) => {
@@ -38,8 +40,8 @@ export const getAltFuelLocations = (lat, lng) => {
 }
 
 export function postMessage(message) {
-  return fetch(API_URL, {
-    method: 'POST',
+  return fetch(`${REALTIME_API_URL}/new`, {
+    method: 'post',
     headers: {
       'content-type': 'application/json',
     },
@@ -71,15 +73,7 @@ export function updateMessage(updatedMessage) {
 }
 
 export function deleteMessage(messageId) {
-	return fetch(API_URL, {
-		method: 'DELETE',
-		headers: {
-      'content-type': 'application/json',
-    },
-		mode: 'cors',
-		body: JSON.stringify(messageId)
-	})
-	.then(res => res.json())
-	.then(response => console.log('Success:', JSON.stringify(response)))
-	.catch(error => console.error('Error:', error));
+	return fetch(`${REALTIME_API_URL}/${messageId}`, {
+		method: 'delete'
+	}).then(console.log);
 }

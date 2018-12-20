@@ -107,6 +107,8 @@ class HomeMap extends Component {
 
 	formSubmitted = (event) => {
 		event.preventDefault();
+		
+		const { fuelStation } = this.props;
 
 		if (this.formIsValid()) {
 			this.setState({
@@ -121,6 +123,7 @@ class HomeMap extends Component {
 				message: this.state.userMessage.message,
 
 			};
+
 			postMessage(message)
 				.then((result) => {
 					setTimeout(() => {
@@ -129,7 +132,11 @@ class HomeMap extends Component {
 							sentMessage: true,
 						});
 					}, 4000);
-				});
+				}).then(
+					this.setState(prevState => ({
+						tasks: prevState.localSelectedStationMessagesArray.concat(message),
+					}))
+				);
 		}
 	}
 
@@ -156,11 +163,16 @@ class HomeMap extends Component {
 		this.props.onSetFuelStation(station);
 		getMessagesAtStationID(station.id)
 			.then(messagesArray => {
+				this.setState({
+					localSelectedStationMessagesArray: messagesArray
+				});
 				this.props.onSetFuelStationMessages(messagesArray)
 			});
 	}
 
 	render() {
+		console.log(this.state.localSelectedStationMessagesArray);
+
 		const userPosition = [this.state.location.lat, this.state.location.lng]
 		const { authUser } = this.props;
 		return(

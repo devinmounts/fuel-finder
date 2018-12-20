@@ -11,7 +11,6 @@ class MessageCardContainer extends Component {
     super(props);
 
     this.state = {
-      messages: [],
       message: ''
     }
 
