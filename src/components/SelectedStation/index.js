@@ -2,8 +2,8 @@ import React from 'react';
 import './styles.css';
 import { connect } from 'react-redux';
 import { Card, CardBody} from 'reactstrap';
-import MessageCardContainer from '../MessageCard'
-
+// import MessageCardContainer from '../MessageCard'
+import MessageCardContainer from '../MessageCardContainer';
 const SelectedStation = (props) => {
   const { station } = props;
   return(

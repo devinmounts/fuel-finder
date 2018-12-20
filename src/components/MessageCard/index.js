@@ -14,10 +14,14 @@ import { Collapse,
   Input} from 'reactstrap';
 
 import MessageCardModal from '../Modal/messageCardModal'
-import { updateMessage, deleteMessage } from '../API';
+import { updateMessage, 
+  // deleteMessage 
+  } from '../API';
+import { deleteMessage } from '../API_REALTIME';
 
 const MessageCardContainer = (props) => {
   const {authUser, station} = props;
+  
   return(
     <div>
       {station.messages && station.messages.length > 0 ? station.messages.map((message) => {

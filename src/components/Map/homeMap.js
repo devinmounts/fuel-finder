@@ -4,7 +4,12 @@ import './styles.css';
 import L from 'leaflet';
 import carTopViewURL from '../../assets/images/car_topview.svg';
 import gasCanURL from '../../assets/images/gas-can.svg';
-import { getUserLocation, getAltFuelLocations, postMessage, getMessagesAtStationID } from '../API';
+import { getUserLocation, 
+	getAltFuelLocations, 
+	// postMessage, 
+	// getMessagesAtStationID 
+} from '../API';
+import { postMessage, getMessagesAtStationID } from '../API_REALTIME';
 import { Button, Card, CardText } from 'reactstrap';
 import MessageCardForm from '../MessageCardForm';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
@@ -131,12 +136,8 @@ class HomeMap extends Component {
 							sendingMessage: false,
 							sentMessage: true,
 						});
-					}, 4000);
-				}).then(
-					this.setState(prevState => ({
-						tasks: prevState.localSelectedStationMessagesArray.concat(message),
-					}))
-				);
+					}, 2000);
+				});
 		}
 	}
 
@@ -171,10 +172,10 @@ class HomeMap extends Component {
 	}
 
 	render() {
-		console.log(this.state.localSelectedStationMessagesArray);
 
 		const userPosition = [this.state.location.lat, this.state.location.lng]
 		const { authUser } = this.props;
+
 		return(
 			<div className='map'>
 			<div className='form-box'>
@@ -234,7 +235,7 @@ const mapDispatchToProps = dispatch => ({
 	},
 	onSetFuelStationMessages: messages => {
 		dispatch({ type: 'MESSAGES_SET', messages })
-	}
+	},
 });
 
 HomeMap.Proptypes = {

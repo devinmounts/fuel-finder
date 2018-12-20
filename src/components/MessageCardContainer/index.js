@@ -5,20 +5,25 @@ import {
   CardTitle, 
   CardBody, 
   } from 'reactstrap';
+import Pusher from 'pusher-js';
+import { connect } from 'react-redux';
 
 class MessageCardContainer extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      message: ''
-    }
+    this.handleAddMessage = this.handleAddMessage.bind(this);
+    this.handleRemoveMessage = this.handleRemoveMessage.bind(this);
+  }
 
-    this.updateText = this.updateText.bind(this);
-    this.postMessage = this.postMessage.bind(this);
-    this.deleteMessage = this.deleteMessage.bind(this);
-    this.addMessage = this.addMessage.bind(this);
-    this.removeMessage = this.removeMessage.bind(this);
+  componentDidMount() {
+    this.pusher = new Pusher('cfac003dbca7d9106af7', {
+      cluster: 'us2',
+      encrypted: true,
+    });
+    this.channel = this.pusher.subscribe('messages');
+    this.channel.bind('inserted', this.handleAddMessage);
+    this.channel.bind('deleted', this.handleRemoveMessage);
   }
   
   valueChanged = (event) => {
@@ -30,8 +35,18 @@ class MessageCardContainer extends Component {
   
   }
 
+  handleAddMessage(newMessage){
+    console.log('pusher inserted')
+    this.props.addMessage(newMessage);
+  }
+
+  handleRemoveMessage(id) {
+    console.log('pusher deleted')
+    this.props.removeMessage(id);
+  }
+
   render() {
-    const {authUser, station} = props;
+    const {authUser, station} = this.props;
     return(
       <div>
         {station.messages && station.messages.length > 0 ? station.messages.map((message) => {
@@ -52,5 +67,20 @@ class MessageCardContainer extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  station: state.fuelStationState.selectedStation,
+  authUser: state.sessionState.authUser
+});
 
-export default MessageCardContainer;
+const mapDispatchToProps = dispatch => ({
+  addMessage: message => {
+    dispatch({ type: 'MESSAGE_ADD', message })
+  },
+  removeMessage: id => {
+    dispatch({ type: 'MESSAGE_REMOVE', id })
+  },
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps)(MessageCardContainer);

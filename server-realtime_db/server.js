@@ -16,7 +16,7 @@ const channel = 'messages';
 
 const app = express();
 
-app.user((req, res, next) => {
+app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
@@ -45,13 +45,18 @@ db.once('open', () => {
     console.log(change);
 
     if(change.operationType === 'insert') {
+      console.log('full doc', change.fullDocument);
       const message = change.fullDocument;
       pusher.trigger(
         channel,
         'inserted',
         {
-          id: message._id,
-          message: message.message
+          _id: message._id,
+          message: message.message,
+          user_id: message.user_id,
+          station_id: message.station_id,
+          station_city: message.station_city,
+          date: message.date,
         }
       );
     } else if(change.operationType === 'delete') {

@@ -9,7 +9,14 @@ const applySetStation = (state, action) => ({
 );
 
 const applySetStationMessages = (state, action) => ({
-  selectedStation: Object.assign({}, {...state.selectedStation}, {messages: action.messages} )
+  selectedStation: Object.assign({}, {...state.selectedStation}, {messages: action.messages})
+});
+
+const applyAddMessage = (state, action) => ({
+  selectedStation: Object.assign({}, 
+    {...state.selectedStation},
+    {messages: state.selectedStation.messages.concat(action.message)} 
+    )
 });
 
 function fuelStationReducer(state = INITIAL_STATE, action) {
@@ -19,6 +26,9 @@ function fuelStationReducer(state = INITIAL_STATE, action) {
     }
     case 'MESSAGES_SET': {
       return applySetStationMessages(state, action);
+    }
+    case 'MESSAGE_ADD': {
+      return applyAddMessage(state, action);
     }
     default:
     return state;

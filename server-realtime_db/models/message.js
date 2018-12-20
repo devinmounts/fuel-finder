@@ -17,6 +17,10 @@ const messageSchema = new Schema({
     max: [500, "Too many characters"],
     required: [true, "A message is required"]
   },
+  date: {
+    type: Date,
+    required: true,
+  }
 });
 
 module.exports = mongoose.model('Message', messageSchema);

@@ -1,5 +1,5 @@
 const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api/v1/messages' : ''
-const REALTIME_API_URL = window.location.hostname === 'localhost' ? 'http://localhost:900/api' : ''
+const REALTIME_API_URL = window.location.hostname === 'localhost' ? 'http://localhost:9000/api' : ''
 
 export const getUserLocation = () => {
 	return new Promise((resolve) => {
@@ -40,19 +40,18 @@ export const getAltFuelLocations = (lat, lng) => {
 }
 
 export function postMessage(message) {
+	console.log('message', message);
   return fetch(`${REALTIME_API_URL}/new`, {
     method: 'post',
     headers: {
       'content-type': 'application/json',
     },
     body: JSON.stringify(message)
-	}).then(res => res.json())
-	// .then(response => console.log('Success:', JSON.stringify(response)))
-	// .catch(error => console.error('Error:', error));
+	}).then(console.log);
 }
 
 export function getMessagesAtStationID(station_id) {
-	return fetch(`${API_URL}/stations/${station_id}`)
+	return fetch(`${REALTIME_API_URL}/stations/${station_id}`)
 		.then(res => res.json())
 		.then(messagesArray => {
 			return messagesArray
