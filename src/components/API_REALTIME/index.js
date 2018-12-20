@@ -59,8 +59,9 @@ export function getMessagesAtStationID(station_id) {
 }
 
 export function updateMessage(updatedMessage) {
-	return fetch(API_URL, {
-		method: 'PUT',
+	const { _id } = updatedMessage;
+	return fetch(`${REALTIME_API_URL}/${_id}`, {
+		method: 'put',
 		headers: {
       'content-type': 'application/json',
     },

@@ -65,6 +65,19 @@ db.once('open', () => {
         'deleted',
         change.documentKey._id
       );
+    } else if (change.operationType === 'update') {
+      pusher.trigger(
+        channel,
+        'updated',
+        {
+          _id: message._id,
+          message: message.message,
+          user_id: message.user_id,
+          station_id: message.station_id,
+          station_city: message.station_city,
+          date: message.date,
+        }
+      )
     }
   });
 });
