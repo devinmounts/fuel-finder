@@ -53,13 +53,14 @@ router.route('/:id')
   })
   //** UDPATE */
   .put((req, res) => {
+    console.log('received');
     const { newMessage, _id } = req.body;
-    Message.findByIdAndUpdate( _id, (err, message) => {
+    Message.findByIdAndUpdate( _id, {message: newMessage}, (err, message) => {
       if(err) {
         console.log('UPDATE Error: ' + err);
         res.status(500).send('Error');
       } else if (message) {
-        message.update(_id, {message: newMessage})
+        res.status(200).json(message);
       } else {
         res.status(404).send('Not found');
       }

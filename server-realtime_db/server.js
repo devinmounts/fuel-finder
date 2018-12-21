@@ -42,10 +42,8 @@ db.once('open', () => {
   const changeStream = messagesCollection.watch();
 
   changeStream.on('change', (change) => {
-    console.log(change);
 
     if(change.operationType === 'insert') {
-      console.log('full doc', change.fullDocument);
       const message = change.fullDocument;
       pusher.trigger(
         channel,
@@ -66,16 +64,14 @@ db.once('open', () => {
         change.documentKey._id
       );
     } else if (change.operationType === 'update') {
+      const _id = change.documentKey._id;
+      const message = change.updateDescription.updatedFields.message;
       pusher.trigger(
         channel,
         'updated',
         {
-          _id: message._id,
-          message: message.message,
-          user_id: message.user_id,
-          station_id: message.station_id,
-          station_city: message.station_city,
-          date: message.date,
+           _id,
+          message: message,
         }
       )
     }

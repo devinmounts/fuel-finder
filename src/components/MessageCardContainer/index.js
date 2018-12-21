@@ -12,6 +12,7 @@ class MessageCardContainer extends Component {
   constructor(props) {
     super(props);
 
+    this.handleUpdateMessage= this.handleUpdateMessage.bind(this);
     this.handleAddMessage = this.handleAddMessage.bind(this);
     this.handleRemoveMessage = this.handleRemoveMessage.bind(this);
   }
@@ -24,6 +25,7 @@ class MessageCardContainer extends Component {
     this.channel = this.pusher.subscribe('messages');
     this.channel.bind('inserted', this.handleAddMessage);
     this.channel.bind('deleted', this.handleRemoveMessage);
+    this.channel.bind('updated', this.handleUpdateMessage);
   }
   
   valueChanged = (event) => {
@@ -38,6 +40,11 @@ class MessageCardContainer extends Component {
   handleAddMessage(newMessage){
     console.log('pusher inserted')
     this.props.addMessage(newMessage);
+  }
+ 
+  handleUpdateMessage(updatedMessage){
+    console.log('pusher updated', updatedMessage)
+    this.props.updateMessage(updatedMessage);
   }
 
   handleRemoveMessage(id) {
@@ -78,6 +85,9 @@ const mapDispatchToProps = dispatch => ({
   },
   removeMessage: _id => {
     dispatch({ type: 'MESSAGE_REMOVE', _id })
+  },
+  updateMessage: messageObject => {
+    dispatch({ type: 'MESSAGE_UPDATE', messageObject })
   },
 })
 
