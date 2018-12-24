@@ -27,16 +27,18 @@ const applyRemoveMessage = (state, action) => ({
 });
 
 const applyUpdateMessage = (state, action) => {
-  let newMessagesArray = state.selectedStation.messages.map();
-    // console.log(message);
-    // console.log(action);
-    // if (message._id === action.messageObject._id) {
-    //   console.log('inside');
-    //   message.message = action.messageObject.message;
-    // } 
-  ;
-  console.log(newMessagesArray);
-  // return {selectedStation: Object.assign({}, {...state.selectedStation}, {messages: newMessagesArray})};
+  let newMessagesArray = [];
+  state.selectedStation.messages.map(db_message => {
+    if(db_message._id === action.messageObject._id) {
+      db_message.message = action.messageObject.message;
+      newMessagesArray.push(db_message);
+  } else {
+    newMessagesArray.push(db_message);
+  }
+  });
+  return { selectedStation: Object.assign({}, {...state.selectedStation},
+     {messages: newMessagesArray}
+     )};
 };
 
 function fuelStationReducer(state = INITIAL_STATE, action) {
