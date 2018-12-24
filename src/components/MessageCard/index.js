@@ -14,10 +14,6 @@ import { Collapse,
   Input} from 'reactstrap';
 
 import MessageCardModal from '../Modal/messageCardModal'
-import { 
-  // updateMessage, 
-  // deleteMessage 
-  } from '../API';
 import { deleteMessage, updateMessage } from '../API_REALTIME';
 
 const MessageCardContainer = (props) => {
@@ -100,6 +96,9 @@ export class AuthMessageCard extends Component {
          newMessage: this.state.updatedMessage
         }
         updateMessage(updatedMessage)
+        this.setState({
+          collapse: false,
+        })
       }
     }
 
