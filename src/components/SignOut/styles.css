@@ -2,9 +2,10 @@
   color: #fff;
   display: block;
   transition: .3s background-color;
-  background-color: black;
+  background-color: #3e0f0f;
   border: none;
-  margin: 0 auto
+  margin: 0 auto;
+  width: 100%;
 }
 
 .sign-out-button:hover {
@@ -16,11 +17,4 @@
   background-color: #fff;
   color: #444;
   cursor: default;
-}
-
-@media screen and (min-width: 600px) {
-  /* .sign-out-button {
-    color: forestgreen;
-  } */
-
 }
