@@ -6,17 +6,29 @@ import LightBrain from '../../assets/images/smart-energy.png';
 import './styles.css';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons'
 
-const Navigation = ( {authUser} ) => {
+const Navigation = ( {authUser, onCollapse, visible} ) => {
   return(
-    <div className='nav-container'>
+    <div 
+    id='navbar'
+    className={visible ? 'slideIn' : 'slideOut'}
+    >
       <img className='nav-icon' src={LightBrain}/>
+        <FontAwesomeIcon 
+          icon={faTimes} 
+          color='#ac8e42'
+          size='lg'
+          className='menu-bars'
+          onClick={onCollapse}
+      /> 
       { authUser ? 
         <NavigationAuth authUser={authUser} />
        :
         <NavigationNonAuth />}
-    </div>
 
+    </div>
   );
 }
 
@@ -53,8 +65,49 @@ const NavigationNonAuth = () => (
     </ul>  
 );
 
+class NavCollapse extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      show: false,
+    }
+
+    this.handleShowCollapse = this.handleShowCollapse.bind(this);
+  }
+
+  handleShowCollapse() {
+    console.log('click');
+    this.setState({
+      show: !this.state.show,
+    });
+  }
+
+
+  render() {
+    return (
+      <div className='navigation-container'>
+        <img className='nav-icon' src={LightBrain}/>
+        <FontAwesomeIcon 
+          icon={faBars} 
+          color='#ac8e42'
+          size='lg'
+          className='menu-bars'
+          onClick={this.handleShowCollapse}
+        /> 
+        <Navigation
+          visible={this.state.show}
+          authUser={this.props.authUser}
+          onCollapse={this.handleShowCollapse}
+        />
+        
+      </div>
+    );
+  }
+}
+
 const mapStateToProps = state => ({
   authUser: state.sessionState.authUser,
 })
 
-export default connect(mapStateToProps)(Navigation);
+export default connect(mapStateToProps)(NavCollapse);

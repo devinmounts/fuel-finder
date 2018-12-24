@@ -4,12 +4,16 @@
   display: inline-block
 }
 
-.nav-container {
+#navbar {
   background-color: black;
-  overflow: overlay;
+  overflow: hidden;
+  width: 100vw;
+  height: 100%;
+  transform: translateX(-100%);
+  transition: transform 400ms ease-in;
 }
 
-.nav-container ul {
+#navbar ul {
   list-style: none;
   background-color: black;
   text-align: center;
@@ -17,31 +21,58 @@
   margin: 0;
 }
 
-.nav-container li {
+#navbar li {
   font-family: 'Oswald', sans-serif;
   font-size: 1.2em;
   line-height: 40px;
   height: 44px;
   border-bottom: 1px solid #888;
 }
-.nav-container a {
+#navbar a {
   text-decoration: none!important;
   color: #fff;
   display: block;
   transition: .3s background-color;
 }
 
-.nav-container a:hover {
+#navbar a:hover {
   background-color: #ac8e42;
   color: black;
 }
  
-.nav-container a.active {
+#navbar a.active {
   background-color: #fff;
   color: #444;
   cursor: default;
 }
- 
+
+.menu-bars {
+  position: fixed;
+  top: 2%;
+  right: 2%;
+}
+
+.navigation-container {
+  background-color: black;
+}
+
+#navbar {
+  position: absolute;
+  top:0;
+  width: 100%;
+  z-index: 9999;
+  /* transform: translateX(-100%); */
+  transition: transform 500ms ease-in;
+}
+#navbar.slideIn {
+  transform: translateX(0);
+}
+#navbar.slideOut {
+  transform: translateX(-100%);
+}
+
+
+
 @media screen and (min-width: 600px) {
   .nav-container li {
     width: 120px;
