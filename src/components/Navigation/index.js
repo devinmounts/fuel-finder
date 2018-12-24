@@ -100,7 +100,11 @@ class NavCollapse extends React.Component {
           authUser={this.props.authUser}
           onCollapse={this.handleShowCollapse}
         />
-        
+        <div className='sticky-container'>
+          <div className="sticky">
+            <h1 className='title'>fuel_finder</h1>
+          </div>
+        </div>
       </div>
     );
   }
