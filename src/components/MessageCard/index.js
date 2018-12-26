@@ -17,6 +17,7 @@ import MessageCardModal from '../Modal/messageCardModal'
 import { deleteMessage, updateMessage } from '../API_REALTIME';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
+import moment from 'moment';
 
 const MessageCardContainer = (props) => {
   const {authUser, station} = props;
@@ -117,7 +118,8 @@ export class AuthMessageCard extends Component {
   render(){
     
     const { message } = this.props;
-    const { modal } = this.state
+    const { modal } = this.state;
+
    return (
      <div>
       <MessageCardModal 
@@ -127,15 +129,15 @@ export class AuthMessageCard extends Component {
         onDeleteMessage={this.deleteMessage}
       ></MessageCardModal>
       <Card className='message-card' key={message._id} >
-      <CardTitle className='message-user-name'>{message.name}</CardTitle>
-        <CardBody>          
-          <Moment fromNow>{message.date}</Moment>
-          <CardText>{message.message}</CardText>
+        <CardTitle className='message-user-name'>{message.name}</CardTitle>
+        <Moment className='date' format='D MMM YYYY'>{message.date}</Moment>
+        <CardBody>   
+          <CardText className='message-text'>{message.message}</CardText>
         </CardBody>
         <div className='icon-box'>
         <FontAwesomeIcon className='edit-icon' onClick={this.toggleCollapse} icon={faPencilAlt} size='2x'/>
         </div>
-        <Collapse isOpen={this.state.collapse}>
+        <Collapse className='collapse-box' isOpen={this.state.collapse}>
           <Form onSubmit={this.submitUpdatedMessage}>
             <FormGroup>
               <Label for='message'>Message:</Label>

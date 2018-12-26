@@ -4,12 +4,17 @@ import { withFirebase } from '../Firebase';
 import { withAuthentication, withAuthorization } from '../Session'; 
 import { compose } from 'recompose';
 
-const SignOutButton = ({ firebase }) => (
- <button className='sign-out-button' type='button' onClick={firebase.doSignOut}>
-  Sign Out
- </button>
-
-);
+const SignOutButton = ({ firebase, onCollapse}) => {
+  const onSignOut = (event) => {
+    firebase.doSignOut();
+    onCollapse();
+  }
+  return(
+  <button className='sign-out-button' type='button' onClick={onSignOut}>
+    Sign Out
+  </button>
+  );
+};
 
 export default compose(
   withFirebase,
