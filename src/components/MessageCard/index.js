@@ -15,6 +15,8 @@ import { Collapse,
 
 import MessageCardModal from '../Modal/messageCardModal'
 import { deleteMessage, updateMessage } from '../API_REALTIME';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
 
 const MessageCardContainer = (props) => {
   const {authUser, station} = props;
@@ -124,13 +126,15 @@ export class AuthMessageCard extends Component {
         messageBody={message}
         onDeleteMessage={this.deleteMessage}
       ></MessageCardModal>
-      <Card className='message-card' key={message._id} color='info'>
+      <Card className='message-card' key={message._id} >
       <CardTitle className='message-user-name'>{message.name}</CardTitle>
         <CardBody>          
           <Moment fromNow>{message.date}</Moment>
           <CardText>{message.message}</CardText>
         </CardBody>
-        <Button color='primary' onClick={this.toggleCollapse}>Edit Message</Button>
+        <div className='icon-box'>
+        <FontAwesomeIcon className='edit-icon' onClick={this.toggleCollapse} icon={faPencilAlt} size='2x'/>
+        </div>
         <Collapse isOpen={this.state.collapse}>
           <Form onSubmit={this.submitUpdatedMessage}>
             <FormGroup>

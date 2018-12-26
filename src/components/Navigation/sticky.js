@@ -34,7 +34,7 @@ class StickyNav extends Component {
     return(
         <div className='sticky-container'>
           <div id='sticky' className={this.state.scroll > this.state.top ? 'fixed-nav' : 'unfixed-nav'}>
-            <h1 className='title'>Hy<sup>+</sup>ion_</h1>
+            <h1 className='title'><sup>fuel_finder</sup></h1>
           </div>
         </div>
     );

@@ -1,4 +1,16 @@
 .message-card {
   margin: 10px;
   padding: 5px;
+  background-color: #efc45f!important;
+  color: #231f20;
+  border: solid 2px #231f20!important;
+}
+
+.icon-box {
+  width: 100%; 
+}
+
+.edit-icon {
+  margin: 5px;
+  float: right;
 }

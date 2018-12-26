@@ -114,12 +114,6 @@
   z-index: 2000;
 }
 
-/* .sticky-container{
-  height: 50px;
-  position: absolute;
-  bottom: 0;
-  z-index: 3;
-} */
 #sticky {
   background-color: black;
   display: block;
