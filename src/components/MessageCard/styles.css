@@ -6,6 +6,11 @@
   border: solid 2px #231f20!important;
 }
 
+.message-user-name {
+  padding: 5px;
+  font-size: 2rem;
+}
+
 .icon-box {
   width: 100%; 
 }

@@ -10,7 +10,7 @@ const SelectedStation = (props) => {
     <div>
       { station ? 
         <div>
-        <div className='hr-small-box'>
+}        <div className='hr-small-box'>
           <hr className='hr-small' />
         </div>
         <div className='info-container'>
@@ -27,7 +27,7 @@ const SelectedStation = (props) => {
               <span className='station-card-text'><strong>Phone:</strong> {station.station_phone}</span>
             </CardBody>
           </Card>
-          <h3 className='info-title'>Messages:</h3>
+          <h3 className='info-title'>Comments ({station.messages ? station.messages.length : 0}):</h3>
             <MessageCardContainer />
           </div>
         </div>
