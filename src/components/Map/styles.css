@@ -1,7 +1,9 @@
 .map {
     height: 56vh;
-    width: 100vw;
-    position: relative
+    width: 80vw;
+    margin: 0 auto;
+    position: relative;
+    border-radius: 3px;
 }
 
 .message-form {

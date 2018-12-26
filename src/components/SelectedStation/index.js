@@ -10,6 +10,7 @@ const SelectedStation = (props) => {
     <div>
       { station ? 
         <div>
+        <hr className='hr-small' />
         <h2>Station Info</h2>
         <Card color='success'>
           <CardBody>
