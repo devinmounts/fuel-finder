@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
+import { 
+  Button, 
+  Card,  
+  Form,  
+  Input} from 'reactstrap';
+import './styles.css';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 
 const PasswordForgetPage = () => (
-  <div>
-    <h1>PasswordForget</h1>
+  <div className='passwordforget-page'>
     <PasswordForgetForm />
   </div>
 );
@@ -47,20 +51,24 @@ class PasswordForgetFormBase extends Component {
     const isInvalid = email === '';
 
     return(
-      <form onSubmit={this.onSubmit}>
-        <input 
-          name='email'
-          value={this.state.email}
-          onChange={this.onChange}
-          type='text'
-          placeholder='EmailAddress'
-        />
-        <button disabled={isInvalid} type='submit'>
-          Reset My Password
-        </button>
+      <Card className='passwordforget-card'>
+          <h1 className='passwordforget-title'>PasswordForget</h1>
+        <Form onSubmit={this.onSubmit}>
+          <Input 
+            name='email'
+            value={this.state.email}
+            onChange={this.onChange}
+            type='text'
+            placeholder='Email Address'
+          />
+          <br/>
+          <Button disabled={isInvalid} type='submit'>
+            Reset My Password
+          </Button>
 
-        {error && <p>{error.message}</p>}
-      </form>
+          {error && <p>{error.message}</p>}
+        </Form>
+      </Card>
     );
   }
 }

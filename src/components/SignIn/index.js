@@ -1,19 +1,30 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
-
+import './styles.css';
+import { 
+  Button, 
+  Card,  
+  CardBody, 
+  Form,  
+  Input} from 'reactstrap';
 import { SignUpLink } from '../SignUp';
 import { PasswordForgetLink } from '../PasswordForget';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 
 const SignInPage = () => (
-  <div>
-    <h1>SignIn</h1>
-    <SignInForm/>
-    <SignInGoogle />
-    <PasswordForgetLink />
-    <SignUpLink/>
+  <div className='signin-page'>
+  <Card className='signin-card'>
+    <h1 className='signin-title'>Sign In</h1>
+    <CardBody>
+      <SignInForm/>
+      <br/>
+      <SignInGoogle />
+      <PasswordForgetLink />
+      <SignUpLink/>
+    </CardBody>
+  </Card>
   </div>
 );
 
@@ -66,27 +77,29 @@ class SignInFormBase extends Component {
     const isInvalid = password === '' || email === '';
 
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
+      <Form onSubmit={this.onSubmit}>
+        <Input
           name='email'
           value={email}
           onChange={this.onChange}
           type='text'
           placeholder='Email Address'
         />
-        <input 
+        <br/>
+        <Input 
           name='password'
           value={password}
           onChange={this.onChange}
           type='password'
           placeholder='Password'
         />
-        <button type='submit' disabled={isInvalid}>
-          SignIn
-        </button>
+        <br/>
+        <Button type='submit' disabled={isInvalid}>
+          Sign In
+        </Button>
 
         {error && <p>{error.message}</p>}
-      </form>
+      </Form>
     );
   }
 }
@@ -125,11 +138,11 @@ class SignInGoogleBase extends Component {
   render(){
     const { error } = this.state;
     return (
-      <form onSubmit={this.onSubmit}>
-        <button type="submit">Sign In with Google</button>
+      <Form onSubmit={this.onSubmit}>
+        <Button type="submit">Sign In with Google</Button>
 
         {error && <p>{error.message}</p>}
-    </form>
+    </Form>
     );
   }
 }

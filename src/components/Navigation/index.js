@@ -81,7 +81,6 @@ class NavCollapse extends React.Component {
   }
 
   handleShowCollapse() {
-    console.log('click');
     this.setState({
       show: !this.state.show,
     });
