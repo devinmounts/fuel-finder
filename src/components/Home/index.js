@@ -5,8 +5,7 @@ import SelectedStation from '../SelectedStation';
 import { withAuthorization } from '../Session';
 
 const HomePage = () => (
-  <div>
-    <h1>Home Page</h1>
+  <div className='home-page'>
     <HomeMap />
     <SelectedStation />
   </div>

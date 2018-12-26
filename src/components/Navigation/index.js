@@ -8,6 +8,7 @@ import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons'
+import StickyNav from './sticky';
 
 const Navigation = ( {authUser, onCollapse, visible} ) => {
   return(
@@ -100,11 +101,7 @@ class NavCollapse extends React.Component {
           authUser={this.props.authUser}
           onCollapse={this.handleShowCollapse}
         />
-        <div className='sticky-container'>
-          <div className="sticky">
-            <h1 className='title'>fuel_finder</h1>
-          </div>
-        </div>
+        <StickyNav/>
       </div>
     );
   }
