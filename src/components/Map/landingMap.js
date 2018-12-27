@@ -4,13 +4,8 @@ import './styles.css';
 import L from 'leaflet';
 import carTopViewURL from '../../assets/images/car_topview.svg';
 import gasCanURL from '../../assets/images/gas-can.svg';
-import boltUrl from '../../assets/images/flash.svg';
-import { getUserLocation, 
-	getAltFuelLocations, 
-	// postMessage, 
-	// getMessagesAtStationID 
-} from '../API';
-import { postMessage, getMessagesAtStationID } from '../API_REALTIME';
+import boltUrl from '../../assets/images/charging.svg';
+import { getMessagesAtStationID } from '../API_REALTIME';
 import { Button, Card, CardText } from 'reactstrap';
 import MessageCardForm from '../MessageCardForm';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
@@ -38,25 +33,19 @@ class LandingMap extends Component {
 		super(props)
 
 		this.state = {
-			location: {
-				lat: 40.51,
-				lng: -100.66,
+			userMessage: {
+				name: '',
+				message: '',
 			},
-			// haveUserLocation: false,
-			zoom: 3,
-			// userMessage: {
-			// 	name: '',
-			// 	message: '',
-			// },
 			showMessageForm: false,
-			// sendingMessage: false,
-			// sentMessage: false,
-			// messages: [],
 			markers: null,
 			haveStationsArray: false,
 			stationsArray: [],
 			localSelectedStation: null,
-			localSelectedStationMessagesArray: []
+			localSelectedStationMessagesArray: [],
+			showMessageForm: false,
+			sendingMessage: false,
+			sentMessage: false,
 		}
 	}
 
@@ -99,60 +88,58 @@ class LandingMap extends Component {
 		});
 	}
 
-	// valueChanged = (event) => {
-	// 	const {name, value} = event.target;
-	// 	this.setState((prevState) => ({
-	// 		userMessage: {
-	// 			...prevState.userMessage,
-	// 			[name]:value
-	// 		}
-	// 	}));
-	// }
+	valueChanged = (event) => {
+		const {name, value} = event.target;
+		console.log(name, value);
+		this.setState((prevState) => ({
+			userMessage: {
+				...prevState.userMessage,
+				[name]:value
+			}
+		}));
+	}
 
-	// formIsValid = () => {
-  //   let { name, message } = this.state.userMessage;
-  //   name = name.trim();
-  //   message = message.trim();
+	formIsValid = () => {
+		console.log('fire');
+    let { name, message } = this.state.userMessage;
+    name = name.trim();
+    message = message.trim();
 
-  //   const validMessage =
-  //     message.length > 0 && message.length <= 500;
-  //   return validMessage && this.state.haveUserLocation ? true : false;
-  // }
+    const validMessage =
+      message.length > 0 && message.length <= 500;
+    return validMessage && this.state.haveUserLocation ? true : false;
+  }
 
-	// formSubmitted = (event) => {
-	// 	event.preventDefault();
+	formSubmitted = (event) => {
+		event.preventDefault();
 		
-	// 	const { fuelStation } = this.props;
+		const { fuelStation } = this.props;
 
-	// 	if (this.formIsValid()) {
-	// 		this.setState({
-	// 			sendingMessage: true
-	// 		});
+		if (this.formIsValid()) {
+			this.setState({
+				sendingMessage: true
+			});
 
-	// 		const message = {
-	// 			user_id: this.props.authUser.uid,
-	// 			station_id: this.props.fuelStation.id,
-	// 			station_city: this.props.fuelStation.city,
-	// 			name: this.props.authUser.username,
-	// 			message: this.state.userMessage.message,
+			const message = {
+				user_id: this.props.authUser.uid,
+				station_id: this.props.fuelStation.id,
+				station_city: this.props.fuelStation.city,
+				name: this.props.authUser.username,
+				message: this.state.userMessage.message,
 
-	// 		};
+			};
 
-	// 		postMessage(message)sudo lsof -iTCP -sTCP:LISTEN -n -P
+			postMessage(message)
 
-	// 			.then((result) => {
-	// 				setTimeout(() => {
-	// 					this.setState({
-	// 						sendingMessage: false,
-	// 						sentMessage: true,
-	// 					});
-	// 				}, 2000);
-	// 			});
-	// 	}
-	// }
-
-	componentDidUpdate() {
-		console.log('update');
+				.then((result) => {
+					setTimeout(() => {
+						this.setState({
+							sendingMessage: false,
+							sentMessage: true,
+						});
+					}, 2000);
+				});
+		}
 	}
 
 	getMarkers= () => {
@@ -192,31 +179,6 @@ class LandingMap extends Component {
 		return(
 			<div>
 				<div className='map'>
-				<div className='form-box'>
-					<div className='form-container'>
-						{this.state.localSelectedStation ? 
-							!this.state.showMessageForm ? 
-								<Button className='message-form' onClick={this.showMessageForm} color='info'>Post a Message</Button> :
-								!this.state.sentMessage ? 
-								<MessageCardForm
-									cancelMessage={this.cancelMessage}
-									sendingMessage={this.state.sendingMessage}
-									sentMessage={this.state.sentMessage}
-									haveUserLocation={this.state.haveUserLocation}
-									formSubmitted={this.formSubmitted}
-									valueChanged={this.valueChanged}
-									formIsValid={this.formIsValid}
-									authUser={authUser}
-								/>
-								: <Card className='thanks-form'>
-										<CardText>Thank you for submitting a message</CardText>
-									</Card>
-							: ''
-							
-						
-						}
-					</div>
-				</div>
 					<Map className='map' center={centerPosition} zoom={this.props.zoom} maxZoom={18} >
 						<TileLayer
 							attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

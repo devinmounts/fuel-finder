@@ -4,17 +4,14 @@ import './styles.css';
 import L from 'leaflet';
 import carTopViewURL from '../../assets/images/car_topview.svg';
 import gasCanURL from '../../assets/images/gas-can.svg';
-import { getUserLocation, 
-	getAltFuelLocations, 
-	// postMessage, 
-	// getMessagesAtStationID 
-} from '../API';
-import { postMessage, getMessagesAtStationID } from '../API_REALTIME';
+import boltUrl from '../../assets/images/charging.svg';
+import { getUserLocation, getAltFuelLocations, postMessage, getMessagesAtStationID } from '../API_REALTIME';
 import { Button, Card, CardText } from 'reactstrap';
 import MessageCardForm from '../MessageCardForm';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
 const carTopView = L.icon({
   iconUrl: carTopViewURL,
   iconSize: [20, 52]
@@ -24,6 +21,11 @@ const gasCan = L.icon({
   iconUrl: gasCanURL,
   iconSize: [20, 52]
 });
+
+const bolt = L.icon({
+	iconUrl: boltUrl,
+	iconSize: [30, 62]
+})
 
 class HomeMap extends Component {
 	constructor(props) {
@@ -146,7 +148,7 @@ class HomeMap extends Component {
 			<Marker
 				key={station.id}
 				position={[station.latitude, station.longitude]}
-				icon={gasCan}
+				icon={station.fuel_type_code === "ELEC" ? bolt : gasCan}
 				onClick={() => this.handleMarkerClick(station)}
 			>
 				<Popup>
