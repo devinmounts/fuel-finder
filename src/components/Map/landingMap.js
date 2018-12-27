@@ -38,16 +38,16 @@ class LandingMap extends Component {
 			},
 			// haveUserLocation: false,
 			zoom: 3,
-			userMessage: {
-				name: '',
-				message: '',
-			},
+			// userMessage: {
+			// 	name: '',
+			// 	message: '',
+			// },
 			showMessageForm: false,
-			sendingMessage: false,
-			sentMessage: false,
+			// sendingMessage: false,
+			// sentMessage: false,
 			// messages: [],
-			haveStationsArray: false,
-			stationsArray: [],
+			// haveStationsArray: false,
+			// stationsArray: [],
 			localSelectedStation: null,
 			localSelectedStationMessagesArray: []
 		}
@@ -144,19 +144,22 @@ class LandingMap extends Component {
 	// }
 
 	getMarkers= () => {
-		const markers = this.state.stationsArray.map((station) => (
-			<Marker
-				key={station.id}
-				position={[station.latitude, station.longitude]}
-				icon={gasCan}
-				onClick={() => this.handleMarkerClick(station)}
-			>
-				<Popup>
-				<p><em>{station.station_name}</em></p>
-				</Popup>
-			</Marker>
-		))
-		return markers
+		console.log('getMarkers', this.props)
+		if(this.props.stationsArray.length > 0) {
+			const markers = this.props.stationsArray.map((station) => (
+				<Marker
+					key={station.id}
+					position={[station.latitude, station.longitude]}
+					icon={gasCan}
+					onClick={() => this.handleMarkerClick(station)}
+				>
+					<Popup>
+					<p><em>{station.station_name}</em></p>
+					</Popup>
+				</Marker>
+			))
+			return markers
+		}
 	}
 
 	handleMarkerClick = (station) => {
@@ -174,9 +177,26 @@ class LandingMap extends Component {
 	}
 
 	render() {
-
 		const userPosition = [this.state.location.lat, this.state.location.lng]
 		const { authUser } = this.props;
+
+		if (this.props.stationsArray.length > 0) {
+			console.log('in-render')
+			const markers = this.props.stationsArray.map((station) => (
+				<Marker
+					key={station.id}
+					position={[station.latitude, station.longitude]}
+					icon={gasCan}
+					onClick={() => this.handleMarkerClick(station)}
+				>
+					<Popup>
+					<p><em>{station.station_name}</em></p>
+					</Popup>
+				</Marker>
+			))
+			return markers
+		}
+		
 
 		return(
 			<div className='map'>
@@ -210,13 +230,13 @@ class LandingMap extends Component {
 						attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 						url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 					/>
-					{ this.state.haveUserLocation ?
+					{/* { this.state.haveUserLocation ?
 						<Marker 
 							position={userPosition}
 							icon={carTopView}>
 						</Marker>
 						: ''
-					}
+					} */}
 					<MarkerClusterGroup>
 						{this.getMarkers()}
 					</MarkerClusterGroup>
@@ -227,7 +247,7 @@ class LandingMap extends Component {
 }
 
 const mapStateToProps = state => ({
-  stationsArray: state.stationsArray,
+  stationsArray: state.stationsArrayState,
 	fuelStation: state.fuelStationState.selectedStation,
 	authUser: state.sessionState.authUser
 });
@@ -236,9 +256,9 @@ const mapDispatchToProps = dispatch => ({
 	onSetFuelStation: fuelStation => {
 		dispatch({ type: 'STATION_SET', fuelStation})
 	},
-	// onSetFuelStationMessages: messages => {
-	// 	dispatch({ type: 'MESSAGES_SET', messages })
-	// },
+	onSetFuelStationMessages: messages => {
+		dispatch({ type: 'MESSAGES_SET', messages })
+	},
 });
 
 LandingMap.Proptypes = {
