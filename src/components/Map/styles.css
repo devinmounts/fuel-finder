@@ -4,6 +4,7 @@
     margin: 0 auto;
     position: relative;
     border-radius: 3px;
+    background-color: #391313;
 }
 
 .message-form {
@@ -23,4 +24,11 @@
 
 .form-container {
     position: relative;
+}
+
+.icon-ref {
+    background-color: #391313;
+    color: white;
+    font-size: 10px;
+    text-align: center;
 }

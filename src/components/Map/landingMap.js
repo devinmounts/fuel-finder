@@ -184,48 +184,51 @@ class LandingMap extends Component {
 		const { authUser } = this.props;
 
 		return(
-			<div className='map'>
-			<div className='form-box'>
-				<div className='form-container'>
-					{this.state.localSelectedStation ? 
-						!this.state.showMessageForm ? 
-							<Button className='message-form' onClick={this.showMessageForm} color='info'>Post a Message</Button> :
-							!this.state.sentMessage ? 
-							<MessageCardForm
-								cancelMessage={this.cancelMessage}
-								sendingMessage={this.state.sendingMessage}
-								sentMessage={this.state.sentMessage}
-								haveUserLocation={this.state.haveUserLocation}
-								formSubmitted={this.formSubmitted}
-								valueChanged={this.valueChanged}
-								formIsValid={this.formIsValid}
-								authUser={authUser}
-							/>
-							: <Card className='thanks-form'>
-									<CardText>Thank you for submitting a message</CardText>
-								</Card>
-						: ''
+			<div>
+				<div className='map'>
+				<div className='form-box'>
+					<div className='form-container'>
+						{this.state.localSelectedStation ? 
+							!this.state.showMessageForm ? 
+								<Button className='message-form' onClick={this.showMessageForm} color='info'>Post a Message</Button> :
+								!this.state.sentMessage ? 
+								<MessageCardForm
+									cancelMessage={this.cancelMessage}
+									sendingMessage={this.state.sendingMessage}
+									sentMessage={this.state.sentMessage}
+									haveUserLocation={this.state.haveUserLocation}
+									formSubmitted={this.formSubmitted}
+									valueChanged={this.valueChanged}
+									formIsValid={this.formIsValid}
+									authUser={authUser}
+								/>
+								: <Card className='thanks-form'>
+										<CardText>Thank you for submitting a message</CardText>
+									</Card>
+							: ''
+							
 						
-					
-					}
+						}
+					</div>
 				</div>
-			</div>
-				<Map className='map' center={centerPosition} zoom={this.props.zoom} maxZoom={18} >
-					<TileLayer
-						attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-						url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-					/>
-					{/* { this.state.haveUserLocation ?
-						<Marker 
-							position={userPosition}
-							icon={carTopView}>
-						</Marker>
-						: ''
-					} */}
-					<MarkerClusterGroup>
-						{this.props.stationsArray && this.props.stationsArray.length > 0 ? this.getMarkers() : ''}
-					</MarkerClusterGroup>
-				</Map>
+					<Map className='map' center={centerPosition} zoom={this.props.zoom} maxZoom={18} >
+						<TileLayer
+							attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+							url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+						/>
+						{/* { this.state.haveUserLocation ?
+							<Marker 
+								position={userPosition}
+								icon={carTopView}>
+							</Marker>
+							: ''
+						} */}
+						<MarkerClusterGroup>
+							{this.props.stationsArray && this.props.stationsArray.length > 0 ? this.getMarkers() : ''}
+						</MarkerClusterGroup>
+					</Map>
+				</div>
+				<div className='icon-ref'>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 			</div>
 		);
 	}
