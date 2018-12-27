@@ -42,8 +42,7 @@ class LandingSearch extends React.Component {
     console.log(this.formIsValid());
     if(this.formIsValid()) {
 
-      const state = this.state.search.state;
-      
+      const state = this.state.search.state;      
       getSearchedFuelLocations(state);
 
     }
