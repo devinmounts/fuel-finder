@@ -46,8 +46,9 @@ class LandingMap extends Component {
 			// sendingMessage: false,
 			// sentMessage: false,
 			// messages: [],
-			// haveStationsArray: false,
-			// stationsArray: [],
+			markers: null,
+			haveStationsArray: false,
+			stationsArray: [],
 			localSelectedStation: null,
 			localSelectedStationMessagesArray: []
 		}
@@ -63,19 +64,19 @@ class LandingMap extends Component {
 		// 	});
 		// })
 		// .then(() => {
-			getAltFuelLocations(this.state.location.lat, this.state.location.lng)
-			.then((returnedArray) => {
-				this.setState({
-					stationsArray: returnedArray,
-				});
-			})
-			.then(() => {
-				if (this.state.stationsArray.length > 0) {
-					this.setState({
-						haveStationsArray: true,
-					});
-				}
-			});
+			// getAltFuelLocations(this.state.location.lat, this.state.location.lng)
+			// .then((returnedArray) => {
+			// 	this.setState({
+			// 		stationsArray: returnedArray,
+			// 	});
+			// })
+			// .then(() => {
+			// 	if (this.state.stationsArray.length > 0) {
+			// 		this.setState({
+			// 			haveStationsArray: true,
+			// 		});
+			// 	}
+			// });
 		// });
 
 	}
@@ -131,7 +132,8 @@ class LandingMap extends Component {
 
 	// 		};
 
-	// 		postMessage(message)
+	// 		postMessage(message)sudo lsof -iTCP -sTCP:LISTEN -n -P
+
 	// 			.then((result) => {
 	// 				setTimeout(() => {
 	// 					this.setState({
@@ -143,23 +145,24 @@ class LandingMap extends Component {
 	// 	}
 	// }
 
+	componentDidUpdate() {
+		console.log('update');
+	}
+
 	getMarkers= () => {
-		console.log('getMarkers', this.props)
-		if(this.props.stationsArray.length > 0) {
-			const markers = this.props.stationsArray.map((station) => (
-				<Marker
-					key={station.id}
-					position={[station.latitude, station.longitude]}
-					icon={gasCan}
-					onClick={() => this.handleMarkerClick(station)}
-				>
-					<Popup>
-					<p><em>{station.station_name}</em></p>
-					</Popup>
-				</Marker>
-			))
-			return markers
-		}
+		const markers = this.props.stationsArray.map((station) => (
+			<Marker
+				key={station.id}
+				position={[station.latitude, station.longitude]}
+				icon={gasCan}
+				onClick={() => this.handleMarkerClick(station)}
+			>
+				<Popup>
+				<p><em>{station.station_name}</em></p>
+				</Popup>
+			</Marker>
+		))
+		return markers
 	}
 
 	handleMarkerClick = (station) => {
@@ -177,26 +180,8 @@ class LandingMap extends Component {
 	}
 
 	render() {
-		const userPosition = [this.state.location.lat, this.state.location.lng]
+		const centerPosition = [this.props.location.lat, this.props.location.lng]
 		const { authUser } = this.props;
-
-		if (this.props.stationsArray.length > 0) {
-			console.log('in-render')
-			const markers = this.props.stationsArray.map((station) => (
-				<Marker
-					key={station.id}
-					position={[station.latitude, station.longitude]}
-					icon={gasCan}
-					onClick={() => this.handleMarkerClick(station)}
-				>
-					<Popup>
-					<p><em>{station.station_name}</em></p>
-					</Popup>
-				</Marker>
-			))
-			return markers
-		}
-		
 
 		return(
 			<div className='map'>
@@ -225,7 +210,7 @@ class LandingMap extends Component {
 					}
 				</div>
 			</div>
-				<Map className='map' center={userPosition} zoom={this.state.zoom} maxZoom={18} >
+				<Map className='map' center={centerPosition} zoom={this.props.zoom} maxZoom={18} >
 					<TileLayer
 						attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 						url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -238,7 +223,7 @@ class LandingMap extends Component {
 						: ''
 					} */}
 					<MarkerClusterGroup>
-						{this.getMarkers()}
+						{this.props.stationsArray && this.props.stationsArray.length > 0 ? this.getMarkers() : ''}
 					</MarkerClusterGroup>
 				</Map>
 			</div>
@@ -247,7 +232,9 @@ class LandingMap extends Component {
 }
 
 const mapStateToProps = state => ({
-  stationsArray: state.stationsArrayState,
+	stationsArray: state.stationsArrayState.stationsArray,
+	location: state.stationsArrayState.location,
+	zoom: state.stationsArrayState.zoom,
 	fuelStation: state.fuelStationState.selectedStation,
 	authUser: state.sessionState.authUser
 });
