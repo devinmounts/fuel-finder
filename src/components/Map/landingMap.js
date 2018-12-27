@@ -4,6 +4,7 @@ import './styles.css';
 import L from 'leaflet';
 import carTopViewURL from '../../assets/images/car_topview.svg';
 import gasCanURL from '../../assets/images/gas-can.svg';
+import boltUrl from '../../assets/images/flash.svg';
 import { getUserLocation, 
 	getAltFuelLocations, 
 	// postMessage, 
@@ -26,6 +27,11 @@ const gasCan = L.icon({
   iconUrl: gasCanURL,
   iconSize: [20, 52]
 });
+
+const bolt = L.icon({
+	iconUrl: boltUrl,
+	iconSize: [30, 62]
+})
 
 class LandingMap extends Component {
 	constructor(props) {
@@ -154,7 +160,7 @@ class LandingMap extends Component {
 			<Marker
 				key={station.id}
 				position={[station.latitude, station.longitude]}
-				icon={gasCan}
+				icon={station.fuel_type_code === "ELEC" ? bolt : gasCan}
 				onClick={() => this.handleMarkerClick(station)}
 			>
 				<Popup>

@@ -1,8 +1,11 @@
 import React from 'react';
 import { Card, Button, CardTitle, CardText, Form, FormGroup, Label, Input } from 'reactstrap';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom'
+import * as ROUTES from '../../constants/routes';
 
-const MessageCardForm = (props) => {
+ export const MessageCardForm = (props) => {
   const {haveUserLocation,
          formSubmitted, 
          sendingMessage,
@@ -10,7 +13,36 @@ const MessageCardForm = (props) => {
          valueChanged, 
          cancelMessage, 
          formIsValid,
+         authUser,
         } = props;
+  return (
+    <div>
+      {authUser ? 
+      <AuthCardForm 
+        haveUserLocation={haveUserLocation}
+        formSubmitted={formSubmitted}
+        sendingMessage={sendingMessage}
+        sentMessage={sentMessage}
+        valueChanged={valueChanged}
+        cancelMessage={cancelMessage}
+        formIsValid={formIsValid}
+      /> 
+      : 
+      <NonAuthCardForm
+      cancelMessage={cancelMessage} />}
+    </div>
+  );
+};
+
+const AuthCardForm = (props) => {
+  const {haveUserLocation,
+    formSubmitted, 
+    sendingMessage,
+    sentMessage, 
+    valueChanged, 
+    cancelMessage, 
+    formIsValid,
+   } = props;
   return (
     <Card body className='message-form'>
         <CardTitle>Fuel Finder</CardTitle>
@@ -49,7 +81,41 @@ const MessageCardForm = (props) => {
         }
     </Card>
   );
-};
+}
+
+const NonAuthCardForm = (props) => {
+  const {cancelMessage} = props;
+    return (
+    <Card body className='message-form'>
+        <CardTitle>Fuel Finder</CardTitle>
+        <CardText>Leave a message about this location</CardText> 
+          <Form >
+            <FormGroup>
+              <Label for='name'>Name</Label>
+              <Input
+                placeholder="Enter your name"
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="message">Message</Label>
+              <Input
+                placeholder="Enter a message" />
+            </FormGroup>
+            <Button type='cancel' color='danger' onClick={cancelMessage}>
+              Cancel
+            </Button>
+            {' '}
+            <Link to={ROUTES.SIGN_IN}>
+              <Button >
+              Sign In to post comment
+              </Button>
+            </Link>
+
+            
+          </Form>
+    </Card>
+  );
+}
 
 MessageCardForm.propTypes = {
   haveUserLocation: PropTypes.bool,
@@ -61,4 +127,9 @@ MessageCardForm.propTypes = {
   formIsValid: PropTypes.func,
 };
 
-export default MessageCardForm;
+
+const mapStateToProps = state => ({
+  authUser: state.sessionState.authUser
+})
+
+export default connect(mapStateToProps)(MessageCardForm);

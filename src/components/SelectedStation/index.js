@@ -5,7 +5,7 @@ import { Card, CardBody} from 'reactstrap';
 // import MessageCardContainer from '../MessageCard'
 import MessageCardContainer from '../MessageCardContainer';
 const SelectedStation = (props) => {
-  const { station } = props;
+  const { station, authUser } = props;
   return(
     <div>
       { station ? 
@@ -18,7 +18,10 @@ const SelectedStation = (props) => {
           <Card className='station-card'>
             <CardBody>
               <h4><strong>{station.station_name}</strong></h4>
-              <span className='station-card-text'><strong>Distance:</strong> {station.distance} mi. / {station.distance_km} km.</span>
+              {authUser ?
+                <span className='station-card-text'><strong>Distance:</strong> {station.distance} mi. / {station.distance_km} km.</span>
+                : ''
+              }
               <span className='station-card-text'><strong>Open to:</strong> {station.access_code}</span>
               <span className='station-card-text'><strong>Hours:</strong> {station.access_days_time}</span>
               <span className='station-card-text'><strong>Address:</strong> {station.street_address}</span> 
@@ -42,6 +45,7 @@ const SelectedStation = (props) => {
 
  const mapStateToProps = state => ({
   station: state.fuelStationState.selectedStation,
+  authUser: state.sessionState.authUser,
 });
 
 export default connect(mapStateToProps)(SelectedStation);
