@@ -1,12 +1,11 @@
 import React from 'react';
 import LandingMap from '../Map/landingMap';
 import SelectedStation from '../SelectedStation';
+import LandingSearch from '../Landing/search';
 
 const Landing = () => (
-  <div className='home-page'>
-    <div className='hr-box'>
-      <hr className='hr'/>
-    </div>
+  <div className='landing-page'>
+    <LandingSearch />
     <LandingMap />
     <SelectedStation />
   </div>

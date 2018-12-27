@@ -54,15 +54,15 @@ class LandingMap extends Component {
 	}
 
 	componentDidMount() {
-		getUserLocation()
-		.then(location => {
-			this.setState({
-				location,
-				haveUserLocation: true,
-				zoom: 13,
-			});
-		})
-		.then(() => {
+		// getUserLocation()
+		// .then(location => {
+		// 	this.setState({
+		// 		location,
+		// 		haveUserLocation: true,
+		// 		zoom: 13,
+		// 	});
+		// })
+		// .then(() => {
 			getAltFuelLocations(this.state.location.lat, this.state.location.lng)
 			.then((returnedArray) => {
 				this.setState({
@@ -75,8 +75,8 @@ class LandingMap extends Component {
 						haveStationsArray: true,
 					});
 				}
-			})
-		});
+			});
+		// });
 
 	}
 

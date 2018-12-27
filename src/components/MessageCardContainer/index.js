@@ -57,7 +57,7 @@ class MessageCardContainer extends Component {
     return(
       <div>
         {station.messages && station.messages.length > 0 ? station.messages.map((message) => {
-          if (message.user_id === authUser.uid) {
+          if (authUser && message.user_id === authUser.uid) {
             return <AuthMessageCard message={message} key={message._id}/>
           } else {
             return <NonAuthMessageCard message={message} key={message._id}/>

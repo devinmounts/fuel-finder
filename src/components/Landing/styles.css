@@ -1,0 +1,25 @@
+.landing-page {
+  margin-top: -38px;
+  background-color: #3e0f0f;
+  padding-top: 38px;
+}
+
+.select-dropdown {
+  width: 100px;
+  border-radius: 3px;
+}
+
+.landing-search-card {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  padding: 5px;
+  -webkit-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
+}
+
+.input-inline-block {
+  display: inline-block;
+}

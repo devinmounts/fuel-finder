@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment'
+
 const MessageCardModal = (props) => {
     const { modalBool, onToggleModal, messageBody, onDeleteMessage } = props
   return (
