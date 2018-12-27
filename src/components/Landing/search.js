@@ -1,8 +1,8 @@
 import React from 'react';
-import { Form, Input, Card, Label, Button} from 'reactstrap';
+import { Form, Card, Label, Button} from 'reactstrap';
 import { getSearchedFuelLocations } from '../API_REALTIME';
-import zipcodes from 'zipcodes';
 import './styles.css';
+import { connect } from 'react-redux';
 
 class LandingSearch extends React.Component {
   constructor(props) {
@@ -43,14 +43,14 @@ class LandingSearch extends React.Component {
     if(this.formIsValid()) {
 
       const state = this.state.search.state;      
-      getSearchedFuelLocations(state);
-
+      getSearchedFuelLocations(state)
+      .then(localArray => 
+        this.props.onSetStationsArray(localArray)
+      );
     }
-
   }
 
   render() {
-    console.log(this.formIsValid())
     return(
       <Card className='landing-search-card' >
         <h2 className='landing-search-title' >Search For Alternative Fuel Locations</h2>
@@ -127,4 +127,10 @@ class LandingSearch extends React.Component {
   }
 }
 
-export default LandingSearch
+const mapDispatchToProps = dispatch => ({
+  onSetStationsArray: stationsArray => {
+    dispatch( {type: 'STATIONS_ARRAY_SET', stationsArray })
+  },
+});
+
+export default connect(null, mapDispatchToProps)(LandingSearch);

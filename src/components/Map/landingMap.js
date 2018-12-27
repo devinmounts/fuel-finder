@@ -92,56 +92,56 @@ class LandingMap extends Component {
 		});
 	}
 
-	valueChanged = (event) => {
-		const {name, value} = event.target;
-		this.setState((prevState) => ({
-			userMessage: {
-				...prevState.userMessage,
-				[name]:value
-			}
-		}));
-	}
+	// valueChanged = (event) => {
+	// 	const {name, value} = event.target;
+	// 	this.setState((prevState) => ({
+	// 		userMessage: {
+	// 			...prevState.userMessage,
+	// 			[name]:value
+	// 		}
+	// 	}));
+	// }
 
-	formIsValid = () => {
-    let { name, message } = this.state.userMessage;
-    name = name.trim();
-    message = message.trim();
+	// formIsValid = () => {
+  //   let { name, message } = this.state.userMessage;
+  //   name = name.trim();
+  //   message = message.trim();
 
-    const validMessage =
-      message.length > 0 && message.length <= 500;
-    return validMessage && this.state.haveUserLocation ? true : false;
-  }
+  //   const validMessage =
+  //     message.length > 0 && message.length <= 500;
+  //   return validMessage && this.state.haveUserLocation ? true : false;
+  // }
 
-	formSubmitted = (event) => {
-		event.preventDefault();
+	// formSubmitted = (event) => {
+	// 	event.preventDefault();
 		
-		const { fuelStation } = this.props;
+	// 	const { fuelStation } = this.props;
 
-		if (this.formIsValid()) {
-			this.setState({
-				sendingMessage: true
-			});
+	// 	if (this.formIsValid()) {
+	// 		this.setState({
+	// 			sendingMessage: true
+	// 		});
 
-			const message = {
-				user_id: this.props.authUser.uid,
-				station_id: this.props.fuelStation.id,
-				station_city: this.props.fuelStation.city,
-				name: this.props.authUser.username,
-				message: this.state.userMessage.message,
+	// 		const message = {
+	// 			user_id: this.props.authUser.uid,
+	// 			station_id: this.props.fuelStation.id,
+	// 			station_city: this.props.fuelStation.city,
+	// 			name: this.props.authUser.username,
+	// 			message: this.state.userMessage.message,
 
-			};
+	// 		};
 
-			postMessage(message)
-				.then((result) => {
-					setTimeout(() => {
-						this.setState({
-							sendingMessage: false,
-							sentMessage: true,
-						});
-					}, 2000);
-				});
-		}
-	}
+	// 		postMessage(message)
+	// 			.then((result) => {
+	// 				setTimeout(() => {
+	// 					this.setState({
+	// 						sendingMessage: false,
+	// 						sentMessage: true,
+	// 					});
+	// 				}, 2000);
+	// 			});
+	// 	}
+	// }
 
 	getMarkers= () => {
 		const markers = this.state.stationsArray.map((station) => (
@@ -227,6 +227,7 @@ class LandingMap extends Component {
 }
 
 const mapStateToProps = state => ({
+  stationsArray: state.stationsArray,
 	fuelStation: state.fuelStationState.selectedStation,
 	authUser: state.sessionState.authUser
 });
@@ -235,9 +236,9 @@ const mapDispatchToProps = dispatch => ({
 	onSetFuelStation: fuelStation => {
 		dispatch({ type: 'STATION_SET', fuelStation})
 	},
-	onSetFuelStationMessages: messages => {
-		dispatch({ type: 'MESSAGES_SET', messages })
-	},
+	// onSetFuelStationMessages: messages => {
+	// 	dispatch({ type: 'MESSAGES_SET', messages })
+	// },
 });
 
 LandingMap.Proptypes = {
