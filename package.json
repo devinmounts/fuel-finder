@@ -34,6 +34,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "dev": "lite-server",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -44,5 +45,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "lite-server": "^2.4.0"
+  }
 }

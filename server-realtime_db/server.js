@@ -27,7 +27,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api', api);
 
-mongoose.connect('mongodb://localhost/fuel_finder?replicaSet=rs');
+mongoose.connect('mongodb://localhost/fuel_finder?replicaSet=rs', { useNewUrlParser: true });
 
 const db = mongoose.connection;
 
