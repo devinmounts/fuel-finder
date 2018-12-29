@@ -26,7 +26,7 @@ export const getUserLocation = () => {
 
 export const getAltFuelLocations = (lat, lng) => {
 	return new Promise((resolve) => {
-		resolve(fetch(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json?api_key=yMXElhx7X03lNsTLOYB4MrhzyQiM9r9JOMHAVMPx&latitude=${lat}&longitude=${lng}&limit=200`)
+		resolve(fetch(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json?api_key=${process.env.REACT_APP_ALT_FUEL_STATIONS_API_KEY}&latitude=${lat}&longitude=${lng}&limit=200`)
 		.then(res => res.json())
 		.then(res => {
 			let stationsArray = res.fuel_stations.map(station => (
@@ -42,7 +42,7 @@ export const getAltFuelLocations = (lat, lng) => {
 export const getSearchedFuelLocations = (state) => {
 	let zip = null;
 	return new Promise((resolve) => {
-		resolve(fetch(`https://developer.nrel.gov/api/alt-fuel-stations/v1.json?api_key=yMXElhx7X03lNsTLOYB4MrhzyQiM9r9JOMHAVMPx&${state && zip ? `state=${state}&zip=${zip}`: 
+		resolve(fetch(`https://developer.nrel.gov/api/alt-fuel-stations/v1.json?api_key=${process.env.REACT_APP_ALT_FUEL_STATIONS_API_KEY}&${state && zip ? `state=${state}&zip=${zip}`: 
 		state ? `state=${state}` : `zip=${zip}`}&limit=200`)
 		.then(res => res.json())
 		.then(res => {

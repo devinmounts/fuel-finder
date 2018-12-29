@@ -13,6 +13,7 @@ import 'leaflet/dist/leaflet.css';
 import 'react-leaflet-markercluster/dist/styles.min.css';
 import * as serviceWorker from './serviceWorker';
 import middlewareLogger from './middleware/middleware-logger';
+require('dotenv').config()
 
 const store = createStore(rootReducer, applyMiddleware(thunkMiddleware, middlewareLogger));
 

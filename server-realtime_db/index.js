@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const api = require('./routes/api');
 const Pusher = require('pusher');
+require('dotenv').config()
 
 const pusher = new Pusher({
   appId: '676000',
@@ -27,8 +28,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api', api);
 
-// mongoose.connect('mongodb://localhost/fuel_finder?replicaSet=rs', { useNewUrlParser: true });
-mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true });
+mongoose.connect('mongodb://localhost/fuel_finder?replicaSet=rs', { useNewUrlParser: true });
+// mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true });
 
 const db = mongoose.connection;
 
