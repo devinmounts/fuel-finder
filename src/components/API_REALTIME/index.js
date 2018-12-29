@@ -1,5 +1,5 @@
 const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api/v1/messages' : ''
-const REALTIME_API_URL = window.location.hostname === 'localhost' ? 'http://localhost:9000/api' : 'https://server-realtimedb-lbpv8e1qv.now.sh/api'
+const REALTIME_API_URL = window.location.hostname === 'localhost' ? 'http://localhost:9000/api' : 'https://api.chargemyengine.com/api'
 
 export const getUserLocation = () => {
 	return new Promise((resolve) => {
