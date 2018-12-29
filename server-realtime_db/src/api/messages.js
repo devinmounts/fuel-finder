@@ -3,6 +3,14 @@ const express = require('express');
 const router = express.Router();
 
 
+router.get('/', (req, res) => {
+  Message
+    .find()
+    .then(allMessages => {
+      res.json(allMessages);
+    });
+});
+
 router.route('/stations/:stationId')
   .get((req, res) => {
     Message.find({station_id: req.params.stationId}, (err, stationMessages)=> {
