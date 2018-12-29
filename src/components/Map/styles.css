@@ -32,3 +32,15 @@
     font-size: 10px;
     text-align: center;
 }
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: initial;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
