@@ -22,6 +22,7 @@ class MessageCardContainer extends Component {
       cluster: 'us2',
       encrypted: true,
     });
+    console.log('pusher', this.pusher);
     this.channel = this.pusher.subscribe('messages');
     this.channel.bind('inserted', this.handleAddMessage);
     this.channel.bind('deleted', this.handleRemoveMessage);

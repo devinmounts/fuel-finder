@@ -48,7 +48,7 @@ db.once('open', () => {
   // app.listen(9000, () => {
   //   console.log('Node server running on port 9000');
   // });
-  console.log(' db open');
+  console.log('db open');
   const messagesCollection = db.collection('messages');
   const changeStream = messagesCollection.watch();
 
@@ -93,53 +93,3 @@ app.use('/api', api);
 
 module.exports = app;
 
-// mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true });
-
-// const db = mongoose.connection;
-
-// db.on('error', console.error.bind(console, "Connection Error"));
-
-// db.once('open', () => {
-//   app.listen(9000, () => {
-//     console.log('Node server running on port 9000');
-//   });
-
-//   const messagesCollection = db.collection('messages');
-//   const changeStream = messagesCollection.watch();
-
-//   changeStream.on('change', (change) => {
-
-//     if(change.operationType === 'insert') {
-//       const message = change.fullDocument;
-//       pusher.trigger(
-//         channel,
-//         'inserted',
-//         {
-//           _id: message._id,
-//           message: message.message,
-//           user_id: message.user_id,
-//           station_id: message.station_id,
-//           station_city: message.station_city,
-//           date: message.date,
-//         }
-//       );
-//     } else if(change.operationType === 'delete') {
-//       pusher.trigger(
-//         channel,
-//         'deleted',
-//         change.documentKey._id
-//       );
-//     } else if (change.operationType === 'update') {
-//       const _id = change.documentKey._id;
-//       const message = change.updateDescription.updatedFields.message;
-//       pusher.trigger(
-//         channel,
-//         'updated',
-//         {
-//            _id,
-//           message: message,
-//         }
-//       )
-//     }
-//   });
-// });
