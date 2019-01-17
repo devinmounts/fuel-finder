@@ -3,11 +3,9 @@ import ReactMapboxGl, {Layer, Feature, Popup} from 'react-mapbox-gl';
 import './../../../node_modules/mapbox-gl/dist/mapbox-gl.css';
 import './styles.css';
 import PropTypes from 'prop-types';
-// import carTopViewURL from '../../assets/images/car_topview.svg';
-// import gasCanURL from '../../assets/images/gas-can.svg';
 import { gasCanSvg } from './gasCan';
-// import boltUrl from '../../assets/images/charging.svg';
 import { connect } from 'react-redux';
+import { getMessagesAtStationID } from './../API_REALTIME/index'
 
 /** Create Map */
 const MapBox = ReactMapboxGl({
@@ -50,18 +48,32 @@ class FuelMap extends Component {
     const markers = this.props.stationsArray.map((station) => (
 			<Feature
 				key={station.id}
-				coordinates={[station.latitude, station.longitude]}
+				coordinates={[station.longitude, station.latitude]}
 				// icon={station.fuel_type_code === "ELEC" ? bolt : gasCan}
 				onClick={() => this.handleMarkerClick(station)}
 			>
-				{/* <Popup>
+				<Popup>
 				<p><em>{station.station_name}</em></p>
-				</Popup> */}
+				</Popup>
 			</Feature>
     ))
     console.log(markers);
 		return markers
   }
+
+  handleMarkerClick = (station) => {
+		this.setState({
+			localSelectedStation: station
+		});
+		this.props.onSetFuelStation(station);
+		getMessagesAtStationID(station.id)
+			.then(messagesArray => {
+				this.setState({
+					localSelectedStationMessagesArray: messagesArray
+				});
+				this.props.onSetFuelStationMessages(messagesArray)
+			});
+	}
 
   render(){
     return(
