@@ -1,4 +1,4 @@
-export const gasCanSvg = <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+export const gasCanSvg = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 
 <svg
@@ -13,8 +13,8 @@ export const gasCanSvg = <?xml version="1.0" encoding="UTF-8" standalone="no"?>
    id="gas_can"
    x="0px"
    y="0px"
-   width="455.783px"
-   height="681.087px"
+   width="20px"
+   height="52px"
    viewBox="0 0 455.783 681.087"
    enable-background="new 0 0 455.783 681.087"
    xml:space="preserve"
@@ -211,4 +211,4 @@ export const gasCanSvg = <?xml version="1.0" encoding="UTF-8" standalone="no"?>
      y1="241.333"
      x2="336.45"
      y2="624"
-     id="line75" /></svg>
+     id="line75" /></svg>`
