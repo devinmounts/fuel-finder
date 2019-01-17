@@ -18,37 +18,44 @@ class LandingSearch extends React.Component {
   }
 
   valueChanged = (event) => {
-		const {name, value} = event.target;
-		this.setState((prevState) => ({
-			search: {
-				...prevState.search,
-				[name]:value
-			}
-    }));
+    const { value} = event.target;
+    console.log(value)
+    let state = value;
+    getSearchedFuelLocations(state)
+    .then(localArray => 
+      this.props.onSetStationsArray(localArray)
+    );
+
+		// this.setState((prevState) => ({
+		// 	search: {
+		// 		...prevState.search,
+		// 		[name]:value
+		// 	}
+    // }));
   }
 
-  formIsValid = () => {
-    let { state, zip } = this.state.search;
-      if(state === '') {
-        state = null;
-      }
-      const validSearch =
-        state !== null;
-      return validSearch ? true : false;
-  }
+  // formIsValid = () => {
+  //   let { state, zip } = this.state.search;
+  //     if(state === '') {
+  //       state = null;
+  //     }
+  //     const validSearch =
+  //       state !== null;
+  //     return validSearch ? true : false;
+  // }
   
-  formSubmit = (event) => {
-    event.preventDefault()
-    console.log(this.formIsValid());
-    if(this.formIsValid()) {
+  // formSubmit = (event) => {
+  //   event.preventDefault()
+  //   console.log(this.formIsValid());
+  //   if(this.formIsValid()) {
 
-      const state = this.state.search.state;      
-      getSearchedFuelLocations(state)
-      .then(localArray => 
-        this.props.onSetStationsArray(localArray)
-      );
-    }
-  }
+  //     const state = this.state.search.state;      
+  //     getSearchedFuelLocations(state)
+  //     .then(localArray => 
+  //       this.props.onSetStationsArray(localArray)
+  //     );
+  //   }
+  // }
 
   render() {
     return(
@@ -58,7 +65,6 @@ class LandingSearch extends React.Component {
           <select className='select-dropdown'
             name='state'
             onChange={this.valueChanged}>
-            <option value=''>-- --</option>
             <option value="AL">Alabama</option>
             <option value="AK">Alaska</option>
             <option value="AZ">Arizona</option>
@@ -112,7 +118,7 @@ class LandingSearch extends React.Component {
             <option value="WY">Wyoming</option>
           </select>
         
-        <Button className='search-button' type='submit' disabled={!this.formIsValid()}>Search</Button>
+        {/* <Button className='search-button' type='submit' disabled={!this.formIsValid()}>Search</Button> */}
         </Form>
       </Card>
 

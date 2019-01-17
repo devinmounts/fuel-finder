@@ -86,7 +86,7 @@
   z-index: 2002;
   transform: translateX(-100%);
   background-color: #3e0f0f;
-  transition: transform 500ms ease-in;
+  transition: transform 300ms ease-in;
 }
 #navbar.slideIn {
   transform: translateX(0);
@@ -101,6 +101,8 @@
   color: #efc45f;
   margin-bottom: 0;
 }
+
+
 
 .unfixed-nav {
   position: absolute;
