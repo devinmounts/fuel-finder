@@ -23,3 +23,7 @@
 .input-inline-block {
   display: inline-block;
 }
+
+.search-button {
+  margin: 5px;
+}

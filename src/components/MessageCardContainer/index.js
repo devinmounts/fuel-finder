@@ -18,11 +18,10 @@ class MessageCardContainer extends Component {
   }
 
   componentDidMount() {
-    this.pusher = new Pusher('cfac003dbca7d9106af7', {
-      cluster: 'us2',
+    this.pusher = new Pusher(process.env.REACT_APP_PUSHER_KEY, {
+      cluster: process.env.REACT_APP_PUSHER_CLUSTER,
       encrypted: true,
     });
-    console.log('pusher', this.pusher);
     this.channel = this.pusher.subscribe('messages');
     this.channel.bind('inserted', this.handleAddMessage);
     this.channel.bind('deleted', this.handleRemoveMessage);

@@ -53,7 +53,6 @@ class LandingSearch extends React.Component {
   render() {
     return(
       <Card className='landing-search-card' >
-        <h2 className='landing-search-title' >Search For Alternative Fuel Locations</h2>
         <Form onSubmit={this.formSubmit}>
           <Label for='state'>State:</Label>{' '}
           <select className='select-dropdown'
@@ -112,14 +111,8 @@ class LandingSearch extends React.Component {
             <option value="WI">Wisconsin</option>
             <option value="WY">Wyoming</option>
           </select>
-          {/* <Label for='zip'>Zip:</Label>{' '}
-          <Input 
-            onChange={this.valueChanged}
-            name='zip'
-            placeholder='Zip'
-            className="input-inline-block"
-          />		 */}
-        <Button type='submit' disabled={!this.formIsValid()}>Search</Button>
+        
+        <Button className='search-button' type='submit' disabled={!this.formIsValid()}>Search</Button>
         </Form>
       </Card>
 

@@ -4,13 +4,13 @@
 
 #### By Devin Mounts
 
-## A web application that consumes the National Renewable Energy Laboratory API of alternative fuel station locations. Locations are mapped using Leaflet maps. Signed in users can post comments after clicking on a location.  Comments are stored in a MongoDB using an Node/Express API. Change streams in the database are observed with Pusher, creating a realtime db.  Site is deployed through Zeit (now) AWS. 
+## A web application that consumes the National Renewable Energy Laboratory API of alternative fuel station locations. Locations are mapped using Leaflet.js maps. Signed in users can post, update and delete comments after clicking on a location.  Comments are stored in a MongoDB using an Node/Express API. Change streams in the database are observed with Pusher, creating a realtime db*.  Site is deployed through Zeit (now) AWS.
 
 ## Setup on OSX
 
-* Install Node.js
 * Clone the repo
-* Create a `.eslintrc.json` file with desired rules.
+* [Install and run Mongodb via Homebrew](https://treehouse.github.io/installation-guides/mac/mongo-mac.html)
+* instantiate a mongo daemon with replica set `mongod --replSet "rs"`
 * Create a `.gitignore` file and include: `.DS_STORE, node_modules, build.`
 * `npm install` to install dependencies
 * `webpack-dev-server` to build and start the dev server
@@ -28,20 +28,25 @@
 
 * JavaScript
 * Node.js
-* React
+* Express
+* React.js
 * Redux
 * Babel
-* Moment
-* Leaflet
-* NREL API
+* Moment.js
+* Leaflet.js
+* National Renewable Energy Laboratory API
 * MongoDB
-* Pusher
+* Mongoose.js
+* Pusher.js
 
 ## Links
 
 * Repo: https://github.com/devinmounts/fuel_finder
 * Deployed Site:
 https://www.chargemyengine.com
+
+## *Notes 
+* MongoDB deployed through mLab sandbox for development. Development db does not have access to change streams in mongo oplog.  To view application with realtime db, follow instructions for clonning application and running on localhost.
 
 ## License
 

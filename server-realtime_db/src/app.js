@@ -9,12 +9,20 @@ const Pusher = require('pusher');
 require('dotenv').config()
 
 const pusher = new Pusher({
-  appId: '676000',
-  key: 'cfac003dbca7d9106af7',
-  secret: '74aed2ff596027dac5f2',
-  cluster: 'us2',
+  appId: process.env.PUSHER_APP_ID,
+  key: process.env.PUSHER_KEY,
+  secret: process.env.PUSHER_SECRET,
+  cluster: process.env.PUSHER_CLUSTER,
   encrypted: true
 });
+
+// const pusher = new Pusher({
+//   appId: '676000',
+//   key: 'cfac003dbca7d9106af7',
+//   secret: '74aed2ff596027dac5f2',
+//   cluster: 'us2',
+//   encrypted: true
+// });
 
 const channel = 'messages';
 
@@ -45,9 +53,6 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, "Connection Error"));
 
 db.once('open', () => {
-  // app.listen(9000, () => {
-  //   console.log('Node server running on port 9000');
-  // });
   console.log('db open');
   const messagesCollection = db.collection('messages');
   const changeStream = messagesCollection.watch();
