@@ -1,5 +1,4 @@
 const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api/v1/messages' : ''
-
 export const getUserLocation = () => {
 	return new Promise((resolve) => {
 		navigator.geolocation.getCurrentPosition((position) => {

@@ -1,0 +1,21 @@
+.account-page {
+  background-color: #3e0f0f;
+  margin-top: -33px;
+  padding-top: 3rem;
+  padding-bottom: 20px;
+}
+
+.account-card {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  padding: 5px;
+  -webkit-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
+}
+
+.account-title {
+  padding-left: 5px;
+}

@@ -6,3 +6,39 @@
 .station-card-text {
   display: block;
 }
+
+.hr-small-box{
+  height: 60px;
+  position: relative;
+}
+
+.hr-small {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  transform: translateX(0);
+  border: none;
+  border-radius: 8px;
+  width: 100px;
+  height: 19px;
+  color: #efc45f;
+  background-color: #efc45f;
+}
+
+.info-container {
+  width: 100%;
+}
+
+.station-card {
+  margin: 10px;
+  background-color: #231f20!important;
+  color: #efc45f;
+  border: solid 2px #d3d3d3!important;
+}
+
+.info-title {
+  padding: 5px;
+  margin-left: 10px;
+  color:#d3d3d3;
+}

@@ -1,0 +1,26 @@
+{
+  "name": "server-realtime_db",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.0",
+    "pusher": "^2.2.0",
+    "cors": "^2.8.4",
+    "helmet": "^3.13.0",
+    "joi": "^13.4.0",
+    "monk": "^6.0.6",
+    "morgan": "^1.9.0"
+  },
+  "devDependencies": {},
+  "description": ""
+}

@@ -4,12 +4,14 @@ import './styles.css';
 import L from 'leaflet';
 import carTopViewURL from '../../assets/images/car_topview.svg';
 import gasCanURL from '../../assets/images/gas-can.svg';
-import { getUserLocation, getAltFuelLocations, postMessage, getMessagesAtStationID } from '../API';
+import boltUrl from '../../assets/images/charging.svg';
+import { getUserLocation, getAltFuelLocations, postMessage, getMessagesAtStationID } from '../API_REALTIME';
 import { Button, Card, CardText } from 'reactstrap';
 import MessageCardForm from '../MessageCardForm';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
 const carTopView = L.icon({
   iconUrl: carTopViewURL,
   iconSize: [20, 52]
@@ -19,6 +21,11 @@ const gasCan = L.icon({
   iconUrl: gasCanURL,
   iconSize: [20, 52]
 });
+
+const bolt = L.icon({
+	iconUrl: boltUrl,
+	iconSize: [30, 62]
+})
 
 class HomeMap extends Component {
 	constructor(props) {
@@ -107,6 +114,8 @@ class HomeMap extends Component {
 
 	formSubmitted = (event) => {
 		event.preventDefault();
+		
+		const { fuelStation } = this.props;
 
 		if (this.formIsValid()) {
 			this.setState({
@@ -121,6 +130,7 @@ class HomeMap extends Component {
 				message: this.state.userMessage.message,
 
 			};
+
 			postMessage(message)
 				.then((result) => {
 					setTimeout(() => {
@@ -128,7 +138,7 @@ class HomeMap extends Component {
 							sendingMessage: false,
 							sentMessage: true,
 						});
-					}, 4000);
+					}, 2000);
 				});
 		}
 	}
@@ -138,7 +148,7 @@ class HomeMap extends Component {
 			<Marker
 				key={station.id}
 				position={[station.latitude, station.longitude]}
-				icon={gasCan}
+				icon={station.fuel_type_code === "ELEC" ? bolt : gasCan}
 				onClick={() => this.handleMarkerClick(station)}
 			>
 				<Popup>
@@ -156,13 +166,18 @@ class HomeMap extends Component {
 		this.props.onSetFuelStation(station);
 		getMessagesAtStationID(station.id)
 			.then(messagesArray => {
+				this.setState({
+					localSelectedStationMessagesArray: messagesArray
+				});
 				this.props.onSetFuelStationMessages(messagesArray)
 			});
 	}
 
 	render() {
+
 		const userPosition = [this.state.location.lat, this.state.location.lng]
 		const { authUser } = this.props;
+
 		return(
 			<div className='map'>
 			<div className='form-box'>
@@ -222,7 +237,7 @@ const mapDispatchToProps = dispatch => ({
 	},
 	onSetFuelStationMessages: messages => {
 		dispatch({ type: 'MESSAGES_SET', messages })
-	}
+	},
 });
 
 HomeMap.Proptypes = {
