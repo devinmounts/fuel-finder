@@ -1,21 +1,15 @@
 const  INITIAL_STATE = {
   stationsArray: null,
-  location: {
-    lat: 40.51,
-    lng: -100.66,
-  },
-  zoom: 3
+  location: [-100.00,  40.51],
+  zoom: [2]
 }
 
 const applySetStationsArray = (state, action) => (
   {
     ...state,
   stationsArray: action.stationsArray,
-  location: {
-    lat: action.stationsArray[0].latitude,
-    lng: action.stationsArray[0].longitude,
-  },
-  zoom: 5
+  location: [action.stationsArray[0].longitude, action.stationsArray[0].latitude],
+  zoom: [5]
 });
 
 function stationsArrayReducer(state = INITIAL_STATE, action) {

@@ -25,9 +25,7 @@ class FuelMap extends Component {
 		super(props)
 
 		this.state = {
-			location: [-100.00, 40.51],
 			haveUserLocation: false,
-			zoom: [2],
 			userMessage: {
 				name: '',
 				message: '',
@@ -44,7 +42,6 @@ class FuelMap extends Component {
 	}
   
   getMarkers = () => {
-    console.log('getMarkers')
     const markers = this.props.stationsArray.map((station) => (
 			<Feature
 				key={station.id}
@@ -57,7 +54,6 @@ class FuelMap extends Component {
 				</Popup>
 			</Feature>
     ))
-    console.log(markers);
 		return markers
   }
 
@@ -76,13 +72,15 @@ class FuelMap extends Component {
 	}
 
   render(){
+
+    console.log(this.props);
     return(
       <div className='map-container'>
       Mapbox works
         <MapBox 
         className='map'
-        center={this.state.location}
-        zoom={this.state.zoom}
+        center={this.props.location}
+        zoom={this.props.zoom}
         style="mapbox://styles/mapbox/streets-v8">
           <Layer
             type="symbol"
