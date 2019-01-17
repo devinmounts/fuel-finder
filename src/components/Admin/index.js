@@ -25,4 +25,4 @@ const condition = authUser =>
 export default compose(
   withEmailVerification,
   withAuthorization(condition),
-)(AdminPage)
+  )(AdminPage);

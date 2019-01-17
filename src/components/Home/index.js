@@ -1,12 +1,14 @@
 import React from 'react';
-
+import './styles.css';
 import { HomeMap } from '../Map';
 import SelectedStation from '../SelectedStation';
 import { withAuthorization } from '../Session';
 
 const HomePage = () => (
-  <div>
-    <h1>Home Page</h1>
+  <div className='home-page'>
+    <div className='hr-box'>
+      <hr className='hr'/>
+    </div>
     <HomeMap />
     <SelectedStation />
   </div>

@@ -14,10 +14,14 @@ import { Collapse,
   Input} from 'reactstrap';
 
 import MessageCardModal from '../Modal/messageCardModal'
-import { updateMessage, deleteMessage } from '../API';
+import { deleteMessage, updateMessage } from '../API_REALTIME';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
+import moment from 'moment';
 
 const MessageCardContainer = (props) => {
   const {authUser, station} = props;
+  
   return(
     <div>
       {station.messages && station.messages.length > 0 ? station.messages.map((message) => {
@@ -37,7 +41,7 @@ const MessageCardContainer = (props) => {
   );
 }
 
-class AuthMessageCard extends Component {
+export class AuthMessageCard extends Component {
   constructor(props) {
     super(props);
 
@@ -49,6 +53,7 @@ class AuthMessageCard extends Component {
       updatedMessage: null,
       modal: false,
       messageDeleted: false,
+
     };
   }
 
@@ -94,6 +99,9 @@ class AuthMessageCard extends Component {
          newMessage: this.state.updatedMessage
         }
         updateMessage(updatedMessage)
+        this.setState({
+          collapse: false,
+        })
       }
     }
 
@@ -101,8 +109,7 @@ class AuthMessageCard extends Component {
       const messageId = {
         _id: this.props.message._id,
       };
-      console.log(messageId);
-      deleteMessage(messageId);
+      deleteMessage(messageId._id);
       this.setState({
         modal: false,
       });
@@ -111,7 +118,8 @@ class AuthMessageCard extends Component {
   render(){
     
     const { message } = this.props;
-    const { modal } = this.state
+    const { modal } = this.state;
+
    return (
      <div>
       <MessageCardModal 
@@ -120,14 +128,16 @@ class AuthMessageCard extends Component {
         messageBody={message}
         onDeleteMessage={this.deleteMessage}
       ></MessageCardModal>
-      <Card className='message-card' key={message._id} color='info'>
-      <CardTitle className='message-user-name'>{message.name}</CardTitle>
-        <CardBody>          
-          <Moment fromNow>{message.date}</Moment>
-          <CardText>{message.message}</CardText>
+      <Card className='message-card' key={message._id} >
+        <CardTitle className='message-user-name'>{message.name}</CardTitle>
+        <Moment className='date' format='D MMM YYYY'>{message.date}</Moment>
+        <CardBody>   
+          <CardText className='message-text'>{message.message}</CardText>
         </CardBody>
-        <Button color='primary' onClick={this.toggleCollapse}>Edit Message</Button>
-        <Collapse isOpen={this.state.collapse}>
+        <div className='icon-box'>
+        <FontAwesomeIcon className='edit-icon' onClick={this.toggleCollapse} icon={faPencilAlt} size='2x'/>
+        </div>
+        <Collapse className='collapse-box' isOpen={this.state.collapse}>
           <Form onSubmit={this.submitUpdatedMessage}>
             <FormGroup>
               <Label for='message'>Message:</Label>
@@ -150,7 +160,7 @@ class AuthMessageCard extends Component {
 
 
 
-const NonAuthMessageCard = (props) => {
+export const NonAuthMessageCard = (props) => {
   const { message } = props;
   return (
     <Card className='message-card' key={message._id} color='info'>

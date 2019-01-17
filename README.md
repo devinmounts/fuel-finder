@@ -1,44 +1,55 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Fuel Finder
 
-## Available Scripts
+#### 12/20/2018
 
-In the project directory, you can run:
+#### By Devin Mounts
 
-### `npm start`
+## A web application that consumes the National Renewable Energy Laboratory API of alternative fuel station locations. Locations are mapped using Leaflet.js maps. Signed in users can post, update and delete comments after clicking on a location.  Comments are stored in a MongoDB using an Node/Express API. Change streams in the database are observed with Pusher, creating a realtime db*.  Site is deployed through Zeit (now) AWS.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Setup on OSX
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+* Clone the repo
+* [Install and run Mongodb via Homebrew](https://treehouse.github.io/installation-guides/mac/mongo-mac.html)
+* instantiate a mongo daemon with replica set `mongod --replSet "rs"`
+* Create a `.gitignore` file and include: `.DS_STORE, node_modules, build.`
+* `npm install` to install dependencies
+* `webpack-dev-server` to build and start the dev server
+* `npm run lint` to explicitly run ESLint
+* `npm run test` to run the unit tests with
 
-### `npm test`
+## Contribution Requirements
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Clone the repo
+1. Make a new branch
+1. Commit and push your changes
+1. Create a PR
 
-### `npm run build`
+## Technologies Used
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+* JavaScript
+* Node.js
+* Express
+* React.js
+* Redux
+* Babel
+* Moment.js
+* Leaflet.js
+* National Renewable Energy Laboratory API
+* MongoDB
+* Mongoose.js
+* Pusher.js
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+## Links
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+* Repo: https://github.com/devinmounts/fuel_finder
+* Deployed Site:
+https://www.chargemyengine.com
 
-### `npm run eject`
+## *Notes 
+* MongoDB deployed through mLab sandbox for development. Development db does not have access to change streams in mongo oplog.  To view application with realtime db, follow instructions for clonning application and running on localhost.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## License
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+This software is licensed under the MIT license.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Copyright (c) 2018 **Devin Mounts**

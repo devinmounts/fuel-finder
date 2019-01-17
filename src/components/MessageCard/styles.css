@@ -1,4 +1,47 @@
 .message-card {
   margin: 10px;
   padding: 5px;
+  background-color: #efc45f!important;
+  color: #231f20;
+  border: solid 2px #231f20!important;
+}
+
+.message-user-name {
+  padding: 5px;
+  font-size: 2rem;
+  font-family: monospace;
+}
+
+.icon-box {
+  width: 100%; 
+}
+
+.edit-icon {
+  margin: 5px;
+  float: right;
+  cursor: pointer;
+}
+
+.edit-icon:hover {
+  transform: scale(1.05);
+}
+
+
+.date {
+  padding-left: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: monospace;
+}
+
+.message-text {
+  font-family: monospace;
+  font-size: 20px;
+}
+
+.collapse-box {
+  border: solid 2px #efc45f;
+  border-radius: 6px;
+  background-color: #fff;
+  padding: 5px;
 }

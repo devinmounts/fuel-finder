@@ -1,0 +1,38 @@
+.home-page {
+ background-color:#3e0f0f;
+ margin-top: -16px;
+ padding-bottom: 20px;
+}
+
+/* .home-page::before {
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  content: '';
+  z-index: 2;
+  width: 100%;
+  height: 246px;
+  background: linear-gradient(to top, transparent 0%, rgba(1,0,0,0.05) 14%, rgba(0,0,0,0.17) 36%, rgba(0,0,0,0.31) 44%, rgba(0,0,0,0.65) 57%, rgba(0,0,0,0.81) 65%, rgba(0,0,0,0.91) 70%, rgba(0,0,0,0.97) 75%, #000 92%);  background-repeat: repeat-x;
+  background-position: left bottom;
+} */
+
+.hr-box{
+  height: 200px;
+  text-align: center;
+  position: relative;
+}
+
+.hr {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%);
+  transform: translateX(-50%);
+  border: none;
+  border-radius: 8px;
+  width: 80%;
+  height: 19px;
+  color: #eac16f;
+  background-color: #eac16f;
+}

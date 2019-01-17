@@ -2,8 +2,11 @@
   color: #fff;
   display: block;
   transition: .3s background-color;
-  background-color: black;
+  background-color: #3e0f0f;
   border: none;
+  margin: 0 auto;
+  width: 100%;
+  cursor: pointer;
 }
 
 .sign-out-button:hover {
@@ -11,7 +14,7 @@
   color: black;
 }
  
-.nav-container.active {
+.sign-out-button:active {
   background-color: #fff;
   color: #444;
   cursor: default;
