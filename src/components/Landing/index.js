@@ -1,12 +1,12 @@
 import React from 'react';
-import LandingMap from '../Map/landingMap';
+import MapBox from '../MapBox';
 import SelectedStation from '../SelectedStation';
 import LandingSearch from '../Landing/search';
 
 const Landing = () => (
   <div className='landing-page'>
     <LandingSearch />
-    <LandingMap />
+    <MapBox />
     <SelectedStation />
   </div>
 );
