@@ -36,7 +36,7 @@ class FuelMap extends Component {
 			// messages: [],
 			haveStationsArray: false,
 			stationsArray: [],
-			localSelectedStation: null,
+			selectedStation: null,
 			localSelectedStationMessagesArray: []
 		}
 	}
@@ -59,7 +59,7 @@ class FuelMap extends Component {
 
   handleMarkerClick = (station) => {
 		this.setState({
-			localSelectedStation: station
+			selectedStation: station
 		});
 		this.props.onSetFuelStation(station);
 		getMessagesAtStationID(station.id)
@@ -69,11 +69,15 @@ class FuelMap extends Component {
 				});
 				this.props.onSetFuelStationMessages(messagesArray)
 			});
-	}
+  }
+  
+  handleScrollToDetails = () => {
+    console.log('scroll');
+  }
 
   render(){
-
-    console.log(this.props);
+    const { selectedStation } = this.state;
+    console.log(selectedStation);
     return(
       <div className='map-container'>
       Mapbox works
@@ -90,7 +94,18 @@ class FuelMap extends Component {
             {this.props.stationsArray && this.props.stationsArray.length > 0 ? this.getMarkers() : ''}
 
             {/* <Feature coordinates={this.state.location}/> */}
-          </Layer>      
+          </Layer>
+          { selectedStation && (
+            <Popup key={selectedStation.id} coordinates={[selectedStation.longitude, selectedStation.latitude]} >
+              <div className='popup'>
+                <div>{selectedStation.name}</div>
+                <div>
+                {selectedStation.station_name}
+                <div className='more-link' onClick={this.handleScrollToDetails}><a>more info...</a></div>
+                </div>  
+              </div>
+            </Popup>  
+          )}
         </MapBox>
       </div>
     );
