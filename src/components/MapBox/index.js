@@ -7,11 +7,12 @@ import { gasCanSvg } from './gasCan';
 import { connect } from 'react-redux';
 import { getMessagesAtStationID } from './../API_REALTIME/index'
 import { getAllFuelLocations } from './../API_MapBox';
+import mapboxgl from 'mapbox-gl';
 
 /** Create Map */
 const MapBox = ReactMapboxGl({
- accessToken: process.env.REACT_APP_MAPBOX_TOKEN
-});
+	accessToken: process.env.REACT_APP_MAPBOX_TOKEN
+ });
 
 /** Define Layout Layer */
 const layoutLayer = { 'icon-image': 'fuelFinder'}
@@ -43,8 +44,33 @@ class FuelMap extends Component {
 			localSelectedStationMessagesArray: []
 		}
 	}
-  componentWillMount() {
-		getAllFuelLocations()
+  componentDidMount() {
+		mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
+		const map = new mapboxgl.Map({
+			container: 'map',
+			center: this.props.center,
+			zoom: this.props.zoom,
+			style: 'mapbox://styles/devinmounts/cjr1c6tna0ckn2sp8tz6dc0n5'
+		});
+
+		map.on('click', (e) => {
+			let features = map.queryRenderedFeatures(e.point,
+				{
+					layers: ['fuel-station-points']
+				});
+
+				if(!features.length) {
+					return;
+				}
+				let feature = features[0];
+
+				const popup = new mapboxgl.Popup({ offset: [0, -5]
+				})
+					.setLngLat(feature.geometry.coordinates)
+					.setHTML(`<p>${feature.properties.id}</p>`)
+					.addTo(map);
+
+		});
 	}
 
   getMarkers = () => {
@@ -64,18 +90,19 @@ class FuelMap extends Component {
   }
 
   handleMarkerClick = (station) => {
-		this.setState({
-      selectedStation: station,
-      center: [station.longitude, station.latitude],
-		});
-		this.props.onSetFuelStation(station);
-		getMessagesAtStationID(station.id)
-			.then(messagesArray => {
-				this.setState({
-					localSelectedStationMessagesArray: messagesArray
-				});
-				this.props.onSetFuelStationMessages(messagesArray)
-			});
+		console.log('click');
+		// this.setState({
+    //   selectedStation: station,
+    //   center: [station.longitude, station.latitude],
+		// });
+		// this.props.onSetFuelStation(station);
+		// getMessagesAtStationID(station.id)
+		// 	.then(messagesArray => {
+		// 		this.setState({
+		// 			localSelectedStationMessagesArray: messagesArray
+		// 		});
+		// 		this.props.onSetFuelStationMessages(messagesArray)
+		// 	});
   }
   
   handleScrollToDetails = () => {
@@ -85,33 +112,8 @@ class FuelMap extends Component {
   render(){
     const { selectedStation } = this.state;
     return(
-      <div className='map-container'>
-        <MapBox 
-        className='map'
-        center={this.props.center}
-        zoom={this.props.zoom}
-        style="mapbox://styles/devinmounts/cjr1c6tna0ckn2sp8tz6dc0n5">
-          <Layer
-            type="symbol"
-            id="marker"
-            images={images}
-            layout={layoutLayer}>
-            {this.props.stationsArray && this.props.stationsArray.length > 0 ? this.getMarkers() : ''}
-
-            {/* <Feature coordinates={this.state.location}/> */}
-          </Layer>
-          { selectedStation && (
-            <Popup key={selectedStation.id} coordinates={[selectedStation.longitude, selectedStation.latitude]} >
-              <div className='popup'>
-                <div>{selectedStation.name}</div>
-                <div>
-                {selectedStation.station_name}
-                <div className='more-link' onClick={this.handleScrollToDetails}><a>more info...</a></div>
-                </div>  
-              </div>
-            </Popup>  
-          )}
-        </MapBox>
+      <div id='map'>
+        
       </div>
     );
   }
@@ -152,3 +154,32 @@ export default connect(mapStateToProps, mapDispatchToProps)(FuelMap);
 //         coordinates={this.state.location} />
 //         {/* {this.props.stationsArray && this.props.stationsArray.length > 0 ? this.getMarkers() : ''} */}
 //         </Layer>
+
+/* <Layer
+            type="symbol"
+            id="marker"
+            images={images}
+            layout={layoutLayer}>
+            {this.props.stationsArray && this.props.stationsArray.length > 0 ? this.getMarkers() : ''}
+
+            <Feature coordinates={this.state.location}/>
+          </Layer>
+          { selectedStation && (
+            <Popup key={selectedStation.id} coordinates={[selectedStation.longitude, selectedStation.latitude]} >
+              <div className='popup'>
+                <div>{selectedStation.name}</div>
+                <div>
+                {selectedStation.station_name}
+                <div className='more-link' onClick={this.handleScrollToDetails}><a>more info...</a></div>
+                </div>  
+              </div>
+            </Popup>  
+					)} */
+					
+				// 	<MapBox 
+        // className='map'
+        // center={this.props.center}
+        // zoom={this.props.zoom}
+				// onClick={this.handleMarkerClick}
+        // style='mapbox://styles/devinmounts/cjr1c6tna0ckn2sp8tz6dc0n5'>
+        // </MapBox>
