@@ -1,4 +1,3 @@
-const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api/v1/messages' : ''
 const REALTIME_API_URL = window.location.hostname === 'localhost' ? 'http://localhost:9000/api/messages' : 'https://api.chargemyengine.com/api/messages'
 
 export const getUserLocation = () => {
@@ -33,10 +32,8 @@ export const getAltFuelLocations = (lat, lng) => {
 				{...station}
 			))
 			return stationsArray;
-		})
-		
-		)
-	})
+		}));
+	});
 }
 
 export const getSearchedFuelLocations = (state) => {

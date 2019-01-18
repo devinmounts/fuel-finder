@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { gasCanSvg } from './gasCan';
 import { connect } from 'react-redux';
 import { getMessagesAtStationID } from './../API_REALTIME/index'
+import { getAllFuelLocations } from './../API_MapBox';
 
 /** Create Map */
 const MapBox = ReactMapboxGl({
@@ -42,7 +43,10 @@ class FuelMap extends Component {
 			localSelectedStationMessagesArray: []
 		}
 	}
-  
+  componentWillMount() {
+		getAllFuelLocations()
+	}
+
   getMarkers = () => {
     const markers = this.props.stationsArray.map((station) => (
 			<Feature
