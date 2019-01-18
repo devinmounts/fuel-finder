@@ -25,6 +25,8 @@ class FuelMap extends Component {
 		super(props)
 
 		this.state = {
+      center: this.props.center,
+      zoom: this.props.zoom,
 			haveUserLocation: false,
 			userMessage: {
 				name: '',
@@ -59,7 +61,8 @@ class FuelMap extends Component {
 
   handleMarkerClick = (station) => {
 		this.setState({
-			selectedStation: station
+      selectedStation: station,
+      center: [station.longitude, station.latitude],
 		});
 		this.props.onSetFuelStation(station);
 		getMessagesAtStationID(station.id)
@@ -77,20 +80,18 @@ class FuelMap extends Component {
 
   render(){
     const { selectedStation } = this.state;
-    console.log(selectedStation);
     return(
       <div className='map-container'>
-      Mapbox works
         <MapBox 
         className='map'
-        center={this.props.location}
+        center={this.props.center}
         zoom={this.props.zoom}
         style="mapbox://styles/mapbox/streets-v8">
           <Layer
             type="symbol"
             id="marker"
             images={images}
-            layout={{ "icon-image": "fuelFinder" }}>
+            layout={layoutLayer}>
             {this.props.stationsArray && this.props.stationsArray.length > 0 ? this.getMarkers() : ''}
 
             {/* <Feature coordinates={this.state.location}/> */}
@@ -114,7 +115,7 @@ class FuelMap extends Component {
 
 const mapStateToProps = state => ({
 	stationsArray: state.stationsArrayState.stationsArray,
-	location: state.stationsArrayState.location,
+	center: state.stationsArrayState.center,
 	zoom: state.stationsArrayState.zoom,
 	fuelStation: state.fuelStationState.selectedStation,
 	authUser: state.sessionState.authUser

@@ -1,6 +1,5 @@
 const INITIAL_STATE = {
   selectedStation: null,
-  
 }
 
 const applySetStation = (state, action) => ({

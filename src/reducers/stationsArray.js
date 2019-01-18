@@ -1,6 +1,6 @@
 const  INITIAL_STATE = {
   stationsArray: null,
-  location: [-100.00,  40.51],
+  center: [-100.00,  40.51],
   zoom: [2]
 }
 
@@ -8,14 +8,24 @@ const applySetStationsArray = (state, action) => (
   {
     ...state,
   stationsArray: action.stationsArray,
-  location: [action.stationsArray[0].longitude, action.stationsArray[0].latitude],
+  center: [action.stationsArray[0].longitude, action.stationsArray[0].latitude],
   zoom: [5]
 });
+
+const applySetStation = (state, action) => (
+  {
+    ...state,
+    center: [action.fuelStation.longitude, action.fuelStation.latitude],
+  }
+)
 
 function stationsArrayReducer(state = INITIAL_STATE, action) {
   switch(action.type){
     case 'STATIONS_ARRAY_SET': {
       return applySetStationsArray(state, action);
+    }
+    case 'STATION_SET': {
+      return applySetStation(state, action);
     }
     default:
       return state;
