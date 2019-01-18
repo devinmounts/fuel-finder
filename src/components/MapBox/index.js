@@ -86,7 +86,7 @@ class FuelMap extends Component {
         className='map'
         center={this.props.center}
         zoom={this.props.zoom}
-        style="mapbox://styles/mapbox/streets-v8">
+        style="mapbox://styles/devinmounts/cjr1c6tna0ckn2sp8tz6dc0n5">
           <Layer
             type="symbol"
             id="marker"
