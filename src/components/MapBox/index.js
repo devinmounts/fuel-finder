@@ -9,18 +9,18 @@ import { getMessagesAtStationID } from './../API_REALTIME/index'
 import { getAllFuelLocations } from './../API_MapBox';
 import mapboxgl from 'mapbox-gl';
 
-/** Create Map */
-const MapBox = ReactMapboxGl({
-	accessToken: process.env.REACT_APP_MAPBOX_TOKEN
- });
+// /** Create Map */
+// const MapBox = ReactMapboxGl({
+// 	accessToken: process.env.REACT_APP_MAPBOX_TOKEN
+//  });
 
-/** Define Layout Layer */
-const layoutLayer = { 'icon-image': 'fuelFinder'}
+// /** Define Layout Layer */
+// const layoutLayer = { 'icon-image': 'fuelFinder'}
 
-// Create an image for the Layer
-const image = new Image();
-image.src = 'data:image/svg+xml;charset=utf-8;base64,' + btoa(gasCanSvg);
-const images = ['fuelFinder', image];
+// // Create an image for the Layer
+// const image = new Image();
+// image.src = 'data:image/svg+xml;charset=utf-8;base64,' + btoa(gasCanSvg);
+// const images = ['fuelFinder', image];
 
 class FuelMap extends Component {
   constructor(props) {
@@ -53,6 +53,17 @@ class FuelMap extends Component {
 			style: 'mapbox://styles/devinmounts/cjr1c6tna0ckn2sp8tz6dc0n5'
 		});
 
+		map.on('load', () => {
+			map.addSource(`cjr2j0dpp1u802wplf3b3k6d9`, {
+				type: 'geojson',
+        data: "https://docs.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson",
+				cluster: true,
+				clusterMaxZoom: 14,
+				clusterRadius: 50
+			});
+		});
+		
+
 		map.on('click', (e) => {
 			let features = map.queryRenderedFeatures(e.point,
 				{
@@ -69,6 +80,8 @@ class FuelMap extends Component {
 					.setLngLat(feature.geometry.coordinates)
 					.setHTML(`<p>${feature.properties.id}</p>`)
 					.addTo(map);
+
+					console.log('click', feature.properties.id);
 
 		});
 	}
