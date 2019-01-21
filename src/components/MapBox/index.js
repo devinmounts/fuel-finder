@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { gasCanSvg } from './gasCan';
 import { connect } from 'react-redux';
 import { getMessagesAtStationID } from './../API_REALTIME/index'
-import { getStatePolygonFeatures, getAllFuelLocations } from './../API_MapBox';
+import { getStatePolygonFeatures, runFetchUpdateAndAddFuelStations } from './../API_MapBox';
 import mapboxgl from 'mapbox-gl';
 
 // /** Create Map */
@@ -45,8 +45,9 @@ class FuelMap extends Component {
 		}
 	}
   componentDidMount() {
-		getAllFuelLocations();
-		getStatePolygonFeatures();
+		// getAllFuelLocations();
+		// getStatePolygonFeatures();
+		runFetchUpdateAndAddFuelStations();
 		mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
 		const map = new mapboxgl.Map({
 			container: 'map',

@@ -1,4 +1,5 @@
-export const getAllFuelLocations = () => {
+/** Fetch All stations and format as GEOJson to be uploaded to MapBox DB */
+export const getAllFuelLocationsToGeoJson = () => {
 	return new Promise((resolve) => {
 		resolve(fetch(`https://developer.nrel.gov/api/alt-fuel-stations/v1.json?api_key=${process.env.REACT_APP_ALT_FUEL_STATIONS_API_KEY}`)
 		.then(res => res.json())
@@ -90,22 +91,58 @@ const abbreviations = {
 	"WI": "Wisconsin",
 	"WY": "Wyoming"
 }
-
-export const getStatePolygonFeatures = () => {
+/** Retrieve State Polygon GEOJson from Mapbox DB and Add new tuple Key Value of State Abbreviation */
+ const getStatePolygonFeaturesAddAbbreviation = () => {
 	return new Promise((resolve) => {
 		resolve(fetch(`https://api.mapbox.com/datasets/v1/devinmounts/cjr2oic8d1yf42xphkathbrt8/features?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`)
 		.then(res => res.json())
 		.then(res => {
-		console.log(res.features);
-	let newGEOJSON = res.features.map(feature => { 
-		if (!feature.properties.ABBREVIATION) {
-			feature.properties.ABBREVIATION = ''
+	  res.features.map(feature => { 
+			if (!feature.properties.ABBREVIATION) {
+				feature.properties.ABBREVIATION = ''
+			}
+			const key = Object.keys(abbreviations).find(key => abbreviations[key] === feature.properties.NAME);
+			feature.properties.ABBREVIATION = key;
+			});
+			 return res.features;
+	}));
+	});
+}
+
+/** Remove Census Area Tuple and Add Fuel Stations Tuple */
+const removeCensusAreaAddFuelStationKey = (array) => {
+	array.map(feature => {
+		if(feature.properties.CENSUSAREA) {
+			delete feature.properties.CENSUSAREA
+			feature.properties.FUEL_STATIONS = 0;
 		}
-		const key = Object.keys(abbreviations).find(key => abbreviations[key] === feature.properties.NAME);
-		feature.properties.ABBREVIATION = key;
-		console.log(newGEOJSON);
-		})
+	});
+	return array
+}
+
+/** Retrieve all Fuel Locations from NREL API */
+ const getAllFuelLocations = () => {
+	return new Promise((resolve) => {
+		resolve(fetch(`https://developer.nrel.gov/api/alt-fuel-stations/v1.json?api_key=${process.env.REACT_APP_ALT_FUEL_STATIONS_API_KEY}`)
+		.then(res => res.json())
+		.then(res => {
+			return res;
 		}));
 	});
+}
+
+export const runFetchUpdateAndAddFuelStations = () => {
+	let statePolygonGeoJson = [];
+	getStatePolygonFeaturesAddAbbreviation()
+	.then(abrreviatedArray => 
+		statePolygonGeoJson = removeCensusAreaAddFuelStationKey(abrreviatedArray),
+		console.log(statePolygonGeoJson)
+	)
+	.then(
+		getAllFuelLocations()
+	.then(allStationsArray => {
+		console.log(allStationsArray);
+	})
+	);
 }
 
