@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { gasCanSvg } from './gasCan';
 import { connect } from 'react-redux';
 import { getMessagesAtStationID } from './../API_REALTIME/index'
-import { getAllFuelLocations } from './../API_MapBox';
+import { getStatePolygonFeatures, getAllFuelLocations } from './../API_MapBox';
 import mapboxgl from 'mapbox-gl';
 
 // /** Create Map */
@@ -45,6 +45,8 @@ class FuelMap extends Component {
 		}
 	}
   componentDidMount() {
+		getAllFuelLocations();
+		getStatePolygonFeatures();
 		mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
 		const map = new mapboxgl.Map({
 			container: 'map',
@@ -53,37 +55,37 @@ class FuelMap extends Component {
 			style: 'mapbox://styles/devinmounts/cjr1c6tna0ckn2sp8tz6dc0n5'
 		});
 
-		map.on('load', () => {
-			map.addSource(`cjr2j0dpp1u802wplf3b3k6d9`, {
-				type: 'geojson',
-        data: "https://docs.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson",
-				cluster: true,
-				clusterMaxZoom: 14,
-				clusterRadius: 50
-			});
-		});
+		// map.on('load', () => {
+		// 	map.addSource(`cjr2j0dpp1u802wplf3b3k6d9`, {
+		// 		type: 'geojson',
+    //     data: "https://docs.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson",
+		// 		cluster: true,
+		// 		clusterMaxZoom: 14,
+		// 		clusterRadius: 50
+		// 	});
+		// });
 		
 
-		map.on('click', (e) => {
-			let features = map.queryRenderedFeatures(e.point,
-				{
-					layers: ['fuel-station-points']
-				});
+		// map.on('click', (e) => {
+		// 	let features = map.queryRenderedFeatures(e.point,
+		// 		{
+		// 			layers: ['fuel-station-points']
+		// 		});
 
-				if(!features.length) {
-					return;
-				}
-				let feature = features[0];
+		// 		if(!features.length) {
+		// 			return;
+		// 		}
+		// 		let feature = features[0];
 
-				const popup = new mapboxgl.Popup({ offset: [0, -5]
-				})
-					.setLngLat(feature.geometry.coordinates)
-					.setHTML(`<p>${feature.properties.id}</p>`)
-					.addTo(map);
+		// 		const popup = new mapboxgl.Popup({ offset: [0, -5]
+		// 		})
+		// 			.setLngLat(feature.geometry.coordinates)
+		// 			.setHTML(`<p>${feature.properties.id}</p>`)
+		// 			.addTo(map);
 
-					console.log('click', feature.properties.id);
+		// 			console.log('click', feature.properties.id);
 
-		});
+		// });
 	}
 
   getMarkers = () => {
