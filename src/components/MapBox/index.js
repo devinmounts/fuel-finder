@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { gasCanSvg } from './gasCan';
 import { connect } from 'react-redux';
 import { getMessagesAtStationID } from './../API_REALTIME/index'
-import { getStatePolygonFeatures, runFetchUpdateAndAddFuelStations } from './../API_MapBox';
+import { getStatePolygonFeatures, runFetchUpdateAndAddFuelStations, stringifyGeoJson } from './../API_MapBox';
 import mapboxgl from 'mapbox-gl';
 
 // /** Create Map */
