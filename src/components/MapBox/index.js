@@ -45,8 +45,6 @@ class FuelMap extends Component {
 		}
 	}
   componentDidMount() {
-		// getAllFuelLocations();
-		// getStatePolygonFeatures();
 		runFetchUpdateAndAddFuelStations();
 		mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
 		const map = new mapboxgl.Map({

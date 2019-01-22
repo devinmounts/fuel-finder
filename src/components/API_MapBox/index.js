@@ -93,35 +93,6 @@ const abbreviations = {
 	"WI": "Wisconsin",
 	"WY": "Wyoming"
 }
-/** Retrieve State Polygon GEOJson from Mapbox DB and Add new tuple Key Value of State Abbreviation */
-//  const getStatePolygonFeaturesAddAbbreviation = () => {
-// 	return new Promise((resolve) => {
-// 		resolve(fetch(`https://api.mapbox.com/datasets/v1/devinmounts/cjr6ynjx60e4q33pkxq98oftm/features?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`)
-// 		.then(res => res.json())
-// 		.then(res => {
-// 	  res.features.map(feature => { 
-// 			if (!feature.properties.ABBREVIATION) {
-// 				feature.properties.ABBREVIATION = ''
-// 			}
-// 			const key = Object.keys(abbreviations).find(key => abbreviations[key] === feature.properties.NAME);
-// 			feature.properties.ABBREVIATION = key;
-// 			});
-// 				console.log(res.features);
-// 			 return res.features;
-// 	}));
-// 	});
-// }
-
-// /** Remove Census Area Tuple and Add Fuel Stations Tuple */
-// const removeCensusAreaAddFuelStationKey = (array) => {
-// 	array.map(feature => {
-// 		if(feature.properties.CENSUSAREA) {
-// 			delete feature.properties.CENSUSAREA
-// 			feature.properties.FUEL_STATIONS = 0;
-// 		}
-// 	});
-// 	return array
-// }
 
 /** Retrieve all Fuel Locations from NREL API */
  const getAllFuelLocations = () => {
@@ -160,28 +131,4 @@ export const runFetchUpdateAndAddFuelStations = () => {
 			});
 		}
 
-		export const stringifyGeoJson = (GeoJson) => {
-			console.log(GeoJson);
-		}
 
-// getStatePolygonFeaturesAddAbbreviation()
-	// .then((abrreviatedArray) => 
-	// 	removeCensusAreaAddFuelStationKey(abrreviatedArray)
-	// )
-	// .then( formattedArray =>
-	// 	getAllFuelLocations()
-	// 	.then(allStationsArray => {
-	// 		// console.log(allStationsArray.fuel_stations);
-	// 		allStationsArray.fuel_stations.forEach(station => {
-	// 			// console.log(station);
-	// 				formattedArray.forEach(feature => {
-	// 					if(station.state === feature.properties.ABBREVIATION) {
-	// 						feature.properties.FUEL_STATIONS += 1;
-	// 					}
-	// 				});
-	// 		});
-	// 	console.log(JSON.stringify({ type: "FeatureCollection",
-	// 	features: formattedArray 
-	//  	}));
-	// 	})
-	// );
