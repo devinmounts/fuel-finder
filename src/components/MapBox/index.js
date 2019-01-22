@@ -53,16 +53,10 @@ class FuelMap extends Component {
 			zoom: this.props.zoom,
 			style: 'mapbox://styles/devinmounts/cjr1c6tna0ckn2sp8tz6dc0n5'
 		});
-
-		// map.on('load', () => {
-		// 	map.addSource(`cjr2j0dpp1u802wplf3b3k6d9`, {
-		// 		type: 'geojson',
-    //     data: "https://docs.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson",
-		// 		cluster: true,
-		// 		clusterMaxZoom: 14,
-		// 		clusterRadius: 50
-		// 	});
-		// });
+		
+		map.on('load', () => {
+			console.log(map.setLayoutProperty('fuel-station-points', 'cluster', true));	
+		});
 		
 
 		// map.on('click', (e) => {

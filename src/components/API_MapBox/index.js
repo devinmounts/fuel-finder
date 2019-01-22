@@ -127,7 +127,7 @@ export const runFetchUpdateAndAddFuelStations = () => {
 						}
 					})
 				})
-				console.log(JSON.stringify(stateGeoJson));
+				// console.log(JSON.stringify(stateGeoJson));
 			});
 		}
 
