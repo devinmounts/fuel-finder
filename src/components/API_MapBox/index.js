@@ -105,7 +105,13 @@ const abbreviations = {
 	});
 }
 
-/**  */
+const groupByFuelType = (objArray, property) => {
+		return objArray.reduce((acc, station) => {
+			
+		}, {});
+}
+
+/** Format State Polygon GeoJson with State Abbreviation, Fuel Station & Increment Fuel Station Value */
 export const runFetchUpdateAndAddFuelStations = () => {
 	stateGeoJson.features.map(feature => { 
 		if (!feature.properties.ABBREVIATION) {
@@ -115,20 +121,27 @@ export const runFetchUpdateAndAddFuelStations = () => {
 		feature.properties.ABBREVIATION = key;
 		if(feature.properties.CENSUSAREA) {
 			delete feature.properties.CENSUSAREA
-			feature.properties.FUEL_STATIONS = 0;
+			feature.properties.FUEL_STATIONS = {total: 0};
+			
 		}
 		});
 		getAllFuelLocations()
 			.then(result => {
+				console.log(result);
 				result.fuel_stations.forEach(station => {
 					stateGeoJson.features.map(feature => {
 						if( station.state === feature.properties.ABBREVIATION ) {
-							feature.properties.FUEL_STATIONS += 1;
+							feature.properties.FUEL_STATIONS.total += 1;
+							if(!feature.properties.FUEL_STATIONS[station.fuel_type_code]) {
+								feature.properties.FUEL_STATIONS[station.fuel_type_code] = 0;
+							}
+							feature.properties.FUEL_STATIONS[station.fuel_type_code] += 1;
 						}
 					})
 				})
-				// console.log(JSON.stringify(stateGeoJson));
+				console.log(JSON.stringify(stateGeoJson));
 			});
 		}
+
 
 

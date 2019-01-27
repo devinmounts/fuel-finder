@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { getMessagesAtStationID } from './../API_REALTIME/index'
 import { getStatePolygonFeatures, runFetchUpdateAndAddFuelStations, stringifyGeoJson } from './../API_MapBox';
 import mapboxgl from 'mapbox-gl';
-
+ 
 // /** Create Map */
 // const MapBox = ReactMapboxGl({
 // 	accessToken: process.env.REACT_APP_MAPBOX_TOKEN
@@ -51,11 +51,14 @@ class FuelMap extends Component {
 			container: 'map',
 			center: this.props.center,
 			zoom: this.props.zoom,
-			style: 'mapbox://styles/devinmounts/cjr1c6tna0ckn2sp8tz6dc0n5'
+			style: 'mapbox://styles/devinmounts/cjreek0rk17oi2tpz90g0gncz',
 		});
 		
 		map.on('load', () => {
-			console.log(map.setLayoutProperty('fuel-station-points', 'cluster', true));	
+			// map.addSource('fuel-points', {
+			// 	type: 'geojson',
+			// 	data: 
+			// })
 		});
 		
 
