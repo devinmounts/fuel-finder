@@ -121,27 +121,24 @@ export const runFetchUpdateAndAddFuelStations = () => {
 		feature.properties.ABBREVIATION = key;
 		if(feature.properties.CENSUSAREA) {
 			delete feature.properties.CENSUSAREA
-			feature.properties.FUEL_STATIONS = {total: 0};
+			feature.properties.FUEL_STATIONS = 0;
 			
 		}
 		});
 		getAllFuelLocations()
 			.then(result => {
-				console.log(result);
 				result.fuel_stations.forEach(station => {
 					stateGeoJson.features.map(feature => {
 						if( station.state === feature.properties.ABBREVIATION ) {
-							feature.properties.FUEL_STATIONS.total += 1;
-							if(!feature.properties.FUEL_STATIONS[station.fuel_type_code]) {
-								feature.properties.FUEL_STATIONS[station.fuel_type_code] = 0;
+							feature.properties.FUEL_STATIONS += 1;
+							if(!feature.properties[station.fuel_type_code]) {
+								feature.properties[station.fuel_type_code] = 0;
 							}
-							feature.properties.FUEL_STATIONS[station.fuel_type_code] += 1;
+							feature.properties[station.fuel_type_code] += 1;
 						}
 					})
 				})
-				console.log(JSON.stringify(stateGeoJson));
+				// console.log(JSON.stringify(stateGeoJson));
 			});
 		}
-
-
 

@@ -55,6 +55,25 @@ class FuelMap extends Component {
 		});
 		
 		map.on('load', () => {
+			const layers = ['0-100', '100-250', '250-500', '500-1000', '1000-2000', '2000-3000', '3000+'];
+			const colors = ['#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c', '#bd0026', '#790119'];
+			for (let i = 0; i < layers.length; i++) {
+				let layer = layers[i];
+				let color = colors[i];
+				let legend = document.getElementById('legend')
+				let item = document.createElement('div');
+				let key = document.createElement('span');
+				key.className = 'legend-key';
+				key.style.backgroundColor = color;
+			
+				var value = document.createElement('span');
+				value.innerHTML = layer;
+				item.appendChild(key);
+				item.appendChild(value);
+				legend.appendChild(item);
+			}
+			
+			console.log(map.getSource());
 			// map.addSource('fuel-points', {
 			// 	type: 'geojson',
 			// 	data: 
@@ -123,9 +142,13 @@ class FuelMap extends Component {
   render(){
     const { selectedStation } = this.state;
     return(
-      <div id='map'>
-        
-      </div>
+			<div className='mapbox-container'>
+				<div id='map'>
+					
+				</div>
+				<div className='map-overlay' id='features'><h2>Fuel Stations</h2><div id='pd'><p>Hover over a state!</p></div></div>
+				<div className='map-overlay' id='legend'></div>
+			</div>
     );
   }
 }
