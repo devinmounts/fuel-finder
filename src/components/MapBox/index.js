@@ -72,35 +72,23 @@ class FuelMap extends Component {
 				item.appendChild(value);
 				legend.appendChild(item);
 			}
+
 			
 			console.log(map.getSource());
-			// map.addSource('fuel-points', {
-			// 	type: 'geojson',
-			// 	data: 
-			// })
 		});
-		
 
-		// map.on('click', (e) => {
-		// 	let features = map.queryRenderedFeatures(e.point,
-		// 		{
-		// 			layers: ['fuel-station-points']
-		// 		});
+		map.on('mousemove', (e) => {
+				const states = map.queryRenderedFeatures(e.point, {
+					layers: ['state-polygons-with-fuel-data-1ejxn1']
+				});
 
-		// 		if(!features.length) {
-		// 			return;
-		// 		}
-		// 		let feature = features[0];
-
-		// 		const popup = new mapboxgl.Popup({ offset: [0, -5]
-		// 		})
-		// 			.setLngLat(feature.geometry.coordinates)
-		// 			.setHTML(`<p>${feature.properties.id}</p>`)
-		// 			.addTo(map);
-
-		// 			console.log('click', feature.properties.id);
-
-		// });
+				if (states.length > 0) {
+					console.log(states[0])
+					document.getElementById('pd').innerHTML = `<h3><strong>${states[0].properties.NAME}</strong></h3><p><strong><em>${states[0].properties.FUEL_STATIONS}</strong> fuel stations</em></p>`;
+				} else {
+					document.getElementById('pd').innerHTML = `<p>Hover over a state!</p>`;					
+				}
+		});
 	}
 
   getMarkers = () => {
