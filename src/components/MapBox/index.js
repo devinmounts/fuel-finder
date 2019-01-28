@@ -41,7 +41,8 @@ class FuelMap extends Component {
 			haveStationsArray: false,
 			stationsArray: [],
 			selectedStation: null,
-			localSelectedStationMessagesArray: []
+			localSelectedStationMessagesArray: [],
+			hoveredStateId: null
 		}
 	}
   componentDidMount() {
@@ -55,6 +56,8 @@ class FuelMap extends Component {
 		});
 		
 		map.on('load', () => {
+
+			/** Set legend and Interactive Elements */
 			const layers = ['0-100', '100-250', '250-500', '500-1000', '1000-2000', '2000-3000', '3000+'];
 			const colors = ['#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c', '#bd0026', '#790119'];
 			for (let i = 0; i < layers.length; i++) {
@@ -73,23 +76,48 @@ class FuelMap extends Component {
 				legend.appendChild(item);
 			}
 
-			
-			console.log(map.getSource());
-		});
+			/** Set Feature Hover State  */
+			map.setPaintProperty('state-polygons-with-fuel-data-1ejxn1', 'fill-opacity', 
+			["case",
+			["boolean", ["feature-state", "hover"], false],
+			1,
+			0.6
+			]
+			);
 
-		map.on('mousemove', (e) => {
+			/** Populate interactive element on mousemove */
+			map.on('mousemove', (e) => {
 				const states = map.queryRenderedFeatures(e.point, {
 					layers: ['state-polygons-with-fuel-data-1ejxn1']
 				});
-
 				if (states.length > 0) {
-					console.log(states[0])
+					if(this.state.hoveredStateId) {
+						map.setFeatureState({source: 'composite', sourceLayer: 'state_polygons_with_fuel_data-1ejxn1', id: this.state.hoveredStateId},
+						{hover: false});
+					}
+					this.setState({
+						hoveredStateId: states[0].id
+					});
+					map.setFeatureState({source: 'composite', sourceLayer: 'state_polygons_with_fuel_data-1ejxn1', id: this.state.hoveredStateId }, 
+					{hover: true}
+					);
 					document.getElementById('pd').innerHTML = `<h3><strong>${states[0].properties.NAME}</strong></h3><p><strong><em>${states[0].properties.FUEL_STATIONS}</strong> fuel stations</em></p>`;
 				} else {
 					document.getElementById('pd').innerHTML = `<p>Hover over a state!</p>`;					
 				}
+		  });
+
+			map.on('click', (e) => {
+				const state = map.queryRenderedFeatures(e.point, {
+					layers: ['state-polygons-with-fuel-data-1ejxn1']
+				});
+
+				console.log(state);
+			});
+
 		});
 	}
+
 
   getMarkers = () => {
     const markers = this.props.stationsArray.map((station) => (
