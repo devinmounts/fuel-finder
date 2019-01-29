@@ -42,7 +42,7 @@ class FuelMap extends Component {
 			stationsArray: [],
 			selectedStation: null,
 			localSelectedStationMessagesArray: [],
-			hoveredStateId: null
+			hoveredStateAbbr: null
 		}
 	}
   componentDidMount() {
@@ -56,6 +56,92 @@ class FuelMap extends Component {
 		});
 		
 		map.on('load', () => {
+			/**Cluster Data Points */
+			const dataURL = `https://api.mapbox.com/datasets/v1/devinmounts/cjr2j0dpp1u802wplf3b3k6d9/features?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`
+			map.addSource('fuel_points', {
+				type: 'geojson',
+				data: dataURL,
+				cluster: true,
+				clusterMaxZoom: 14,
+				clusterRadius: 50,
+			});
+
+			map.addLayer({
+				id: "clusters",
+				type: "circle",
+				source: "fuel_points",
+				filter: ["has", "point_count"],
+				paint: {
+				"circle-color": [
+				"step",
+				["get", "point_count"],
+				"#51bbd6",
+				100,
+				"#f1f075",
+				750,
+				"#f28cb1"
+				],
+				"circle-radius": [
+				"step",
+				["get", "point_count"],
+				20,
+				100,
+				30,
+				750,
+				40
+				]
+				}
+			});
+
+			map.addLayer({
+				id: "cluster-count",
+				type: "symbol",
+				source: "fuel_points",
+				filter: ["has", "point_count"],
+				layout: {
+				"text-field": "{point_count_abbreviated}",
+				"text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+				"text-size": 12
+				}
+			});
+
+			map.addLayer({
+				id: "unclustered-point",
+				type: "circle",
+				source: "fuel_points",
+				filter: ["!", ["has", "point_count"]],
+				paint: {
+				"circle-color": "#11b4da",
+				"circle-radius": 4,
+				"circle-stroke-width": 1,
+				"circle-stroke-color": "#fff"
+				}
+			});
+			
+			map.on('click', 'clusters', (e) => {
+				let features = map.queryRenderedFeatures(e.point, { layers: ['clusters'] });
+				let clusterId = features[0].properties.cluster_id;
+				map.getSource('fuel_points').getClusterExpansionZoom(clusterId, (err, zoom) => {
+				if (err)
+				return;
+				 
+				map.easeTo({
+				center: features[0].geometry.coordinates,
+				zoom: zoom
+				});
+				});
+				});
+				
+
+			/** Set Feature Hover State  */
+			map.setPaintProperty('states-uuid-3qf5iu', 'fill-opacity', 
+			["case",
+			["boolean", ["feature-state", "hover"], false],
+			1,
+			0.6
+			]
+			);
+			// map.setFilter('states-uuid-hover', ['==', 'ABBREVIATION', this.state.hoveredStateAbbr])
 
 			/** Set legend and Interactive Elements */
 			const layers = ['0-100', '100-250', '250-500', '500-1000', '1000-2000', '2000-3000', '3000+'];
@@ -76,29 +162,23 @@ class FuelMap extends Component {
 				legend.appendChild(item);
 			}
 
-			/** Set Feature Hover State  */
-			map.setPaintProperty('state-polygons-with-fuel-data-1ejxn1', 'fill-opacity', 
-			["case",
-			["boolean", ["feature-state", "hover"], false],
-			1,
-			0.6
-			]
-			);
 
 			/** Populate interactive element on mousemove */
 			map.on('mousemove', (e) => {
 				const states = map.queryRenderedFeatures(e.point, {
-					layers: ['state-polygons-with-fuel-data-1ejxn1']
+					layers: ['states-uuid-3qf5iu']
 				});
 				if (states.length > 0) {
+					// console.log(states[0]);
+			
 					if(this.state.hoveredStateId) {
-						map.setFeatureState({source: 'composite', sourceLayer: 'state_polygons_with_fuel_data-1ejxn1', id: this.state.hoveredStateId},
+						map.setFeatureState({source: 'composite', sourceLayer: 'states_uuid-3qf5iu', id: this.state.hoveredStateId},
 						{hover: false});
 					}
 					this.setState({
 						hoveredStateId: states[0].id
 					});
-					map.setFeatureState({source: 'composite', sourceLayer: 'state_polygons_with_fuel_data-1ejxn1', id: this.state.hoveredStateId }, 
+					map.setFeatureState({source: 'composite', sourceLayer: 'states_uuid-3qf5iu', id: this.state.hoveredStateId }, 
 					{hover: true}
 					);
 					document.getElementById('pd').innerHTML = `<h3><strong>${states[0].properties.NAME}</strong></h3><p><strong><em>${states[0].properties.FUEL_STATIONS}</strong> fuel stations</em></p>`;
@@ -109,10 +189,11 @@ class FuelMap extends Component {
 
 			map.on('click', (e) => {
 				const state = map.queryRenderedFeatures(e.point, {
-					layers: ['state-polygons-with-fuel-data-1ejxn1']
+					layers: ['states-uuid-3qf5iu']
 				});
-
 				console.log(state);
+				map.panTo([e.lngLat.lng, e.lngLat.lat])
+				;
 			});
 
 		});
@@ -193,43 +274,3 @@ FuelMap.Proptypes = {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FuelMap);
-
-// <Layer
-//         type="symbol"
-//         id="marker"
-//         layout={layoutLayer}
-//         images={images}
-//         >
-//         <Feature
-//         coordinates={this.state.location} />
-//         {/* {this.props.stationsArray && this.props.stationsArray.length > 0 ? this.getMarkers() : ''} */}
-//         </Layer>
-
-/* <Layer
-            type="symbol"
-            id="marker"
-            images={images}
-            layout={layoutLayer}>
-            {this.props.stationsArray && this.props.stationsArray.length > 0 ? this.getMarkers() : ''}
-
-            <Feature coordinates={this.state.location}/>
-          </Layer>
-          { selectedStation && (
-            <Popup key={selectedStation.id} coordinates={[selectedStation.longitude, selectedStation.latitude]} >
-              <div className='popup'>
-                <div>{selectedStation.name}</div>
-                <div>
-                {selectedStation.station_name}
-                <div className='more-link' onClick={this.handleScrollToDetails}><a>more info...</a></div>
-                </div>  
-              </div>
-            </Popup>  
-					)} */
-					
-				// 	<MapBox 
-        // className='map'
-        // center={this.props.center}
-        // zoom={this.props.zoom}
-				// onClick={this.handleMarkerClick}
-        // style='mapbox://styles/devinmounts/cjr1c6tna0ckn2sp8tz6dc0n5'>
-        // </MapBox>

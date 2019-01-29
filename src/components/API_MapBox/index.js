@@ -1,4 +1,5 @@
 import {stateGeoJson} from './../../assets/state_geojson';
+import uuid from 'uuid';
 
 /** Fetch All stations and format as GEOJson to be uploaded to MapBox DB */
 export const getAllFuelLocationsToGeoJson = () => {
@@ -121,6 +122,7 @@ export const runFetchUpdateAndAddFuelStations = () => {
 		feature.properties.ABBREVIATION = key;
 		if(feature.properties.CENSUSAREA) {
 			delete feature.properties.CENSUSAREA
+			feature.id = uuid();
 			feature.properties.FUEL_STATIONS = 0;
 			
 		}
