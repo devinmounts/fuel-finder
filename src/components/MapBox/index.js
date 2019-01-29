@@ -46,7 +46,7 @@ class FuelMap extends Component {
 		}
 	}
   componentDidMount() {
-		runFetchUpdateAndAddFuelStations();
+		// runFetchUpdateAndAddFuelStations();
 		mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
 		const map = new mapboxgl.Map({
 			container: 'map',
@@ -56,6 +56,10 @@ class FuelMap extends Component {
 		});
 		
 		map.on('load', () => {
+			console.log(map.getStyle());
+			/** Hide hover layer */
+			map.setFilter('states-uuid-hover', ['==', 'ABBREVIATION', ''])
+
 			/**Cluster Data Points */
 			const dataURL = `https://api.mapbox.com/datasets/v1/devinmounts/cjr2j0dpp1u802wplf3b3k6d9/features?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`
 			map.addSource('fuel_points', {
@@ -70,6 +74,7 @@ class FuelMap extends Component {
 				id: "clusters",
 				type: "circle",
 				source: "fuel_points",
+				minzoom: 4.5,
 				filter: ["has", "point_count"],
 				paint: {
 				"circle-color": [
@@ -97,6 +102,7 @@ class FuelMap extends Component {
 				id: "cluster-count",
 				type: "symbol",
 				source: "fuel_points",
+				minzoom: 4.5,
 				filter: ["has", "point_count"],
 				layout: {
 				"text-field": "{point_count_abbreviated}",
@@ -134,14 +140,13 @@ class FuelMap extends Component {
 				
 
 			/** Set Feature Hover State  */
-			map.setPaintProperty('states-uuid-3qf5iu', 'fill-opacity', 
-			["case",
-			["boolean", ["feature-state", "hover"], false],
-			1,
-			0.6
-			]
-			);
-			// map.setFilter('states-uuid-hover', ['==', 'ABBREVIATION', this.state.hoveredStateAbbr])
+			// map.setPaintProperty('states-uuid-3qf5iu', 'fill-opacity', 
+			// ["case",
+			// ["boolean", ["feature-state", "hover"], false],
+			// 1,
+			// 0.6
+			// ]
+			// );
 
 			/** Set legend and Interactive Elements */
 			const layers = ['0-100', '100-250', '250-500', '500-1000', '1000-2000', '2000-3000', '3000+'];
@@ -169,18 +174,7 @@ class FuelMap extends Component {
 					layers: ['states-uuid-3qf5iu']
 				});
 				if (states.length > 0) {
-					// console.log(states[0]);
-			
-					if(this.state.hoveredStateId) {
-						map.setFeatureState({source: 'composite', sourceLayer: 'states_uuid-3qf5iu', id: this.state.hoveredStateId},
-						{hover: false});
-					}
-					this.setState({
-						hoveredStateId: states[0].id
-					});
-					map.setFeatureState({source: 'composite', sourceLayer: 'states_uuid-3qf5iu', id: this.state.hoveredStateId }, 
-					{hover: true}
-					);
+					map.setFilter('states-uuid-hover', ['==', 'ABBREVIATION', states[0].properties.ABBREVIATION])
 					document.getElementById('pd').innerHTML = `<h3><strong>${states[0].properties.NAME}</strong></h3><p><strong><em>${states[0].properties.FUEL_STATIONS}</strong> fuel stations</em></p>`;
 				} else {
 					document.getElementById('pd').innerHTML = `<p>Hover over a state!</p>`;					
@@ -192,7 +186,11 @@ class FuelMap extends Component {
 					layers: ['states-uuid-3qf5iu']
 				});
 				console.log(state);
-				map.panTo([e.lngLat.lng, e.lngLat.lat])
+				map.easeTo({
+					center: [e.lngLat.lng, e.lngLat.lat],
+					zoom: 6
+					});
+				map.panTo()
 				;
 			});
 
