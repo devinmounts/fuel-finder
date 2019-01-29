@@ -42,7 +42,7 @@ class FuelMap extends Component {
 			stationsArray: [],
 			selectedStation: null,
 			localSelectedStationMessagesArray: [],
-			hoveredStateAbbr: null
+			hoveredStateAbbr: ''
 		}
 	}
   componentDidMount() {
@@ -56,9 +56,8 @@ class FuelMap extends Component {
 		});
 		
 		map.on('load', () => {
-			console.log(map.getStyle());
 			/** Hide hover layer */
-			map.setFilter('states-uuid-hover', ['==', 'ABBREVIATION', ''])
+			map.setFilter('states-uuid-hover', ['==', 'ABBREVIATION', this.state.hoveredStateAbbr])
 
 			/**Cluster Data Points */
 			const dataURL = `https://api.mapbox.com/datasets/v1/devinmounts/cjr2j0dpp1u802wplf3b3k6d9/features?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`
@@ -174,12 +173,23 @@ class FuelMap extends Component {
 					layers: ['states-uuid-3qf5iu']
 				});
 				if (states.length > 0) {
-					map.setFilter('states-uuid-hover', ['==', 'ABBREVIATION', states[0].properties.ABBREVIATION])
+					this.setState({
+						hoveredStateAbbr: states[0].properties.ABBREVIATION
+					});
+					/** Hover change opacity */
+					map.setFilter('states-uuid-hover', ['==', 'ABBREVIATION', this.state.hoveredStateAbbr]);
 					document.getElementById('pd').innerHTML = `<h3><strong>${states[0].properties.NAME}</strong></h3><p><strong><em>${states[0].properties.FUEL_STATIONS}</strong> fuel stations</em></p>`;
 				} else {
 					document.getElementById('pd').innerHTML = `<p>Hover over a state!</p>`;					
 				}
-		  });
+			});
+			
+			map.on('mouseleave', 'states-uuid-3qf5iu', (e) => {
+				this.setState({
+					hoveredStateAbbr: '',
+				});
+				map.setFilter('states-uuid-hover', ['==', 'ABBREVIATION', this.state.hoveredStateAbbr])
+			});
 
 			map.on('click', (e) => {
 				const state = map.queryRenderedFeatures(e.point, {
