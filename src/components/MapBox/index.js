@@ -59,6 +59,65 @@ class FuelMap extends Component {
 			/** Hide hover layer */
 			map.setFilter('states-uuid-hover', ['==', 'ABBREVIATION', this.state.hoveredStateAbbr])
 
+			/** Style Layer on Zoom */
+			map.setLayerZoomRange('states-uuid', 0 , 4.5 );
+			map.setLayerZoomRange('states-uuid-hover', 0 , 4.5 );
+			
+			/** Set legend and Interactive Elements */
+			const layers = ['0-100', '100-250', '250-500', '500-1000', '1000-2000', '2000-3000', '3000+'];
+			const colors = ['#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c', '#bd0026', '#790119'];
+			for (let i = 0; i < layers.length; i++) {
+				let layer = layers[i];
+				let color = colors[i];
+				let legend = document.getElementById('legend')
+				let item = document.createElement('div');
+				let key = document.createElement('span');
+				key.className = 'legend-key';
+				key.style.backgroundColor = color;
+			
+				var value = document.createElement('span');
+				value.innerHTML = layer;
+				item.appendChild(key);
+				item.appendChild(value);
+				legend.appendChild(item);
+			}
+
+			/** Populate interactive element on mousemove */
+			map.on('mousemove', (e) => {
+				const states = map.queryRenderedFeatures(e.point, {
+					layers: ['states-uuid']
+				});
+				if (states.length > 0) {
+					this.setState({
+						hoveredStateAbbr: states[0].properties.ABBREVIATION
+					});
+					/** Hover change opacity */
+					map.setFilter('states-uuid-hover', ['==', 'ABBREVIATION', this.state.hoveredStateAbbr]);
+					document.getElementById('pd').innerHTML = `<h3><strong>${states[0].properties.NAME}</strong></h3><p><strong><em>${states[0].properties.FUEL_STATIONS}</strong> fuel stations</em></p>`;
+				} else {
+					document.getElementById('pd').innerHTML = `<p>Hover over a state!</p>`;					
+				}
+			});
+			
+			map.on('mouseleave', 'states-uuid', (e) => {
+				this.setState({
+					hoveredStateAbbr: '',
+				});
+				map.setFilter('states-uuid-hover', ['==', 'ABBREVIATION', this.state.hoveredStateAbbr])
+			});
+
+			map.on('click', (e) => {
+				const state = map.queryRenderedFeatures(e.point, {
+					layers: ['states-uuid']
+				});
+				console.log(state);
+				map.easeTo({
+					center: [e.lngLat.lng, e.lngLat.lat],
+					zoom: 6
+					});
+				map.panTo()
+				;
+			});
 			/**Cluster Data Points */
 			const dataURL = `https://api.mapbox.com/datasets/v1/devinmounts/cjr2j0dpp1u802wplf3b3k6d9/features?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`
 			map.addSource('fuel_points', {
@@ -131,79 +190,11 @@ class FuelMap extends Component {
 				return;
 				 
 				map.easeTo({
-				center: features[0].geometry.coordinates,
-				zoom: zoom
-				});
-				});
-				});
-				
-
-			/** Set Feature Hover State  */
-			// map.setPaintProperty('states-uuid-3qf5iu', 'fill-opacity', 
-			// ["case",
-			// ["boolean", ["feature-state", "hover"], false],
-			// 1,
-			// 0.6
-			// ]
-			// );
-
-			/** Set legend and Interactive Elements */
-			const layers = ['0-100', '100-250', '250-500', '500-1000', '1000-2000', '2000-3000', '3000+'];
-			const colors = ['#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c', '#bd0026', '#790119'];
-			for (let i = 0; i < layers.length; i++) {
-				let layer = layers[i];
-				let color = colors[i];
-				let legend = document.getElementById('legend')
-				let item = document.createElement('div');
-				let key = document.createElement('span');
-				key.className = 'legend-key';
-				key.style.backgroundColor = color;
-			
-				var value = document.createElement('span');
-				value.innerHTML = layer;
-				item.appendChild(key);
-				item.appendChild(value);
-				legend.appendChild(item);
-			}
-
-
-			/** Populate interactive element on mousemove */
-			map.on('mousemove', (e) => {
-				const states = map.queryRenderedFeatures(e.point, {
-					layers: ['states-uuid-3qf5iu']
-				});
-				if (states.length > 0) {
-					this.setState({
-						hoveredStateAbbr: states[0].properties.ABBREVIATION
+					center: features[0].geometry.coordinates,
+					zoom: zoom
 					});
-					/** Hover change opacity */
-					map.setFilter('states-uuid-hover', ['==', 'ABBREVIATION', this.state.hoveredStateAbbr]);
-					document.getElementById('pd').innerHTML = `<h3><strong>${states[0].properties.NAME}</strong></h3><p><strong><em>${states[0].properties.FUEL_STATIONS}</strong> fuel stations</em></p>`;
-				} else {
-					document.getElementById('pd').innerHTML = `<p>Hover over a state!</p>`;					
-				}
-			});
-			
-			map.on('mouseleave', 'states-uuid-3qf5iu', (e) => {
-				this.setState({
-					hoveredStateAbbr: '',
 				});
-				map.setFilter('states-uuid-hover', ['==', 'ABBREVIATION', this.state.hoveredStateAbbr])
 			});
-
-			map.on('click', (e) => {
-				const state = map.queryRenderedFeatures(e.point, {
-					layers: ['states-uuid-3qf5iu']
-				});
-				console.log(state);
-				map.easeTo({
-					center: [e.lngLat.lng, e.lngLat.lat],
-					zoom: 6
-					});
-				map.panTo()
-				;
-			});
-
 		});
 	}
 
